@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/datasources/shared_preferences_data_source.dart';
 import '../../../../data/utils/shared_preferences_values.dart';
@@ -15,15 +16,13 @@ class HomeCubit extends Cubit<HomeCubitState> {
     required this.themeService
   }) : super(HomeInitial());
 
-  /// GET CURRENT THEME FROM SHARED PREFERENCES
-  Future<String> getCurrentTheme() async {
-    final savedThemeMode = await sharedPreferenceDataSource.getString(SharedPreferencesValues.currentTheme);
-    return savedThemeMode;
-  }
-
   /// TOGGLE THEME
-  void toggleTheme() {
-    themeService.toggleTheme();
+  void toggleTheme(ThemeService notifier) {
+    if(notifier.themeMode == ThemeData.dark()) {
+      notifier.themeMode = ThemeData.light();
+    } else {
+      notifier.themeMode = ThemeData.dark();
+    }
   }
 
 }

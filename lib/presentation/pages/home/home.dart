@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
+import 'package:provider/provider.dart';
 
 import '../../../injector.dart';
+import '../../core/services/theme_service.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
@@ -26,21 +28,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  String theme = "";
-
-  @override
-  void initState() {
-    getCurrentTheme();
-    super.initState();
-  }
-
-  void getCurrentTheme() async {
-    final currentTheme = await BlocProvider.of<HomeCubit>(context).getCurrentTheme();
-    setState(() {
-      theme = currentTheme;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,22 +36,27 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Current Theme: $theme'),
-            Switch(
-              value: theme == 'light' ? false : true,
-              onChanged: (value) {
-                BlocProvider.of<HomeCubit>(context).toggleTheme();
-              },
-              activeTrackColor: Colors.lightGreenAccent,
-              activeColor: Colors.green,
-            ),
-          ],
-        ),
+        child: Consumer<ThemeService> (
+          builder: (context, ThemeService notifier, child) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Current Theme: ${notifier.themeMode.brightness}'),
+                Switch(
+                  value: notifier.themeMode.brightness == Brightness.light ? false : true,
+                  onChanged: (value) {
+                    BlocProvider.of<HomeCubit>(context).toggleTheme(notifier);
+                  },
+                  activeTrackColor: Colors.lightGreenAccent,
+                  activeColor: Colors.green,
+                )
+              ],
+            );
+          },
+        )
       ),
     );
   }
 
 }
+

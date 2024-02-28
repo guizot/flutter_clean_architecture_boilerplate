@@ -40,7 +40,7 @@ class MainApp extends StatelessWidget {
             onGenerateRoute: Routes.generate,
             // theme: ThemeData.light(),
             // darkTheme: ThemeData.dark(),
-            themeMode: notifier.themeMode
+            theme: notifier.themeMode
           );
         },
       ),

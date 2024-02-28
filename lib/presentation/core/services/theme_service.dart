@@ -3,8 +3,13 @@ import 'package:flutter_clean_architecture/data/datasources/shared_preferences_d
 import '../../../data/utils/shared_preferences_values.dart';
 
 class ThemeService extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
-  ThemeMode get themeMode => _themeMode;
+
+  ThemeData _themeMode = ThemeData.light();
+  ThemeData get themeMode => _themeMode;
+  set themeMode(ThemeData themeData) {
+    _themeMode = themeData;
+    notifyListeners();
+  }
 
   final SharedPreferenceDataSource sharedPreferenceDataSource;
   ThemeService({required this.sharedPreferenceDataSource});
@@ -12,24 +17,26 @@ class ThemeService extends ChangeNotifier {
   Future<void> init() async {
     final savedThemeMode = await sharedPreferenceDataSource.getString(SharedPreferencesValues.currentTheme);
     if (savedThemeMode == 'dark') {
-      _themeMode = ThemeMode.dark;
+      _themeMode = ThemeData.dark();
     } else if (savedThemeMode == 'light') {
-      _themeMode = ThemeMode.light;
+      _themeMode = ThemeData.light();
     } else {
-      _themeMode = ThemeMode.light;
-      sharedPreferenceDataSource.setString(SharedPreferencesValues.currentTheme, 'light');
-    }
-  }
-
-  void toggleTheme() {
-    if (_themeMode == ThemeMode.light) {
-      _themeMode = ThemeMode.dark;
-      sharedPreferenceDataSource.setString(SharedPreferencesValues.currentTheme, 'dark');
-    } else {
-      _themeMode = ThemeMode.light;
+      _themeMode = ThemeData.light();
       sharedPreferenceDataSource.setString(SharedPreferencesValues.currentTheme, 'light');
     }
     notifyListeners();
+  }
+
+  void toggleTheme() {
+    if (_themeMode == ThemeData.light()) {
+      _themeMode = ThemeData.dark();
+      sharedPreferenceDataSource.setString(SharedPreferencesValues.currentTheme, 'dark');
+      notifyListeners();
+    } else {
+      _themeMode = ThemeData.light();
+      sharedPreferenceDataSource.setString(SharedPreferencesValues.currentTheme, 'light');
+      notifyListeners();
+    }
   }
 
 }
