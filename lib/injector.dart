@@ -10,8 +10,7 @@ Future<void> init() async {
   /// PRESENTATION LAYER
   sl.registerFactory(
     () => HomeCubit(
-      sharedPreferenceDataSource: sl(),
-      themeService: sl()
+      sharedPreferenceDataSource: sl()
     ),
   );
   sl.registerFactory(
