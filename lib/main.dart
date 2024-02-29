@@ -38,9 +38,10 @@ class MainApp extends StatelessWidget {
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routes.generate,
-            // theme: ThemeData.light(),
-            // darkTheme: ThemeData.dark(),
-            theme: notifier.themeMode
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
+            // theme: notifier.themeMode
+            themeMode: ThemeMode.system,
           );
         },
       ),
