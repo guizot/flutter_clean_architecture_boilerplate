@@ -72,6 +72,52 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  PopupMenuButton popUpMenuColor(context, ThemeService notifier) {
+    return PopupMenuButton(
+        offset: const Offset(0, 35),
+        child: const Padding(
+          padding: EdgeInsets.only(right: 16.0),
+          child: Icon(Icons.color_lens, size: 30.0),
+        ),
+        onSelected: (color) {
+          BlocProvider.of<HomeCubit>(context).toggleColor(notifier, color);
+        },
+        itemBuilder: (ctx) {
+          List<PopupMenuItem> items = [];
+          for(int i = 0; i < ThemeServiceValues.colorString.length; i++) {
+            items.add(popUpItemColor(notifier, ThemeServiceValues.colorString[i]));
+          }
+          return items;
+        }
+    );
+  }
+
+  PopupMenuItem popUpItemColor(ThemeService notifier, String theme) {
+    return PopupMenuItem(
+      value: theme,
+      child: Row(
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: ClipOval(
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                        color: notifier.colorSeed == theme ? Colors.green : Colors.grey
+                    ),
+                  )
+              )
+          ),
+          Text(
+            theme,
+            style: const TextStyle(fontSize: 15),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeService> (
@@ -84,6 +130,7 @@ class _HomePageState extends State<HomePage> {
                   .inversePrimary,
               title: Text(widget.title),
               actions: [
+                popUpMenuColor(context, notifier),
                 popUpMenu(context, notifier),
               ],
             ),

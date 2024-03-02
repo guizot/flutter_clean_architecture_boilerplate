@@ -22,19 +22,6 @@ void main() async {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  ThemeMode currentThemeMode(ThemeService notifier) {
-    switch(notifier.themeMode) {
-      case ThemeServiceValues.light:
-        return ThemeMode.light;
-      case ThemeServiceValues.dark:
-        return ThemeMode.dark;
-      case ThemeServiceValues.system:
-        return ThemeMode.system;
-      default:
-        return ThemeMode.system;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -49,12 +36,13 @@ class MainApp extends StatelessWidget {
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routes.generate,
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
-            themeMode: currentThemeMode(notifier),
-            //   theme: notifier.isDark ? ThemeData.dark() : ThemeData.light()
+            theme: notifier.currentThemeColor(ThemeServiceValues.light),
+            darkTheme: notifier.currentThemeColor(ThemeServiceValues.dark),
+            themeMode: notifier.currentThemeMode(),
           );
         },
       ),
     );
-  }}
+  }
+
+}

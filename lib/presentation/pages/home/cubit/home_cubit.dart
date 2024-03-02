@@ -14,4 +14,9 @@ class HomeCubit extends Cubit<HomeCubitState> {
     notifier.themeMode = theme;
   }
 
+  /// TOGGLE THEME
+  void toggleColor(ThemeService notifier, String color) {
+    notifier.colorSeed = color;
+  }
+
 }
