@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/language/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/language/languages.dart';
-import 'package:flutter_clean_architecture/presentation/core/utils/language_service_values.dart';
-import 'package:flutter_clean_architecture/presentation/core/utils/theme_service_values.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
+import '../../core/utils/routes_values.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
@@ -31,142 +30,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  PopupMenuButton popUpMenu(context, ThemeService notifier) {
-    return PopupMenuButton(
-          offset: const Offset(0, 35),
-          child: const Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Icon(Icons.brightness_medium_rounded, size: 30.0),
-          ),
-          onSelected: (theme) {
-            BlocProvider.of<HomeCubit>(context).toggleTheme(notifier, theme);
-          },
-          itemBuilder: (ctx) => [
-            popUpItem(notifier, ThemeServiceValues.light),
-            popUpItem(notifier, ThemeServiceValues.dark),
-            popUpItem(notifier, ThemeServiceValues.system)
-          ]
-      );
-  }
-
-  PopupMenuItem popUpItem(ThemeService notifier, String theme) {
-    return PopupMenuItem(
-      value: theme,
-      child: Row(
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: ClipOval(
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                        color: notifier.themeMode == theme ? Colors.green : Colors.grey
-                    ),
-                  )
-              )
-          ),
-          Text(
-            theme,
-            style: const TextStyle(fontSize: 15),
-          ),
-        ],
-      ),
-    );
-  }
-
-  PopupMenuButton popUpMenuColor(context, ThemeService notifier) {
-    return PopupMenuButton(
-        offset: const Offset(0, 35),
-        child: const Padding(
-          padding: EdgeInsets.only(right: 16.0),
-          child: Icon(Icons.color_lens, size: 30.0),
-        ),
-        onSelected: (color) {
-          BlocProvider.of<HomeCubit>(context).toggleColor(notifier, color);
-        },
-        itemBuilder: (ctx) {
-          List<PopupMenuItem> items = [];
-          for(int i = 0; i < ThemeServiceValues.colorString.length; i++) {
-            items.add(popUpItemColor(notifier, ThemeServiceValues.colorString[i]));
-          }
-          return items;
-        }
-    );
-  }
-
-  PopupMenuItem popUpItemColor(ThemeService notifier, String theme) {
-    return PopupMenuItem(
-      value: theme,
-      child: Row(
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: ClipOval(
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                        color: notifier.colorSeed == theme ? Colors.green : Colors.grey
-                    ),
-                  )
-              )
-          ),
-          Text(
-            theme,
-            style: const TextStyle(fontSize: 15),
-          ),
-        ],
-      ),
-    );
-  }
-
-  PopupMenuButton popUpMenuLanguage(context, LanguageService notifier) {
-    return PopupMenuButton(
-        offset: const Offset(0, 35),
-        child: const Padding(
-          padding: EdgeInsets.only(right: 16.0),
-          child: Icon(Icons.language, size: 30.0),
-        ),
-        onSelected: (language) {
-          BlocProvider.of<HomeCubit>(context).toggleLanguage(notifier, language);
-        },
-        itemBuilder: (ctx) {
-          List<PopupMenuItem> items = [];
-          for(int i = 0; i < LanguageServiceValues.localeString.length; i++) {
-            items.add(popUpItemLanguage(notifier, LanguageServiceValues.localeString[i]));
-          }
-          return items;
-        }
-    );
-  }
-
-  PopupMenuItem popUpItemLanguage(LanguageService notifier, String language) {
-    return PopupMenuItem(
-      value: language,
-      child: Row(
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: ClipOval(
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                        color: notifier.language == language ? Colors.green : Colors.grey
-                    ),
-                  )
-              )
-          ),
-          Text(
-            language,
-            style: const TextStyle(fontSize: 15),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer2<ThemeService, LanguageService> (
@@ -179,9 +42,16 @@ class _HomePageState extends State<HomePage> {
                   .inversePrimary,
               title: Text(widget.title),
               actions: [
-                popUpMenuLanguage(context, languageService),
-                popUpMenuColor(context, themeService),
-                popUpMenu(context, themeService),
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: IconButton(
+                    icon: const Icon(Icons.settings, size: 30.0,),
+                    tooltip: 'Setting',
+                    onPressed: () {
+                      Navigator.pushNamed(context, RoutesValues.setting);
+                    },
+                  ),
+                )
               ],
             ),
             body: SingleChildScrollView(
@@ -214,5 +84,3 @@ class _HomePageState extends State<HomePage> {
   }
 
 }
-
-

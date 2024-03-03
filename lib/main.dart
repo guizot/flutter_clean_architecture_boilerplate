@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/injector.dart' as di;
-import 'package:flutter_clean_architecture/presentation/core/language/language_delegation.dart';
-import 'package:flutter_clean_architecture/presentation/core/routes.dart';
+import 'package:flutter_clean_architecture/presentation/core/routes/routes.dart';
 import 'package:flutter_clean_architecture/presentation/core/language/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
-import 'package:flutter_clean_architecture/presentation/core/utils/language_service_values.dart';
 import 'package:flutter_clean_architecture/presentation/core/utils/theme_service_values.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'injector.dart';
 

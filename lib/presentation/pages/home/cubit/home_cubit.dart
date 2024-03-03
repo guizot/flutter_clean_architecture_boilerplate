@@ -10,20 +10,5 @@ class HomeCubit extends Cubit<HomeCubitState> {
   final SharedPreferenceDataSource sharedPreferenceDataSource;
   HomeCubit({required this.sharedPreferenceDataSource}) : super(HomeInitial());
 
-  /// TOGGLE THEME
-  void toggleTheme(ThemeService notifier, String theme) {
-    notifier.themeMode = theme;
-  }
-
-  /// TOGGLE COLOR
-  void toggleColor(ThemeService notifier, String color) {
-    notifier.colorSeed = color;
-  }
-
-  /// TOGGLE LANGUAGE
-  void toggleLanguage(LanguageService notifier, String language) {
-    notifier.language = language;
-  }
-
 
 }
