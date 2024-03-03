@@ -1,4 +1,5 @@
 import 'package:flutter_clean_architecture/data/datasources/shared_preferences_data_source.dart';
+import 'package:flutter_clean_architecture/presentation/core/language/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -15,6 +16,11 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => ThemeService(
+      sharedPreferenceDataSource: sl(),
+    ),
+  );
+  sl.registerFactory(
+        () => LanguageService(
       sharedPreferenceDataSource: sl(),
     ),
   );

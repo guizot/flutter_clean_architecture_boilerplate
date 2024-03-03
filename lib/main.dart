@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/injector.dart' as di;
+import 'package:flutter_clean_architecture/presentation/core/language/language_delegation.dart';
 import 'package:flutter_clean_architecture/presentation/core/routes.dart';
+import 'package:flutter_clean_architecture/presentation/core/language/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
+import 'package:flutter_clean_architecture/presentation/core/utils/language_service_values.dart';
 import 'package:flutter_clean_architecture/presentation/core/utils/theme_service_values.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'injector.dart';
 
@@ -28,17 +32,24 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => sl<ThemeService>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => sl<LanguageService>(),
         )
       ],
-      child: Consumer<ThemeService> (
-        builder: (context, ThemeService notifier, child) {
+      child: Consumer2<ThemeService, LanguageService> (
+        builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return MaterialApp(
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             onGenerateRoute: Routes.generate,
-            theme: notifier.currentThemeColor(ThemeServiceValues.light),
-            darkTheme: notifier.currentThemeColor(ThemeServiceValues.dark),
-            themeMode: notifier.currentThemeMode(),
+            theme: themeService.currentThemeColor(ThemeServiceValues.light),
+            darkTheme: themeService.currentThemeColor(ThemeServiceValues.dark),
+            themeMode: themeService.currentThemeMode(),
+            locale: languageService.currentLanguage(),
+            supportedLocales: languageService.supportedLocales,
+            localizationsDelegates: languageService.localizationsDelegates,
+            localeResolutionCallback: languageService.localeResolutionCallback,
           );
         },
       ),
