@@ -9,4 +9,10 @@ abstract class Languages {
 
   String get description;
 
+  String get themeMode;
+
+  String get themeColor;
+
+  String get language;
+
 }
