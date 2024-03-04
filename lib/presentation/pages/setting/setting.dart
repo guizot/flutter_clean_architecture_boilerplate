@@ -227,6 +227,51 @@ class _SettingPageState extends State<SettingPage> {
                       )
                   ),
                   const SizedBox(height: 16),
+                  ClipPath(
+                      clipper: const ShapeBorderClipper(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(6))
+                          )
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).hoverColor
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              Languages.of(context)!.language,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Wrap(
+                              children: [
+                                FilterChip(
+                                  label: const Text("Light"),
+                                  backgroundColor: Theme.of(context).highlightColor,
+                                  onSelected: (bool value) {
+
+                                  },
+                                  selected: false,
+                                  side: const BorderSide(
+                                    style: BorderStyle.none
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24)
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                  ),
+                  const SizedBox(height: 16),
                 ],
               )
           );
@@ -235,5 +280,3 @@ class _SettingPageState extends State<SettingPage> {
   }
 
 }
-
-
