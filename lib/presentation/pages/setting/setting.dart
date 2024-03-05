@@ -69,39 +69,27 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          SizedBox(
-                            height: 36,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: ThemeServiceValues.themeString.length,
-                              separatorBuilder: (_, __) => const Divider(),
-                              itemBuilder: (context, int index) {
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 8),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      BlocProvider.of<SettingCubit>(context).toggleTheme(themeService, ThemeServiceValues.themeString[index]);
-                                    },
-                                    child: ClipPath(
-                                      clipper: const ShapeBorderClipper(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(25))
-                                          )
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                                        decoration: BoxDecoration(
-                                            color: themeService.themeMode == ThemeServiceValues.themeString[index] ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).highlightColor
-                                        ),
-                                        child: Text(ThemeServiceValues.themeString[index]),
-                                      ),
-                                    ),
-                                  )
+                          Wrap(
+                              spacing: 10,
+                              runSpacing: 0,
+                              children: List.generate(ThemeServiceValues.themeString.length, (index) {
+                                return FilterChip(
+                                  label: Text(ThemeServiceValues.themeString[index]),
+                                  backgroundColor: Theme.of(context).highlightColor,
+                                  onSelected: (bool value) {
+                                    BlocProvider.of<SettingCubit>(context).toggleTheme(themeService, ThemeServiceValues.themeString[index]);
+                                  },
+                                  selected: themeService.themeMode == ThemeServiceValues.themeString[index] ? true : false,
+                                  side: const BorderSide(
+                                      style: BorderStyle.none
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)
+                                  ),
                                 );
-                              },
-                            ),
-                          ),
+                              }
+                              )
+                          )
                         ],
                       ),
                     )
@@ -129,99 +117,27 @@ class _SettingPageState extends State<SettingPage> {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            SizedBox(
-                              height: 36,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: ThemeServiceValues.colorString.length,
-                                separatorBuilder: (_, __) => const Divider(),
-                                itemBuilder: (context, int index) {
-                                  return Container(
-                                      margin: const EdgeInsets.only(right: 8),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          BlocProvider.of<SettingCubit>(context).toggleColor(themeService, ThemeServiceValues.colorString[index]);
-                                        },
-                                        child: ClipPath(
-                                          clipper: const ShapeBorderClipper(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.all(Radius.circular(25))
-                                              )
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                                            decoration: BoxDecoration(
-                                                color: themeService.colorSeed == ThemeServiceValues.colorString[index] ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).highlightColor
-                                            ),
-                                            child: Text(ThemeServiceValues.colorString[index]),
-                                          ),
-                                        )
-                                      )
+                            Wrap(
+                                spacing: 10,
+                                runSpacing: 0,
+                                children: List.generate(ThemeServiceValues.colorString.length, (index) {
+                                  return FilterChip(
+                                    label: Text(ThemeServiceValues.colorString[index]),
+                                    backgroundColor: Theme.of(context).highlightColor,
+                                    onSelected: (bool value) {
+                                      BlocProvider.of<SettingCubit>(context).toggleColor(themeService, ThemeServiceValues.colorString[index]);
+                                    },
+                                    selected: themeService.colorSeed == ThemeServiceValues.colorString[index] ? true : false,
+                                    side: const BorderSide(
+                                        style: BorderStyle.none
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24)
+                                    ),
                                   );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                  ),
-                  const SizedBox(height: 16),
-                  ClipPath(
-                      clipper: const ShapeBorderClipper(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(6))
-                          )
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).hoverColor
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              Languages.of(context)!.language,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            SizedBox(
-                              height: 36,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: LanguageServiceValues.localeString.length,
-                                separatorBuilder: (_, __) => const Divider(),
-                                itemBuilder: (context, int index) {
-                                  return Container(
-                                      margin: const EdgeInsets.only(right: 8),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          BlocProvider.of<SettingCubit>(context).toggleLanguage(languageService, LanguageServiceValues.localeString[index]);
-                                        },
-                                        child: ClipPath(
-                                          clipper: const ShapeBorderClipper(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.all(Radius.circular(25))
-                                              )
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                                            decoration: BoxDecoration(
-                                                color: languageService.language == LanguageServiceValues.localeString[index] ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).highlightColor
-                                            ),
-                                            child: Text(LanguageServiceValues.localeString[index]),
-                                          ),
-                                        )
-                                      )
-                                  );
-                                },
-                              ),
-                            ),
+                                }
+                                )
+                            )
                           ],
                         ),
                       )
@@ -250,22 +166,25 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                             const SizedBox(height: 12),
                             Wrap(
-                              children: [
-                                FilterChip(
-                                  label: const Text("Light"),
-                                  backgroundColor: Theme.of(context).highlightColor,
-                                  onSelected: (bool value) {
-
-                                  },
-                                  selected: false,
-                                  side: const BorderSide(
-                                    style: BorderStyle.none
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24)
-                                  ),
-                                ),
-                              ],
+                                spacing: 10,
+                                runSpacing: 0,
+                                children: List.generate(LanguageServiceValues.localeString.length, (index) {
+                                  return FilterChip(
+                                    label: Text(LanguageServiceValues.localeString[index]),
+                                    backgroundColor: Theme.of(context).highlightColor,
+                                    onSelected: (bool value) {
+                                      BlocProvider.of<SettingCubit>(context).toggleLanguage(languageService, LanguageServiceValues.localeString[index]);
+                                    },
+                                    selected: languageService.language == LanguageServiceValues.localeString[index] ? true : false,
+                                    side: const BorderSide(
+                                        style: BorderStyle.none
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24)
+                                    ),
+                                  );
+                                }
+                                )
                             )
                           ],
                         ),

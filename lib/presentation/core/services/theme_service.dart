@@ -86,6 +86,9 @@ class ThemeService extends ChangeNotifier {
       useMaterial3: true,
       colorSchemeSeed: colorTheme,
       brightness: brightnessTheme,
+      // chipTheme: ChipThemeData(
+      //   selectedColor: colorTheme
+      // ),
     );
   }
 
