@@ -6,7 +6,7 @@ import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cu
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
-import '../../core/utils/routes_values.dart';
+import '../../core/constant/routes_values.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});

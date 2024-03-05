@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/data/datasources/shared_preferences_data_source.dart';
-import 'package:flutter_clean_architecture/presentation/core/utils/theme_service_values.dart';
+import 'package:flutter_clean_architecture/presentation/core/utils/color_utils.dart';
+import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
 import '../../../data/utils/shared_preferences_values.dart';
 
 class ThemeService extends ChangeNotifier {
@@ -86,9 +87,9 @@ class ThemeService extends ChangeNotifier {
       useMaterial3: true,
       colorSchemeSeed: colorTheme,
       brightness: brightnessTheme,
-      // chipTheme: ChipThemeData(
-      //   selectedColor: colorTheme
-      // ),
+      chipTheme: ChipThemeData(
+        selectedColor: ColorUtils().getMaterialColor(colorTheme).shade500
+      ),
     );
   }
 

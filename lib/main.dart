@@ -3,7 +3,7 @@ import 'package:flutter_clean_architecture/injector.dart' as di;
 import 'package:flutter_clean_architecture/presentation/core/routes/routes.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
-import 'package:flutter_clean_architecture/presentation/core/utils/theme_service_values.dart';
+import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
 import 'package:provider/provider.dart';
 import 'injector.dart';
 

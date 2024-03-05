@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../utils/language_service_values.dart';
+import '../constant/language_service_values.dart';
 import 'languages.dart';
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {

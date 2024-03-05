@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
 
-import '../utils/routes_values.dart';
+import '../constant/routes_values.dart';
 
 class Routes {
 

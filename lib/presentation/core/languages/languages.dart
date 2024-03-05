@@ -15,4 +15,6 @@ abstract class Languages {
 
   String get language;
 
+  String get permission;
+
 }

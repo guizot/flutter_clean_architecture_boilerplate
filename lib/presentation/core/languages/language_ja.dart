@@ -17,4 +17,7 @@ class LanguageJa extends Languages {
   @override
   String get language => "言語";
 
+  @override
+  String get permission => "Permission";
+
 }

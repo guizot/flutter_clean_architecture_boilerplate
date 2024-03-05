@@ -17,4 +17,7 @@ class LanguageEs extends Languages {
   @override
   String get language => "Idioma";
 
+  @override
+  String get permission => "Permission";
+
 }

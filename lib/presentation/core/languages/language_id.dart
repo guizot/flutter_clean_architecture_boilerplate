@@ -16,4 +16,8 @@ class LanguageId extends Languages {
 
   @override
   String get language => "Bahasa";
+
+  @override
+  String get permission => "Permission";
+
 }
