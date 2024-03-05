@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/permission_service_values.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:toastification/toastification.dart';
 import '../../core/languages/languages.dart';
 import '../../core/services/permission_service.dart';
 import '../../core/services/theme_service.dart';
@@ -38,7 +39,7 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
 
-    Column getItemSetting(String title, Widget widget) {
+    Column itemSetting(String title, Widget widget) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -75,6 +76,19 @@ class _SettingPageState extends State<SettingPage> {
       );
     }
 
+    void showToast(String title, String description) {
+      toastification.show(
+        context: context,
+        title: Text(title),
+        description: Text(description),
+        style: ToastificationStyle.flat,
+        primaryColor: Theme.of(context)!.chipTheme.selectedColor,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+    }
+
     return Consumer2<ThemeService, LanguageService> (
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
@@ -89,7 +103,7 @@ class _SettingPageState extends State<SettingPage> {
               body: ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  getItemSetting(
+                  itemSetting(
                     Languages.of(context)!.themeMode,
                     Wrap(
                         spacing: 10,
@@ -113,7 +127,7 @@ class _SettingPageState extends State<SettingPage> {
                         )
                     )
                   ),
-                  getItemSetting(
+                  itemSetting(
                     Languages.of(context)!.themeColor,
                     Wrap(
                         spacing: 10,
@@ -137,7 +151,7 @@ class _SettingPageState extends State<SettingPage> {
                         )
                     )
                   ),
-                  getItemSetting(
+                  itemSetting(
                     Languages.of(context)!.language,
                     Wrap(
                         spacing: 10,
@@ -161,7 +175,7 @@ class _SettingPageState extends State<SettingPage> {
                         )
                     )
                   ),
-                  getItemSetting(
+                  itemSetting(
                     Languages.of(context)!.permission,
                     Wrap(
                         spacing: 10,
@@ -194,8 +208,9 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                             backgroundColor: Theme.of(context).highlightColor,
                             onSelected: (bool value) async {
-                              bool permission = await PermissionService().checkPermission(Permission.values[index]);
-                              print("${Permission.values[index]}: $permission");
+                              String permissionName = StringUtils().convertToTitleCase(Permission.values[index].toString().replaceAll("Permission.", ""));
+                              String permission = await PermissionService().checkPermissionString(Permission.values[index]);
+                              showToast(permissionName, permission);
                             },
                             selected: false,
                             side: const BorderSide(

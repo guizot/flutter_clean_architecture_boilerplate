@@ -32,6 +32,9 @@ dependencies:
   # Permission Handler
   permission_handler: ^11.3.0
 
+  # Toast
+  toastification: ^1.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

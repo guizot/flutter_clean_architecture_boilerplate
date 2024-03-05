@@ -34,6 +34,28 @@ class PermissionService {
     }
   }
 
+  Future<String> checkPermissionString(Permission permission) async {
+    permission.onDeniedCallback(() => {
+
+    });
+    var status = await permission.status;
+    if (status.isGranted) {
+      return "Granted";
+    } else if (status.isDenied) {
+      return "Denied";
+    } else if (status.isRestricted) {
+      return "Restricted";
+    } else if (status.isPermanentlyDenied) {
+      return "Permanently Denied";
+    } else if (status.isLimited) {
+      return "Limited";
+    }  else if (status.isProvisional) {
+      return "Provisional";
+    } else {
+      return "";
+    }
+  }
+
   Future<Map<Permission, PermissionStatus>> requestMultiplePermissions(List<Permission> permissions) async {
     Map<Permission, PermissionStatus> statuses = {};
     for (Permission permission in permissions) {
