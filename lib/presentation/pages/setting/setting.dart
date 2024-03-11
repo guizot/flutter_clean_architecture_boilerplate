@@ -82,7 +82,7 @@ class _SettingPageState extends State<SettingPage> {
         title: Text(title),
         description: Text(description),
         style: ToastificationStyle.flat,
-        primaryColor: Theme.of(context)!.chipTheme.selectedColor,
+        primaryColor: Theme.of(context).chipTheme.selectedColor,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         autoCloseDuration: const Duration(seconds: 5),

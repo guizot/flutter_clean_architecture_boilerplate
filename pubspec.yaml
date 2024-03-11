@@ -20,6 +20,17 @@ dependencies:
   # Dependency Injection
   get_it: ^7.6.7
 
+  # Remote Data Source
+  dio: ^5.4.1
+  http: ^1.2.1
+  retrofit: ^4.1.0
+  retrofit_generator: ^8.1.0
+  json_annotation: ^4.8.1
+  json_serializable: ^6.7.1
+
+  # Build Generator
+  build_runner: ^2.4.8
+
   # Shared Preferences
   shared_preferences: ^2.2.2
 

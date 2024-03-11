@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/languages/languages.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
+import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_state.dart';
+import '../../../data/models/user.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -30,6 +32,126 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  List<User>? gitUsers;
+
+  @override
+  void initState() {
+    super.initState();
+    // BlocProvider.of<HomeCubit>(context).getData();
+    getPopularUser();
+  }
+
+  void getPopularUser() async {
+    List<User>? lists = await BlocProvider.of<HomeCubit>(context).searchUser("");
+    setState(()  {
+      gitUsers = lists;
+    });
+  }
+
+  Widget contentLoaded() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            Languages.of(context)!.title,
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(
+            Languages.of(context)!.description,
+            style: const TextStyle(
+                height: 1.5
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget loadData(BuildContext context, HomeCubitState state) {
+    if (state is HomeInitial) {
+      return Container();
+    }
+    else if (state is HomeStateLoading) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('Loading..')
+          ],
+        ),
+      );
+    }
+    else if (state is HomeStateLoaded) {
+      return contentLoaded();
+    }
+    else if (state is HomeStateError) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Error')
+          ],
+        ),
+      );
+    }
+    return Container();
+  }
+
+  Widget getUsers(BuildContext context, HomeCubitState state) {
+    if (state is HomeInitial) {
+      return Container();
+    }
+    else if (state is HomeStateLoading) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('Loading..')
+          ],
+        ),
+      );
+    }
+    else if (state is HomeStateLoaded) {
+      return ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: gitUsers != null ? gitUsers!.length : 0 ,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text('${gitUsers![index].login}'),
+              subtitle: Text('${gitUsers![index].html_url}'),
+            );
+          }
+      );
+    }
+    else if (state is HomeStateError) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Error')
+          ],
+        ),
+      );
+    }
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<ThemeService, LanguageService> (
@@ -54,33 +176,20 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    Languages.of(context)!.title,
-                    style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    Languages.of(context)!.description,
-                    style: const TextStyle(
-                        height: 1.5
-                    ),
-                  )
-                ],
-              ),
+            body: BlocBuilder<HomeCubit, HomeCubitState>(
+              builder: (context, state) {
+                return getUsers(context, state);
+              },
             )
+            // body: BlocBuilder<HomeCubit, HomeCubitState>(
+            //   builder: (context, state) {
+            //     return loadData(context, state);
+            //   },
+            // )
           );
         }
     );
   }
 
 }
+
