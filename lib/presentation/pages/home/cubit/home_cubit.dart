@@ -19,7 +19,6 @@ class HomeCubit extends Cubit<HomeCubitState> {
     emit(HomeStateLoading());
     final users = await homeUseCases.searchUser(username);
     if(users.data != null) {
-      // print("users.data: ${users.data}");
       emit(HomeStateLoaded());
       return users.data?.items;
     }
@@ -31,7 +30,6 @@ class HomeCubit extends Cubit<HomeCubitState> {
     emit(HomeStateLoading());
     final results = await homeUseCases.getMovieTrending(time);
     if(results.data != null) {
-      // print("users.data: ${results.data}");
       emit(HomeStateLoaded());
       return results.data?.results;
     }
