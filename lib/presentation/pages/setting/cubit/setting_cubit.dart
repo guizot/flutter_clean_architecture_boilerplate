@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/data/datasources/shared_preferences_data_source.dart';
+import 'package:flutter_clean_architecture/data/data_source/shared_preferences_data_source.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/cubit/setting_state.dart';
 
 import '../../../core/services/language_service.dart';

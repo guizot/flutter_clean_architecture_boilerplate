@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture/data/models/movie.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/languages/languages.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_state.dart';
+import 'package:flutter_image/network.dart';
 import '../../../data/models/user.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
+import '../../core/utils/color_utils.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
@@ -33,18 +36,32 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   List<User>? gitUsers;
+  List<Movie>? movies;
 
   @override
   void initState() {
     super.initState();
     // BlocProvider.of<HomeCubit>(context).getData();
-    getPopularUser();
+    getPopularGithubUser();
+    getMovieTrending();
   }
 
-  void getPopularUser() async {
+  void getPopularGithubUser() async {
     List<User>? lists = await BlocProvider.of<HomeCubit>(context).searchUser("");
     setState(()  {
       gitUsers = lists;
+    });
+    // if(gitUsers != null) {
+    //   for(var i in gitUsers!) {
+    //     print("USERS: ${i.toJson()}");
+    //   }
+    // }
+  }
+
+  void getMovieTrending() async {
+    List<Movie>? lists = await BlocProvider.of<HomeCubit>(context).getMovieTrending("day");
+    setState(()  {
+      movies = lists;
     });
   }
 
@@ -109,7 +126,7 @@ class _HomePageState extends State<HomePage> {
     return Container();
   }
 
-  Widget getUsers(BuildContext context, HomeCubitState state) {
+  Widget loadList(BuildContext context, HomeCubitState state) {
     if (state is HomeInitial) {
       return Container();
     }
@@ -129,24 +146,37 @@ class _HomePageState extends State<HomePage> {
     else if (state is HomeStateLoaded) {
       return ListView.builder(
           padding: const EdgeInsets.all(8),
-          itemCount: gitUsers != null ? gitUsers!.length : 0 ,
+          itemCount: movies != null ? movies!.length : 0 ,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Text('${gitUsers![index].login}'),
-              subtitle: Text('${gitUsers![index].html_url}'),
+              title: Text(
+                '${movies![index].title}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                ),
+              ),
+              subtitle: Text(
+                '${movies![index].overview}',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+              leading: CircleAvatar(
+                backgroundImage: NetworkImageWithRetry(movies![index].getPoster()),
+              ),
             );
           }
       );
     }
     else if (state is HomeStateError) {
-      return const Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Error')
-          ],
-        ),
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            state.message,
+            textAlign: TextAlign.center,
+          ),
+        )
       );
     }
     return Container();
@@ -178,7 +208,7 @@ class _HomePageState extends State<HomePage> {
             ),
             body: BlocBuilder<HomeCubit, HomeCubitState>(
               builder: (context, state) {
-                return getUsers(context, state);
+                return loadList(context, state);
               },
             )
             // body: BlocBuilder<HomeCubit, HomeCubitState>(

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import '../const_values.dart';
-import 'package:flutter_clean_architecture/data/datasources/shared_preferences_data_source.dart';
+import 'package:flutter_clean_architecture/data/data_source/shared_preferences_data_source.dart';
 
-class AuthInterceptor extends Interceptor {
+class GithubInterceptor extends Interceptor {
 
   final SharedPreferenceDataSource sharedPreferenceDataSource;
-  AuthInterceptor({required this.sharedPreferenceDataSource});
+  GithubInterceptor({required this.sharedPreferenceDataSource});
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
@@ -15,11 +15,6 @@ class AuthInterceptor extends Interceptor {
     options.contentType = 'application/json';
     options.headers['Authorization'] = 'Bearer ${ConstValues.githubToken}';
       return super.onRequest(options, handler);
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    return super.onResponse(response, handler);
   }
 
 }

@@ -11,7 +11,9 @@ class HomeInitial extends HomeCubitState {}
 
 class HomeStateLoading extends HomeCubitState {}
 
-class HomeStateLoaded extends HomeCubitState {}
+class HomeStateLoaded extends HomeCubitState {
+
+}
 
 class HomeStateError extends HomeCubitState {
   final String message;

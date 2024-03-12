@@ -43,4 +43,5 @@ app.*.map.json
 /android/app/release
 
 # Generated Files
-/lib/data/datasources/remote_data_source.g.dart
+/lib/data/data_source/remote/github_data_source.g.dart
+/lib/data/data_source/remote/tmdb_data_source.g.dart
