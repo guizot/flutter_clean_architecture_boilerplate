@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture/presentation/pages/github/github_detail.dart';
+import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
-
 import '../constant/routes_values.dart';
 
 class Routes {
@@ -12,6 +13,11 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const HomeWrapperProvider());
       case RoutesValues.setting:
         return MaterialPageRoute(builder: (_) => const SettingWrapperProvider());
+      case RoutesValues.githubList:
+        return MaterialPageRoute(builder: (_) => const GithubListWrapperProvider());
+      case RoutesValues.githubDetail:
+        var id = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => GithubDetailWrapperProvider(id: id));
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(
