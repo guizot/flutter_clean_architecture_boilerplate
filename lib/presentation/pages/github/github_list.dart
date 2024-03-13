@@ -82,12 +82,12 @@ class _GithubListPageState extends State<GithubListPage> {
                 ),
               ),
               subtitle: Text(
-                '${gitUsers![index].html_url}',
+                '${gitUsers![index].htmlUrl}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
               leading: CircleAvatar(
-                backgroundImage: NetworkImageWithRetry('${gitUsers![index].avatar_url}'),
+                backgroundImage: NetworkImageWithRetry('${gitUsers![index].avatarUrl}'),
               ),
             );
           }

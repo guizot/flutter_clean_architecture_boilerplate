@@ -13,7 +13,7 @@ class GithubInterceptor extends Interceptor {
     options.receiveTimeout = const Duration(seconds: 10);
     options.connectTimeout = const Duration(seconds: 10);
     options.contentType = 'application/json';
-    options.headers['Authorization'] = 'Bearer ${ConstValues.githubToken}';
+    options.headers['Authorization'] = '${ConstValues.githubToken}';
       return super.onRequest(options, handler);
   }
 

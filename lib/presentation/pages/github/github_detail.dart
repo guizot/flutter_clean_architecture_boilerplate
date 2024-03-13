@@ -1,17 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/data/models/movie.dart';
+import 'package:flutter_clean_architecture/data/models/user_detail.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import 'package:flutter_clean_architecture/presentation/core/languages/languages.dart';
-import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
-import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_state.dart';
-import 'package:flutter_image/network.dart';
-import '../../../data/models/user.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
-import '../../core/constant/routes_values.dart';
-import '../../core/utils/color_utils.dart';
 import 'cubit/github_cubit.dart';
 import 'cubit/github_state.dart';
 
@@ -39,9 +33,128 @@ class GithubDetailPage extends StatefulWidget {
 
 class _GithubDetailPageState extends State<GithubDetailPage> {
 
+  UserDetail? detail;
+
   @override
   void initState() {
+    getUserDetail();
     super.initState();
+  }
+
+  void getUserDetail() async {
+    UserDetail? detail = await BlocProvider.of<GithubCubit>(context).detailUser(widget.id);
+    if(detail != null) {
+      setState(() {
+        this.detail = detail;
+      });
+    }
+  }
+
+  SliverToBoxAdapter loadList(BuildContext context, GithubCubitState state) {
+    if (state is GithubInitial) {
+      return SliverToBoxAdapter(
+          child: Container()
+      );
+    }
+    else if (state is GithubStateLoading) {
+      return const SliverToBoxAdapter(
+          child: SizedBox(
+            height: 300,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Loading..')
+              ],
+            ),
+          )
+      );
+    }
+    else if (state is GithubStateLoaded) {
+      return SliverToBoxAdapter(
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              child: const Column(
+                children: [
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                  Text("TESTING"),
+                ],
+              ),
+            )
+        );
+    }
+    else if (state is GithubStateError) {
+      return SliverToBoxAdapter(
+          child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(
+                  state.message,
+                  textAlign: TextAlign.center,
+                ),
+              )
+          )
+      );
+    }
+    return SliverToBoxAdapter(
+        child: Container()
+    );
   }
 
   @override
@@ -53,70 +166,28 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
               slivers: [
                 SliverAppBar(
                   pinned: true,
-                  stretch: true,
                   expandedHeight: 250.0,
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text(widget.title),
-                    background: Image.network(
-                      "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                      fit: BoxFit.cover,
+                    title: Text(
+                      detail?.name ?? "",
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white
+                      ),
                     ),
+                    background: detail != null ? Image.network(
+                      detail!.avatarUrl!,
+                      fit: BoxFit.cover,
+                    ) : Container(),
                   ),
                   backgroundColor: Theme
                       .of(context)
                       .colorScheme
                       .inversePrimary,
-
                 ),
-                SliverToBoxAdapter(
-                    child: Container(
-                      child: const Column(
-                        children: [
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                          Text("TESTING"),
-                        ],
-                      ),
-                    )
+                BlocBuilder<GithubCubit, GithubCubitState>(
+                  builder: (context, state) {
+                    return loadList(context, state);
+                  },
                 )
               ],
             )
@@ -126,4 +197,3 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
   }
 
 }
-

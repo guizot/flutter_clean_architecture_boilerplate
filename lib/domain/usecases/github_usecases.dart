@@ -1,3 +1,5 @@
+import 'package:flutter_clean_architecture/data/models/user_detail.dart';
+
 import '../../data/models/response_wrapper.dart';
 import '../../data/models/user.dart';
 import '../../data/utils/resources/data_state.dart';
@@ -12,6 +14,10 @@ class GithubUseCases {
   /// REGION: REMOTE DATA SOURCE
   Future<DataState<ResponseWrapper<User>>> searchUser(String username) async {
     return githubRepo.searchUser(username);
+  }
+
+  Future<DataState<UserDetail>> detailUser(String username) async {
+    return githubRepo.detailUser(username);
   }
 
 }

@@ -9,6 +9,6 @@ class ConstValues {
 
   /// GITHUB REMOTE SOURCE
   static const String githubBaseUrl = 'https://api.github.com/';
-  static const String githubToken = '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';
+  static const String githubToken = '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';
 
 }

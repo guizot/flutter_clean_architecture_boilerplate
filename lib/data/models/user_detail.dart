@@ -1,4 +1,4 @@
-class User {
+class UserDetail {
   String? login;
   int? id;
   String? nodeId;
@@ -17,9 +17,22 @@ class User {
   String? receivedEventsUrl;
   String? type;
   bool? siteAdmin;
-  double? score;
+  String? name;
+  String? company;
+  String? blog;
+  String? location;
+  String? email;
+  bool? hireable;
+  String? bio;
+  String? twitterUsername;
+  int? publicRepos;
+  int? publicGists;
+  int? followers;
+  int? following;
+  String? createdAt;
+  String? updatedAt;
 
-  User(
+  UserDetail(
       {this.login,
         this.id,
         this.nodeId,
@@ -38,9 +51,22 @@ class User {
         this.receivedEventsUrl,
         this.type,
         this.siteAdmin,
-        this.score});
+        this.name,
+        this.company,
+        this.blog,
+        this.location,
+        this.email,
+        this.hireable,
+        this.bio,
+        this.twitterUsername,
+        this.publicRepos,
+        this.publicGists,
+        this.followers,
+        this.following,
+        this.createdAt,
+        this.updatedAt});
 
-  User.fromJson(Map<String, dynamic> json) {
+  UserDetail.fromJson(Map<String, dynamic> json) {
     login = json['login'];
     id = json['id'];
     nodeId = json['node_id'];
@@ -59,7 +85,20 @@ class User {
     receivedEventsUrl = json['received_events_url'];
     type = json['type'];
     siteAdmin = json['site_admin'];
-    score = json['score'];
+    name = json['name'];
+    company = json['company'];
+    blog = json['blog'];
+    location = json['location'];
+    email = json['email'];
+    hireable = json['hireable'];
+    bio = json['bio'];
+    twitterUsername = json['twitter_username'];
+    publicRepos = json['public_repos'];
+    publicGists = json['public_gists'];
+    followers = json['followers'];
+    following = json['following'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,7 +121,20 @@ class User {
     data['received_events_url'] = receivedEventsUrl;
     data['type'] = type;
     data['site_admin'] = siteAdmin;
-    data['score'] = score;
+    data['name'] = name;
+    data['company'] = company;
+    data['blog'] = blog;
+    data['location'] = location;
+    data['email'] = email;
+    data['hireable'] = hireable;
+    data['bio'] = bio;
+    data['twitter_username'] = twitterUsername;
+    data['public_repos'] = publicRepos;
+    data['public_gists'] = publicGists;
+    data['followers'] = followers;
+    data['following'] = following;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/data/data_source/remote/tmdb_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/shared_preferences_data_source.dart';
-import 'package:flutter_clean_architecture/data/repositories/gitthub_repo_impl.dart';
+import 'package:flutter_clean_architecture/data/repositories/github_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/repositories/home_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/utils/interceptor/tmdb_interceptor.dart';
 import 'package:flutter_clean_architecture/domain/repositories/github_repo.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cu
 import 'package:flutter_clean_architecture/presentation/pages/setting/cubit/setting_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'data/data_source/remote/github_data_source.dart';
+import 'data/utils/interceptor/github_interceptor.dart';
 import 'domain/usecases/github_usecases.dart';
 
 final sl = GetIt.I;
@@ -76,7 +77,7 @@ Future<void> init() async {
   sl.registerLazySingleton<GithubDataSource>(
     () {
       final dio = Dio();
-      // dio.interceptors.add(GithubInterceptor(sharedPreferenceDataSource: sl()));
+      dio.interceptors.add(GithubInterceptor(sharedPreferenceDataSource: sl()));
       return GithubDataSource(dio);
     },
   );
