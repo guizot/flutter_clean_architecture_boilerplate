@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/user_detail.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
+import '../../core/utils/color_utils.dart';
+import '../../core/utils/string_utils.dart';
 import 'cubit/github_cubit.dart';
 import 'cubit/github_state.dart';
 
@@ -50,6 +53,48 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
     }
   }
 
+  Widget listObject() {
+    List<Widget> keys = [];
+    if(detail != null) {
+      detail!.toJson().forEach((final String key, final value) {
+        keys.add(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "${StringUtils().convertToTitleCase(key)} :",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade800
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                "${value != "" ? value : "-"}",
+                style: const TextStyle(
+                    fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Divider(
+                height: 1,
+                thickness: 1,
+              ),
+              const SizedBox(height: 10),
+            ],
+          )
+        );
+      });
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: keys
+    );
+  }
+
   SliverToBoxAdapter loadList(BuildContext context, GithubCubitState state) {
     if (state is GithubInitial) {
       return SliverToBoxAdapter(
@@ -76,66 +121,7 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
       return SliverToBoxAdapter(
             child: Container(
               padding: const EdgeInsets.all(24),
-              child: const Column(
-                children: [
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                  Text("TESTING"),
-                ],
-              ),
+              child: listObject()
             )
         );
     }
