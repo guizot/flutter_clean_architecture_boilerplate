@@ -10,20 +10,15 @@ class GithubCubit extends Cubit<GithubCubitState> {
   final GithubUseCases githubUseCases;
   GithubCubit({required this.githubUseCases}) : super(GithubInitial());
 
-  void getData() async {
-    emit(GithubStateLoading());
-    Future.delayed(const Duration(seconds: 5)).then((value) => emit(GithubStateLoaded()));
-  }
-
-  Future<List<User>?> searchUser(String username) async {
-    emit(GithubStateLoading());
-    final users = await githubUseCases.searchUser(username);
+  Future<List<User>> searchUser(Map<String, dynamic> userQuery) async {
+    final users = await githubUseCases.searchUser(userQuery);
     if(users.data != null) {
-      emit(GithubStateLoaded());
-      return users.data?.items;
+      return users.data != null ? users.data!.items! : List.empty();
     }
-    emit(GithubStateError(message: users.error!.toString()));
-    return null;
+    if(users.error != null) {
+      throw Exception('${users.error}');
+    }
+    return List.empty();
   }
 
   Future<UserDetail?> detailUser(String username) async {

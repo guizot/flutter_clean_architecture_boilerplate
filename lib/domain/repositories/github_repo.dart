@@ -7,7 +7,7 @@ import '../../data/utils/resources/data_state.dart';
 abstract class GithubRepo {
 
   /// REGION: REMOTE DATA SOURCE
-  Future<DataState<ResponseWrapper<User>>> searchUser(String username);
+  Future<DataState<ResponseWrapper<User>>> searchUser(Map<String, dynamic> userQuery);
   Future<DataState<UserDetail>> detailUser(String username);
 
 }

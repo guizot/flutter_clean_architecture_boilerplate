@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_image/network.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../data/models/user.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -33,19 +34,35 @@ class GithubListPage extends StatefulWidget {
 
 class _GithubListPageState extends State<GithubListPage> {
 
-  List<User>? gitUsers;
+  final PagingController<int, User> _pagingController = PagingController(firstPageKey: 1);
+  static const _pageSize = 10;
 
   @override
   void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
     super.initState();
-    getPopularGithubUser();
   }
 
-  void getPopularGithubUser() async {
-    List<User>? lists = await BlocProvider.of<GithubCubit>(context).searchUser("");
-    setState(()  {
-      gitUsers = lists;
-    });
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      Map<String, dynamic> userQuery = {
+        'q': 'followers:>10000',
+        'per_page': _pageSize,
+        'page': pageKey
+      };
+      final newItems = await BlocProvider.of<GithubCubit>(context).searchUser(userQuery);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + 1;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
   }
 
   Widget loadList(BuildContext context, GithubCubitState state) {
@@ -66,31 +83,32 @@ class _GithubListPageState extends State<GithubListPage> {
       );
     }
     else if (state is GithubStateLoaded) {
-      return ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: gitUsers != null ? gitUsers!.length : 0 ,
-          itemBuilder: (BuildContext context, int index) {
+      return PagedListView<int, User>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<User>(
+          itemBuilder: (context, item, index) {
             return ListTile(
               onTap: () {
-                Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: gitUsers![index].login);
+                Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login);
               },
               title: Text(
-                '${gitUsers![index].login}',
+                '${item.login}',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
                 ),
               ),
               subtitle: Text(
-                '${gitUsers![index].htmlUrl}',
+                '${item.htmlUrl}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
               leading: CircleAvatar(
-                backgroundImage: NetworkImageWithRetry('${gitUsers![index].avatarUrl}'),
+                backgroundImage: NetworkImageWithRetry('${item.avatarUrl}'),
               ),
             );
-          }
+          },
+        ),
       );
     }
     else if (state is GithubStateError) {
@@ -108,6 +126,12 @@ class _GithubListPageState extends State<GithubListPage> {
   }
 
   @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer2<ThemeService, LanguageService> (
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
@@ -119,11 +143,38 @@ class _GithubListPageState extends State<GithubListPage> {
                     .inversePrimary,
                 title: Text(widget.title),
               ),
-              body: BlocBuilder<GithubCubit, GithubCubitState>(
-                builder: (context, state) {
-                  return loadList(context, state);
-                },
+              body: PagedListView<int, User>(
+                pagingController: _pagingController,
+                builderDelegate: PagedChildBuilderDelegate<User>(
+                  itemBuilder: (context, item, index) {
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login);
+                      },
+                      title: Text(
+                        '${item.login}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                        ),
+                      ),
+                      subtitle: Text(
+                        '${item.htmlUrl}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImageWithRetry('${item.avatarUrl}'),
+                      ),
+                    );
+                  },
+                ),
               )
+              // body: BlocBuilder<GithubCubit, GithubCubitState>(
+              //   builder: (context, state) {
+              //     return loadList(context, state);
+              //   },
+              // )
           );
         }
     );
@@ -131,4 +182,3 @@ class _GithubListPageState extends State<GithubListPage> {
 
 
 }
-

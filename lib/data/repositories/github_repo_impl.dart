@@ -20,15 +20,8 @@ class GithubRepoImpl implements GithubRepo {
 
   /// REGION: REMOTE DATA SOURCE
   @override
-  Future<DataState<ResponseWrapper<User>>> searchUser(String username) async {
+  Future<DataState<ResponseWrapper<User>>> searchUser(Map<String, dynamic> userQuery) async {
     try {
-      var queryUser = 'followers:>10000';
-      if(username.isNotEmpty) { queryUser = username; }
-      Map<String, dynamic> userQuery = {
-        'q': queryUser,
-        'per_page': 10,
-        'page': 1
-      };
       final httpResponse = await githubDataSource.searchUser(queries: userQuery);
       if (httpResponse.response.statusCode == 200) {
         return DataSuccess(httpResponse.data);

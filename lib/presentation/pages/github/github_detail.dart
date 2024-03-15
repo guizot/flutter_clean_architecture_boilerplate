@@ -53,7 +53,7 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
     }
   }
 
-  Widget listObject() {
+  Widget getObjectDetail() {
     List<Widget> keys = [];
     if(detail != null) {
       detail!.toJson().forEach((final String key, final value) {
@@ -121,7 +121,7 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
       return SliverToBoxAdapter(
             child: Container(
               padding: const EdgeInsets.all(24),
-              child: listObject()
+              child: getObjectDetail()
             )
         );
     }

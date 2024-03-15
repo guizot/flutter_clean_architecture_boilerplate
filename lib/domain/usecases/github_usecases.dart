@@ -12,8 +12,8 @@ class GithubUseCases {
   GithubUseCases({required this.githubRepo});
 
   /// REGION: REMOTE DATA SOURCE
-  Future<DataState<ResponseWrapper<User>>> searchUser(String username) async {
-    return githubRepo.searchUser(username);
+  Future<DataState<ResponseWrapper<User>>> searchUser(Map<String, dynamic> userQuery) async {
+    return githubRepo.searchUser(userQuery);
   }
 
   Future<DataState<UserDetail>> detailUser(String username) async {
