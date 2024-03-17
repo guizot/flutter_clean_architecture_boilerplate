@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/data/models/movie_response_wrapper.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/dio.dart';
-import '../../utils/const_values.dart';
+import '../../utils/constant/const_values.dart';
 part 'tmdb_data_source.g.dart';
 
 @RestApi(baseUrl: ConstValues.tmdbBaseUrl)

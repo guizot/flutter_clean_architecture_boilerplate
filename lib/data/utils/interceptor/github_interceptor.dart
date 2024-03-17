@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../const_values.dart';
+import '../constant/const_values.dart';
 import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
 
 class GithubInterceptor extends Interceptor {

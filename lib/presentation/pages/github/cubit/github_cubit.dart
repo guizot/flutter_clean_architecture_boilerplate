@@ -38,6 +38,7 @@ class GithubCubit extends Cubit<GithubCubitState> {
 
   /// REGION: LOCAL DATA SOURCE
   List<UserGithub> getAllUserLocal() {
+    emit(GithubStateLoading());
     List<UserGithub> users = githubUseCases.getAllUserLocal();
     if(users.isEmpty) {
       emit(GithubStateEmpty());

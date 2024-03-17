@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../const_values.dart';
+import '../constant/const_values.dart';
 
 class TMDBInterceptor extends Interceptor {
 

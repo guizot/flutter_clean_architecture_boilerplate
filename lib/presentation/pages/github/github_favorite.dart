@@ -77,7 +77,13 @@ class _GithubFavoritePageState extends State<GithubFavoritePage> {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               onTap: () {
-                Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: users![index].login);
+                Navigator.pushNamed(
+                    context,
+                    RoutesValues.githubDetail,
+                    arguments: users![index].login
+                ).then((value) {
+                  getUserLocal();
+                });
               },
               title: Text(
                 '${users![index].login}',
@@ -114,9 +120,11 @@ class _GithubFavoritePageState extends State<GithubFavoritePage> {
           )
       );
     }
-    return Center(
-        child: Container()
-    );
+    else {
+      return Center(
+          child: Container()
+      );
+    }
   }
 
   @override
@@ -124,17 +132,12 @@ class _GithubFavoritePageState extends State<GithubFavoritePage> {
     return Consumer2<ThemeService, LanguageService> (
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Theme
-                    .of(context)
-                    .colorScheme
-                    .inversePrimary,
-                title: Text(widget.title)
-          ),
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: Text(widget.title)
+            ),
             body: BlocBuilder<GithubCubit, GithubCubitState>(
-              builder: (context, state) {
-                return loadList(context, state);
-              },
+              builder: (context, state) => loadList(context, state)
             )
           );
         }

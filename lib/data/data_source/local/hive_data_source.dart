@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../utils/const_values.dart';
+import '../../utils/constant/const_values.dart';
 
 class HiveDataSource {
 
