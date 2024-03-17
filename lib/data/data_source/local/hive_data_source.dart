@@ -5,18 +5,18 @@ import '../../utils/const_values.dart';
 
 class HiveDataSource {
 
-  // Init Hive Local Storage
+  /// Init Hive Local Storage
   static Future<void> init() async {
     await Hive.initFlutter();
 
-    // Define the adapters
+    /// Define the adapters
     Hive.registerAdapter(UserGithubAdapter());
 
-    // Open the boxes
+    /// Open the boxes
     await Hive.openBox<UserGithub>(ConstValues.userGithubBox);
   }
 
-  // Get the boxes
+  /// Get the boxes
   Box<UserGithub> get userGithubBox => Hive.box<UserGithub>(ConstValues.userGithubBox);
 
 }

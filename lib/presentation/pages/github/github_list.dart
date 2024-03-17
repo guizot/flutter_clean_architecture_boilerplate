@@ -93,6 +93,10 @@ class _GithubListPageState extends State<GithubListPage> {
     }
   }
 
+  void favoriteList () {
+    Navigator.pushNamed(context, RoutesValues.githubFavorite);
+  }
+
   @override
   void dispose() {
     pagingController.dispose();
@@ -129,6 +133,17 @@ class _GithubListPageState extends State<GithubListPage> {
                   ),
                 ) : Text(widget.title),
                 actions: [
+                  isSearch ? Container() : Padding(
+                    padding: const EdgeInsets.only(right: 0),
+                    child: IconButton(
+                      icon: const Icon(
+                          Icons.favorite_outline,
+                          size: 26
+                      ),
+                      tooltip: 'List Favorite',
+                      onPressed: favoriteList,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: IconButton(
@@ -139,7 +154,7 @@ class _GithubListPageState extends State<GithubListPage> {
                       tooltip: isSearch ? 'Close' : 'Search',
                       onPressed: searchMode,
                     ),
-                  )
+                  ),
                 ],
               ),
               body: RefreshIndicator(

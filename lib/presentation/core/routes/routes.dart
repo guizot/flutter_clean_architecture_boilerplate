@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_detail.dart';
+import 'package:flutter_clean_architecture/presentation/pages/github/github_favorite.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
@@ -18,6 +19,8 @@ class Routes {
       case RoutesValues.githubDetail:
         var id = settings.arguments as String;
         return MaterialPageRoute(builder: (_) => GithubDetailWrapperProvider(id: id));
+      case RoutesValues.githubFavorite:
+        return MaterialPageRoute(builder: (_) => const GithubFavoriteWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

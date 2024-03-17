@@ -62,16 +62,15 @@ Future<void> init() async {
   );
 
   /// DATA LAYER
-  sl.registerFactory<HomeRepo>(
+  sl.registerLazySingleton<HomeRepo>(
     () => HomeRepoImpl(
       sharedPrefDataSources: sl(),
       githubDataSource: sl(),
       tmdbDataSource: sl()
     ),
   );
-  sl.registerFactory<GithubRepo>(
+  sl.registerLazySingleton<GithubRepo>(
     () => GithubRepoImpl(
-      sharedPrefDataSources: sl(),
       githubDataSource: sl(),
       hiveDataSource: sl()
     ),
@@ -92,8 +91,8 @@ Future<void> init() async {
   );
 
   /// MAIN INJECTOR & EXTERNAL LIBRARY
-  sl.registerFactory(() => SharedPreferenceDataSource());
-  sl.registerFactory(() => HiveDataSource());
+  sl.registerLazySingleton(() => SharedPreferenceDataSource());
+  sl.registerLazySingleton(() => HiveDataSource());
   // sl.registerFactory<Dio>(() {
   //   final dio = Dio();
     // dio.interceptors.add(PrettyDioLogger(

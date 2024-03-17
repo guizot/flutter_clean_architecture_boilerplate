@@ -1,24 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/data/data_source/local/hive_data_source.dart';
-import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
 import 'package:flutter_clean_architecture/data/models/user_detail.dart';
 import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
 import 'package:flutter_clean_architecture/domain/repositories/github_repo.dart';
 import '../data_source/remote/github_data_source.dart';
 import '../models/user_response_wrapper.dart';
 import '../models/user.dart';
-import '../utils/const_values.dart';
 import '../utils/resources/data_state.dart';
 
 class GithubRepoImpl implements GithubRepo {
 
   /// REGION: INIT IMPLEMENTOR
-  final SharedPreferenceDataSource sharedPrefDataSources;
   final GithubDataSource githubDataSource;
   final HiveDataSource hiveDataSource;
 
   GithubRepoImpl({
-    required this.sharedPrefDataSources,
     required this.githubDataSource,
     required this.hiveDataSource,
   });
@@ -65,6 +61,11 @@ class GithubRepoImpl implements GithubRepo {
   }
 
   /// REGION: LOCAL DATA SOURCE
+  @override
+  List<UserGithub> getAllUserLocal() {
+    return hiveDataSource.userGithubBox.values.toList();
+  }
+
   @override
   UserGithub? getUserLocal(int key) {
     return hiveDataSource.userGithubBox.get(key);

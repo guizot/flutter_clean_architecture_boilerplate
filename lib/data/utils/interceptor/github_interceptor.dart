@@ -9,7 +9,7 @@ class GithubInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    final token = await sharedPreferenceDataSource.getString(ConstValues.token);
+    // final token = await sharedPreferenceDataSource.getString(ConstValues.token);
     options.receiveTimeout = const Duration(seconds: 10);
     options.connectTimeout = const Duration(seconds: 10);
     options.contentType = 'application/json';

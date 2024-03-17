@@ -11,9 +11,9 @@ class GithubInitial extends GithubCubitState {}
 
 class GithubStateLoading extends GithubCubitState {}
 
-class GithubStateLoaded extends GithubCubitState {
+class GithubStateLoaded extends GithubCubitState {}
 
-}
+class GithubStateEmpty extends GithubCubitState {}
 
 class GithubStateError extends GithubCubitState {
   final String message;

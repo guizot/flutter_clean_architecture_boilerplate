@@ -17,7 +17,7 @@ class UserResponseWrapper<T> {
   }
 
   Map<String, dynamic> toJson(Map<String, dynamic> Function(T) toJsonItem) {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['total_count'] = this.totalCount;
     data['incomplete_results'] = this.incompleteResults;
     if (this.items != null) {

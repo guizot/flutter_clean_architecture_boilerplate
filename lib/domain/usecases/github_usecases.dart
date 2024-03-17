@@ -23,6 +23,11 @@ class GithubUseCases {
   }
 
   /// REGION: LOCAL DATA SOURCE
+  List<UserGithub> getAllUserLocal() {
+    // space for business logic (before return / before send)
+    return githubRepo.getAllUserLocal();
+  }
+
   UserGithub? getUserLocal(int key) {
     // space for business logic (before return / before send)
     return githubRepo.getUserLocal(key);

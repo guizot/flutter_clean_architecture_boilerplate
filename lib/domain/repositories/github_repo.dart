@@ -11,6 +11,7 @@ abstract class GithubRepo {
   Future<DataState<UserDetail>> detailUser(String username);
 
   /// REGION: LOCAL DATA SOURCE
+  List<UserGithub> getAllUserLocal();
   UserGithub? getUserLocal(int key);
   Future<void> saveUserLocal(int key, UserGithub user);
   Future<void> deleteUserLocal(int key);

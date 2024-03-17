@@ -60,12 +60,10 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
   void getUserLocal(int key) async {
     UserGithub? user = BlocProvider.of<GithubCubit>(context).getUserLocal(key);
     if(user != null) {
-      print("UserGithub: ${user.toJson()}");
       setState(() {
         isFavorite = true;
       });
     } else {
-      print("UserGithub: null");
       setState(() {
         isFavorite = false;
       });

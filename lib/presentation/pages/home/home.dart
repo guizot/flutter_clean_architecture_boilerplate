@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/data/models/movie.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import 'package:flutter_clean_architecture/presentation/core/languages/languages.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
-import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_state.dart';
-import 'package:flutter_image/network.dart';
-import '../../../data/models/user.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
-import '../../core/utils/color_utils.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
