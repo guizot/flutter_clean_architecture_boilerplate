@@ -26,9 +26,9 @@ class HomeCubit extends Cubit<HomeCubitState> {
     return null;
   }
 
-  Future<List<Movie>?> getMovieTrending(String time) async {
+  Future<List<Movie>?> getMovieTrending(String time, Map<String, dynamic> movieQuery) async {
     emit(HomeStateLoading());
-    final results = await homeUseCases.getMovieTrending(time);
+    final results = await homeUseCases.getMovieTrending(time, movieQuery);
     if(results.data != null) {
       emit(HomeStateLoaded());
       return results.data?.results;

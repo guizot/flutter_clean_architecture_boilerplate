@@ -15,8 +15,8 @@ class HomeUseCases {
     return homeRepo.searchUser(username);
   }
 
-  Future<DataState<MovieResponseWrapper>> getMovieTrending(String time) async {
-    return homeRepo.getMovieTrending(time);
+  Future<DataState<MovieResponseWrapper>> getMovieTrending(String time, Map<String, dynamic> movieQuery) async {
+    return homeRepo.getMovieTrending(time, movieQuery);
   }
 
 }

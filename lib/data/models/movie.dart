@@ -53,7 +53,7 @@ class Movie {
   }
 
   String getPoster() {
-    return '${ConstValues.tmdbImageUrl}$posterPath';
+    return '${ConstValues.tmdbImageUrl}/w200$posterPath';
   }
 
   Map<String, dynamic> toJson() {

@@ -4,6 +4,8 @@ import 'package:flutter_clean_architecture/presentation/pages/github/github_favo
 import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
+import '../../pages/tmdb/tmdb_detail.dart';
+import '../../pages/tmdb/tmdb_list.dart';
 import '../constant/routes_values.dart';
 
 class Routes {
@@ -21,6 +23,11 @@ class Routes {
         return MaterialPageRoute(builder: (_) => GithubDetailWrapperProvider(id: id));
       case RoutesValues.githubFavorite:
         return MaterialPageRoute(builder: (_) => const GithubFavoriteWrapperProvider());
+      case RoutesValues.tmdbList:
+        return MaterialPageRoute(builder: (_) => const TMDBListWrapperProvider());
+      case RoutesValues.tmdbDetail:
+        var id = settings.arguments as int;
+        return MaterialPageRoute(builder: (_) => TMDBDetailWrapperProvider(id: id));
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

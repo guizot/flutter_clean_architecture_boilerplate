@@ -7,6 +7,6 @@ abstract class HomeRepo {
 
   /// REGION: REMOTE DATA SOURCE
   Future<DataState<UserResponseWrapper<User>>> searchUser(String username);
-  Future<DataState<MovieResponseWrapper>> getMovieTrending(String time);
+  Future<DataState<MovieResponseWrapper>> getMovieTrending(String time, Map<String, dynamic> movieQuery);
 
 }

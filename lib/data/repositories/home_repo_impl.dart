@@ -48,9 +48,9 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<DataState<MovieResponseWrapper>> getMovieTrending(String time) async {
+  Future<DataState<MovieResponseWrapper>> getMovieTrending(String time, Map<String, dynamic> movieQuery) async {
     try {
-      final httpResponse = await tmdbDataSource.getTrendingMovie(time: time);
+      final httpResponse = await tmdbDataSource.getTrendingMovie(time: time, queries: movieQuery);
       if (httpResponse.response.statusCode == 200) {
         return DataSuccess(httpResponse.data);
       }

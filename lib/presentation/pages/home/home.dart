@@ -197,9 +197,18 @@ class _HomePageState extends State<HomePage> {
             ),
             body: Column(
               children: [
-                TextButton(onPressed: () {
-                  Navigator.pushNamed(context, RoutesValues.githubList);
-                }, child: const Text("Github List"),)
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, RoutesValues.githubList);
+                  },
+                  child: const Text("Github List"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, RoutesValues.tmdbList);
+                  },
+                  child: const Text("TMDB List"),
+                )
               ],
             ),
             // body: BlocBuilder<HomeCubit, HomeCubitState>(
