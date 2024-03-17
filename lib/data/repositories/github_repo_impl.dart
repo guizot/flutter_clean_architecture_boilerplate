@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_architecture/data/data_source/shared_preferences_data_source.dart';
+import 'package:flutter_clean_architecture/data/data_source/local/hive_data_source.dart';
+import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
 import 'package:flutter_clean_architecture/data/models/user_detail.dart';
+import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
 import 'package:flutter_clean_architecture/domain/repositories/github_repo.dart';
 import '../data_source/remote/github_data_source.dart';
-import '../models/response_wrapper.dart';
+import '../models/user_response_wrapper.dart';
 import '../models/user.dart';
+import '../utils/const_values.dart';
 import '../utils/resources/data_state.dart';
 
 class GithubRepoImpl implements GithubRepo {
@@ -12,26 +15,30 @@ class GithubRepoImpl implements GithubRepo {
   /// REGION: INIT IMPLEMENTOR
   final SharedPreferenceDataSource sharedPrefDataSources;
   final GithubDataSource githubDataSource;
+  final HiveDataSource hiveDataSource;
 
   GithubRepoImpl({
     required this.sharedPrefDataSources,
     required this.githubDataSource,
+    required this.hiveDataSource,
   });
 
   /// REGION: REMOTE DATA SOURCE
   @override
-  Future<DataState<ResponseWrapper<User>>> searchUser(Map<String, dynamic> userQuery) async {
+  Future<DataState<UserResponseWrapper<User>>> searchUser(Map<String, dynamic> userQuery) async {
     try {
       final httpResponse = await githubDataSource.searchUser(queries: userQuery);
       if (httpResponse.response.statusCode == 200) {
         return DataSuccess(httpResponse.data);
       }
-      return DataError(DioException(
-        error: httpResponse.response.statusMessage,
-        response: httpResponse.response,
-        requestOptions: httpResponse.response.requestOptions,
-        type: DioExceptionType.badResponse,
-      ));
+      return DataError(
+        DioException(
+          error: httpResponse.response.statusMessage,
+          response: httpResponse.response,
+          requestOptions: httpResponse.response.requestOptions,
+          type: DioExceptionType.badResponse,
+        )
+      );
     } on DioException catch (e) {
       return DataError(e);
     }
@@ -44,15 +51,33 @@ class GithubRepoImpl implements GithubRepo {
       if (httpResponse.response.statusCode == 200) {
         return DataSuccess(httpResponse.data);
       }
-      return DataError(DioException(
-        error: httpResponse.response.statusMessage,
-        response: httpResponse.response,
-        requestOptions: httpResponse.response.requestOptions,
-        type: DioExceptionType.badResponse,
-      ));
+      return DataError(
+        DioException(
+          error: httpResponse.response.statusMessage,
+          response: httpResponse.response,
+          requestOptions: httpResponse.response.requestOptions,
+          type: DioExceptionType.badResponse,
+        )
+      );
     } on DioException catch (e) {
       return DataError(e);
     }
+  }
+
+  /// REGION: LOCAL DATA SOURCE
+  @override
+  UserGithub? getUserLocal(int key) {
+    return hiveDataSource.userGithubBox.get(key);
+  }
+
+  @override
+  Future<void> saveUserLocal(int key, UserGithub user) async {
+    await hiveDataSource.userGithubBox.put(key, user);
+  }
+
+  @override
+  Future<void> deleteUserLocal(int key) async {
+    await hiveDataSource.userGithubBox.delete(key);
   }
 
 }

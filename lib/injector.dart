@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_clean_architecture/data/data_source/local/hive_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/remote/tmdb_data_source.dart';
-import 'package:flutter_clean_architecture/data/data_source/shared_preferences_data_source.dart';
+import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
 import 'package:flutter_clean_architecture/data/repositories/github_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/repositories/home_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/utils/interceptor/tmdb_interceptor.dart';
@@ -69,9 +70,10 @@ Future<void> init() async {
     ),
   );
   sl.registerFactory<GithubRepo>(
-        () => GithubRepoImpl(
-        sharedPrefDataSources: sl(),
-        githubDataSource: sl()
+    () => GithubRepoImpl(
+      sharedPrefDataSources: sl(),
+      githubDataSource: sl(),
+      hiveDataSource: sl()
     ),
   );
   sl.registerLazySingleton<GithubDataSource>(
@@ -91,10 +93,9 @@ Future<void> init() async {
 
   /// MAIN INJECTOR & EXTERNAL LIBRARY
   sl.registerFactory(() => SharedPreferenceDataSource());
+  sl.registerFactory(() => HiveDataSource());
   // sl.registerFactory<Dio>(() {
   //   final dio = Dio();
-  //   dio.interceptors.add(TMDBInterceptor());
-    // dio.interceptors.add(AuthInterceptor(sharedPreferenceDataSource: sl()));
     // dio.interceptors.add(PrettyDioLogger(
     //     requestHeader: true,
     //     requestBody: true,

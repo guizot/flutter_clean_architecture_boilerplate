@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/data/data_source/remote/tmdb_data_source.dart';
-import 'package:flutter_clean_architecture/data/data_source/shared_preferences_data_source.dart';
-import 'package:flutter_clean_architecture/data/models/movie_trending_wrapper.dart';
+import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
+import 'package:flutter_clean_architecture/data/models/movie_response_wrapper.dart';
 import '../../domain/repositories/home_repo.dart';
 import '../data_source/remote/github_data_source.dart';
-import '../models/response_wrapper.dart';
+import '../models/user_response_wrapper.dart';
 import '../models/user.dart';
 import '../utils/resources/data_state.dart';
 
@@ -23,7 +23,7 @@ class HomeRepoImpl implements HomeRepo {
 
   /// REGION: REMOTE DATA SOURCE
   @override
-  Future<DataState<ResponseWrapper<User>>> searchUser(String username) async {
+  Future<DataState<UserResponseWrapper<User>>> searchUser(String username) async {
     try {
       var queryUser = 'followers:>10000';
       if(username.isNotEmpty) { queryUser = username; }
@@ -48,7 +48,7 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<DataState<MovieTrendingWrapper>> getMovieTrending(String time) async {
+  Future<DataState<MovieResponseWrapper>> getMovieTrending(String time) async {
     try {
       final httpResponse = await tmdbDataSource.getTrendingMovie(time: time);
       if (httpResponse.response.statusCode == 200) {

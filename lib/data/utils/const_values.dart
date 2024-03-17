@@ -11,4 +11,7 @@ class ConstValues {
   static const String githubBaseUrl = 'https://api.github.com/';
   static const String githubToken = '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';
 
+  /// HIVE LOCAL SOURCE
+  static const String userGithubBox = "userGithubBox";
+
 }

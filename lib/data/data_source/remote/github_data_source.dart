@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_architecture/data/models/response_wrapper.dart';
+import 'package:flutter_clean_architecture/data/models/user_response_wrapper.dart';
 import 'package:flutter_clean_architecture/data/models/user_detail.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/dio.dart';
@@ -12,7 +12,7 @@ abstract class GithubDataSource {
   factory GithubDataSource(Dio dio, {String baseUrl}) = _GithubDataSource;
 
   @GET('search/users')
-  Future<HttpResponse<ResponseWrapper<User>>> searchUser({
+  Future<HttpResponse<UserResponseWrapper<User>>> searchUser({
     @Queries() required Map<String, dynamic> queries
   });
 

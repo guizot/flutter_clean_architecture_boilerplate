@@ -1,15 +1,15 @@
 import 'movie.dart';
 
-class MovieTrendingWrapper {
+class MovieResponseWrapper {
   int? page;
   List<Movie>? results;
   int? totalPages;
   int? totalResults;
 
-  MovieTrendingWrapper(
+  MovieResponseWrapper(
       {this.page, this.results, this.totalPages, this.totalResults});
 
-  MovieTrendingWrapper.fromJson(Map<String, dynamic> json) {
+  MovieResponseWrapper.fromJson(Map<String, dynamic> json) {
     page = json['page'];
     if (json['results'] != null) {
       results = <Movie>[];

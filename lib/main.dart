@@ -5,6 +5,7 @@ import 'package:flutter_clean_architecture/presentation/core/services/language_s
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
 import 'package:provider/provider.dart';
+import 'data/data_source/local/hive_data_source.dart';
 import 'injector.dart';
 
 void main() async {
@@ -14,6 +15,9 @@ void main() async {
 
   /// INIT DEPENDENCY INJECTION
   await di.init();
+
+  /// INIT HIVE LOCAL DATABASE
+  await HiveDataSource.init();
 
   /// RUN APP
   runApp(const MainApp());

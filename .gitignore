@@ -45,3 +45,4 @@ app.*.map.json
 # Generated Files
 /lib/data/data_source/remote/github_data_source.g.dart
 /lib/data/data_source/remote/tmdb_data_source.g.dart
+/lib/domain/entities/user_github.g.dart

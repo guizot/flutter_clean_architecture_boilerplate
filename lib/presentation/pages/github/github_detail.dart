@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/user_detail.dart';
+import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +10,7 @@ import '../../core/utils/color_utils.dart';
 import '../../core/utils/string_utils.dart';
 import 'cubit/github_cubit.dart';
 import 'cubit/github_state.dart';
+import 'dart:io' show Platform;
 
 class GithubDetailWrapperProvider extends StatelessWidget {
   const GithubDetailWrapperProvider({Key? key, required this.id}) : super(key: key);
@@ -37,6 +37,7 @@ class GithubDetailPage extends StatefulWidget {
 class _GithubDetailPageState extends State<GithubDetailPage> {
 
   UserDetail? detail;
+  bool isFavorite = false;
 
   @override
   void initState() {
@@ -44,12 +45,44 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
     super.initState();
   }
 
+  /// REGION: REMOTE DATA SOURCE
   void getUserDetail() async {
     UserDetail? detail = await BlocProvider.of<GithubCubit>(context).detailUser(widget.id);
     if(detail != null) {
+      getUserLocal(detail.id!);
       setState(() {
         this.detail = detail;
       });
+    }
+  }
+
+  /// REGION: LOCAL DATA SOURCE
+  void getUserLocal(int key) async {
+    UserGithub? user = BlocProvider.of<GithubCubit>(context).getUserLocal(key);
+    if(user != null) {
+      print("UserGithub: ${user.toJson()}");
+      setState(() {
+        isFavorite = true;
+      });
+    } else {
+      print("UserGithub: null");
+      setState(() {
+        isFavorite = false;
+      });
+    }
+  }
+
+  void saveUserLocal() async {
+    if(detail != null) {
+      await BlocProvider.of<GithubCubit>(context).saveUserLocal(detail!);
+      getUserLocal(detail!.id!);
+    }
+  }
+
+  void deleteUserLocal() async {
+    if(detail != null) {
+      await BlocProvider.of<GithubCubit>(context).deleteUserLocal(detail!.id!);
+      getUserLocal(detail!.id!);
     }
   }
 
@@ -157,18 +190,34 @@ class _GithubDetailPageState extends State<GithubDetailPage> {
                     title: Text(
                       detail?.name ?? "",
                       style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white
-                      ),
+                      )
                     ),
-                    background: detail != null ? Image.network(
-                      detail!.avatarUrl!,
-                      fit: BoxFit.cover,
-                    ) : Container(),
+                    background: detail != null
+                        ? Image.network(
+                            detail!.avatarUrl!,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(),
+                    centerTitle: Platform.isIOS ? true : false,
+                    titlePadding: Platform.isIOS ? const EdgeInsets.symmetric(vertical: 16) : null,
                   ),
-                  backgroundColor: Theme
-                      .of(context)
-                      .colorScheme
-                      .inversePrimary,
+                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_outline,
+                          size: 26,
+                          color: isFavorite ? Colors.red : null,
+                        ),
+                        tooltip: isFavorite ?  'Dislike' : 'Favorite',
+                        onPressed: isFavorite ? deleteUserLocal : saveUserLocal,
+                      ),
+                    )
+                  ],
                 ),
                 BlocBuilder<GithubCubit, GithubCubitState>(
                   builder: (context, state) {

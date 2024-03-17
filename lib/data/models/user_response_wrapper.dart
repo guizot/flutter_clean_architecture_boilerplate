@@ -1,11 +1,11 @@
-class ResponseWrapper<T> {
+class UserResponseWrapper<T> {
   int? totalCount;
   bool? incompleteResults;
   List<T>? items;
 
-  ResponseWrapper({this.totalCount, this.incompleteResults, this.items});
+  UserResponseWrapper({this.totalCount, this.incompleteResults, this.items});
 
-  ResponseWrapper.fromJson(Map<String, dynamic> json, T Function(dynamic) fromJsonItem) {
+  UserResponseWrapper.fromJson(Map<String, dynamic> json, T Function(dynamic) fromJsonItem) {
     totalCount = json['total_count'];
     incompleteResults = json['incomplete_results'];
     if (json['items'] != null) {

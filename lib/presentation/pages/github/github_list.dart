@@ -10,7 +10,7 @@ import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
 import '../../core/utils/color_utils.dart';
 import 'cubit/github_cubit.dart';
-import 'cubit/github_state.dart';
+import 'dart:async';
 
 class GithubListWrapperProvider extends StatelessWidget {
   const GithubListWrapperProvider({super.key});
@@ -34,100 +34,71 @@ class GithubListPage extends StatefulWidget {
 
 class _GithubListPageState extends State<GithubListPage> {
 
-  final PagingController<int, User> _pagingController = PagingController(firstPageKey: 1);
-  static const _pageSize = 10;
+  final TextEditingController searchController = TextEditingController();
+  final PagingController<int, User> pagingController = PagingController(firstPageKey: 1);
+  Timer? debounceController;
+  bool isSearch = false;
+  String queryName = '';
+  int pageSize = 10;
+  FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
+    pagingController.addPageRequestListener((pageKey) {
+      fetchData(pageKey);
+    });
+    searchController.addListener(() {
+      refreshData();
     });
     super.initState();
   }
 
-  Future<void> _fetchPage(int pageKey) async {
+  Future<void> fetchData(int pageKey) async {
     try {
       Map<String, dynamic> userQuery = {
-        'q': 'followers:>10000',
-        'per_page': _pageSize,
+        'q': queryName == '' ? 'followers:>10000' : queryName,
+        'per_page': pageSize,
         'page': pageKey
       };
       final newItems = await BlocProvider.of<GithubCubit>(context).searchUser(userQuery);
-      final isLastPage = newItems.length < _pageSize;
+      final isLastPage = newItems.length < pageSize;
       if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
+        pagingController.appendLastPage(newItems);
       } else {
         final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(newItems, nextPageKey);
+        pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      pagingController.error = error;
     }
   }
 
-  Widget loadList(BuildContext context, GithubCubitState state) {
-    if (state is GithubInitial) {
-      return Container();
+  Future<void> refreshData () async {
+    if (debounceController?.isActive ?? false) debounceController?.cancel();
+    debounceController = Timer(const Duration(milliseconds: 750), () {
+      queryName = searchController.text.toLowerCase();
+      pagingController.refresh();
+    });
+  }
+
+  void searchMode () {
+    setState(() {
+      isSearch = !isSearch;
+    });
+    if(!isSearch) {
+      searchController.clear();
+      focusNode.unfocus();
+    } else {
+      focusNode.requestFocus();
     }
-    else if (state is GithubStateLoading) {
-      return const Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Loading..')
-          ],
-        ),
-      );
-    }
-    else if (state is GithubStateLoaded) {
-      return PagedListView<int, User>(
-        pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<User>(
-          itemBuilder: (context, item, index) {
-            return ListTile(
-              onTap: () {
-                Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login);
-              },
-              title: Text(
-                '${item.login}',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
-                ),
-              ),
-              subtitle: Text(
-                '${item.htmlUrl}',
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImageWithRetry('${item.avatarUrl}'),
-              ),
-            );
-          },
-        ),
-      );
-    }
-    else if (state is GithubStateError) {
-      return Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              state.message,
-              textAlign: TextAlign.center,
-            ),
-          )
-      );
-    }
-    return Container();
   }
 
   @override
   void dispose() {
-    _pagingController.dispose();
+    pagingController.dispose();
+    searchController.dispose();
+    debounceController?.cancel();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -141,40 +112,74 @@ class _GithubListPageState extends State<GithubListPage> {
                     .of(context)
                     .colorScheme
                     .inversePrimary,
-                title: Text(widget.title),
+                title: isSearch ? TextField(
+                  focusNode: focusNode,
+                  controller: searchController,
+                  cursorRadius: const Radius.circular(24),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Theme.of(context).colorScheme.background,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      borderSide: BorderSide.none
+                    ),
+                    hintText: 'Search..',
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    isDense: true,
+                  ),
+                ) : Text(widget.title),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: IconButton(
+                      icon: Icon(
+                          isSearch ? Icons.close : Icons.search,
+                          size: 26
+                      ),
+                      tooltip: isSearch ? 'Close' : 'Search',
+                      onPressed: searchMode,
+                    ),
+                  )
+                ],
               ),
-              body: PagedListView<int, User>(
-                pagingController: _pagingController,
-                builderDelegate: PagedChildBuilderDelegate<User>(
-                  itemBuilder: (context, item, index) {
-                    return ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login);
-                      },
-                      title: Text(
-                        '${item.login}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
-                        ),
-                      ),
-                      subtitle: Text(
-                        '${item.htmlUrl}',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImageWithRetry('${item.avatarUrl}'),
-                      ),
-                    );
-                  },
+              body: RefreshIndicator(
+                onRefresh: () => Future.sync(
+                      () => pagingController.refresh(),
                 ),
+                child: PagedListView<int, User>(
+                  pagingController: pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<User>(
+                    itemBuilder: (context, item, index) {
+                      return ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login);
+                        },
+                        title: Text(
+                          '${item.login}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                          ),
+                        ),
+                        subtitle: Text(
+                          '${item.htmlUrl}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImageWithRetry('${item.avatarUrl}'),
+                        ),
+                      );
+                    },
+                    // firstPageErrorIndicatorBuilder: (context) {
+                    //   return TextButton(onPressed: () => pagingController.retryLastFailedRequest(), child: const Text("Reload First Data"));
+                    // }
+                    // newPageErrorIndicatorBuilder: (context) {
+                    //   return TextButton(onPressed: () => pagingController.retryLastFailedRequest(), child:  const Text("Reload New Data"));
+                    // }
+                  ),
+                )
               )
-              // body: BlocBuilder<GithubCubit, GithubCubitState>(
-              //   builder: (context, state) {
-              //     return loadList(context, state);
-              //   },
-              // )
           );
         }
     );
