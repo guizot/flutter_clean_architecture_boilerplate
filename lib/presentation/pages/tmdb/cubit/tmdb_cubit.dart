@@ -1,5 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/movie_detail.dart';
+import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
+import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
+import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
 import 'package:flutter_clean_architecture/presentation/pages/tmdb/cubit/tmdb_state.dart';
 import '../../../../data/models/movie.dart';
 import '../../../../domain/usecases/tmdb_usecases.dart';
@@ -33,6 +36,30 @@ class TMDBCubit extends Cubit<TMDBCubitState> {
       emit(TMDBStateError(message: users.error.toString()));
     }
     return null;
+  }
+
+  /// REGION: LOCAL DATA SOURCE
+  Future<List<MovieTMDB>> getAllMovieLocal() async {
+    emit(TMDBStateLoading());
+    List<MovieTMDB> users = await tmdbUseCases.getAllMovieLocal();
+    if(users.isEmpty) {
+      emit(TMDBStateEmpty());
+    } else if(users.isNotEmpty) {
+      emit(TMDBStateLoaded());
+    }
+    return users;
+  }
+
+  Future<MovieTMDB?> getMovieLocal(int key) async {
+    return await tmdbUseCases.getMovieLocal(key);
+  }
+
+  Future<void> saveMovieLocal(MovieDetail detail) async {
+    await tmdbUseCases.saveMovieLocal(detail);
+  }
+
+  Future<void> deleteMovieLocal(int key) async {
+    await tmdbUseCases.deleteMovieLocal(key);
   }
 
 }

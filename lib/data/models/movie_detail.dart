@@ -3,7 +3,7 @@ import '../utils/constant/const_values.dart';
 class MovieDetail {
   bool? adult;
   String? backdropPath;
-  Null? belongsToCollection;
+  Map<String, dynamic>? belongsToCollection;
   int? budget;
   List<Genres>? genres;
   String? homepage;

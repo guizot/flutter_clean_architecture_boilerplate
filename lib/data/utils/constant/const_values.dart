@@ -14,4 +14,7 @@ class ConstValues {
   /// HIVE LOCAL SOURCE
   static const String userGithubBox = "userGithubBox";
 
+  /// SQLITE LOCAL SOURCE
+  static const String moviesTable = "movies";
+
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/data/data_source/local/hive_data_source.dart';
+import 'package:flutter_clean_architecture/data/data_source/local/sqlite_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/remote/tmdb_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
 import 'package:flutter_clean_architecture/data/repositories/github_repo_impl.dart';
@@ -94,7 +95,7 @@ Future<void> init() async {
   sl.registerLazySingleton<TMDBRepo>(
     () => TMDBRepoImpl(
       tmdbDataSource: sl(),
-      hiveDataSource: sl()
+      sqliteDataSource: sl()
     ),
   );
 
@@ -117,6 +118,7 @@ Future<void> init() async {
   /// MAIN INJECTOR & EXTERNAL LIBRARY
   sl.registerLazySingleton(() => SharedPreferenceDataSource());
   sl.registerLazySingleton(() => HiveDataSource());
+  sl.registerLazySingleton(() => SqliteDataSource());
   // sl.registerFactory<Dio>(() {
   //   final dio = Dio();
     // dio.interceptors.add(PrettyDioLogger(

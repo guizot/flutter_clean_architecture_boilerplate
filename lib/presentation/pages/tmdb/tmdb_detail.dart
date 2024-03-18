@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/movie_detail.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import '../../../domain/entities/movie_tmdb.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -40,15 +41,15 @@ class _TMDBDetailPageState extends State<TMDBDetailPage> {
 
   @override
   void initState() {
-    getUserDetail();
+    getMovieDetail();
     super.initState();
   }
 
   /// REGION: REMOTE DATA SOURCE
-  void getUserDetail() async {
+  void getMovieDetail() async {
     MovieDetail? detail = await BlocProvider.of<TMDBCubit>(context).detailMovie(widget.id);
     if(detail != null) {
-      getUserLocal(detail.id!);
+      getMovieLocal(detail.id!);
       setState(() {
         this.detail = detail;
       });
@@ -56,16 +57,31 @@ class _TMDBDetailPageState extends State<TMDBDetailPage> {
   }
 
   /// REGION: LOCAL DATA SOURCE
-  void getUserLocal(int key) async {
-
+  void getMovieLocal(int key) async {
+    MovieTMDB? user = await BlocProvider.of<TMDBCubit>(context).getMovieLocal(key);
+    if(user != null) {
+      setState(() {
+        isFavorite = true;
+      });
+    } else {
+      setState(() {
+        isFavorite = false;
+      });
+    }
   }
 
-  void saveUserLocal() async {
-
+  void saveMovieLocal() async {
+    if(detail != null) {
+      await BlocProvider.of<TMDBCubit>(context).saveMovieLocal(detail!);
+      getMovieLocal(detail!.id!);
+    }
   }
 
-  void deleteUserLocal() async {
-
+  void deleteMovieLocal() async {
+    if(detail != null) {
+      await BlocProvider.of<TMDBCubit>(context).deleteMovieLocal(detail!.id!);
+      getMovieLocal(detail!.id!);
+    }
   }
 
   Widget getObjectDetail() {
@@ -196,7 +212,7 @@ class _TMDBDetailPageState extends State<TMDBDetailPage> {
                           color: isFavorite ? Colors.red : null,
                         ),
                         tooltip: isFavorite ?  'Dislike' : 'Favorite',
-                        onPressed: isFavorite ? deleteUserLocal : saveUserLocal,
+                        onPressed: isFavorite ? deleteMovieLocal : saveMovieLocal,
                       ),
                     )
                   ],

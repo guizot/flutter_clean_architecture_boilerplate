@@ -5,6 +5,7 @@ import 'package:flutter_clean_architecture/presentation/pages/github/github_list
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
 import '../../pages/tmdb/tmdb_detail.dart';
+import '../../pages/tmdb/tmdb_favorite.dart';
 import '../../pages/tmdb/tmdb_list.dart';
 import '../constant/routes_values.dart';
 
@@ -28,6 +29,8 @@ class Routes {
       case RoutesValues.tmdbDetail:
         var id = settings.arguments as int;
         return MaterialPageRoute(builder: (_) => TMDBDetailWrapperProvider(id: id));
+      case RoutesValues.tmdbFavorite:
+        return MaterialPageRoute(builder: (_) => const TMDBFavoriteWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(
