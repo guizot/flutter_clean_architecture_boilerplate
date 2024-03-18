@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/movie_detail.dart';
 import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
-import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
-import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
 import 'package:flutter_clean_architecture/presentation/pages/tmdb/cubit/tmdb_state.dart';
 import '../../../../data/models/movie.dart';
 import '../../../../domain/usecases/tmdb_usecases.dart';

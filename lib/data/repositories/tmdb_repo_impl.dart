@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_architecture/data/data_source/local/hive_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/local/sqlite_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/remote/tmdb_data_source.dart';
 import 'package:flutter_clean_architecture/data/models/movie_detail.dart';

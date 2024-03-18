@@ -1,5 +1,3 @@
-import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
