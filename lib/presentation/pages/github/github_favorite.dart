@@ -98,7 +98,7 @@ class _GithubFavoritePageState extends State<GithubFavoritePage> {
                 maxLines: 2,
               ),
               leading: CircleAvatar(
-                backgroundImage: NetworkImageWithRetry('${users![index].avatarUrl}'),
+                backgroundImage: NetworkImage('${users![index].avatarUrl}'),
               ),
             );
           }

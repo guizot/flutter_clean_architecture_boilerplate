@@ -118,7 +118,7 @@ Future<void> init() async {
   /// MAIN INJECTOR & EXTERNAL LIBRARY
   sl.registerLazySingleton(() => SharedPreferenceDataSource());
   sl.registerLazySingleton(() => HiveDataSource());
-  sl.registerLazySingleton(() => SqliteDataSource());
+  sl.registerFactory(() => SqliteDataSource());
   // sl.registerFactory<Dio>(() {
   //   final dio = Dio();
     // dio.interceptors.add(PrettyDioLogger(

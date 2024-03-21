@@ -4,6 +4,7 @@ import 'package:flutter_clean_architecture/presentation/core/routes/routes.dart'
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'data/data_source/local/hive_data_source.dart';
 import 'injector.dart';

@@ -117,7 +117,7 @@ class _TMDBListPageState extends State<TMDBListPage> {
                           maxLines: 2,
                         ),
                         leading: CircleAvatar(
-                          backgroundImage: NetworkImageWithRetry(item.getPoster()),
+                          backgroundImage: NetworkImage(item.getPoster()),
                         ),
                       );
                     },

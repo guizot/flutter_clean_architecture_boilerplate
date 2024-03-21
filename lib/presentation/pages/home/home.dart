@@ -6,6 +6,7 @@ import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
+import '../../core/utils/color_utils.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
@@ -195,22 +196,54 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            body: Column(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, RoutesValues.githubList);
-                  },
-                  child: const Text("Github List"),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, RoutesValues.tmdbList);
-                  },
-                  child: const Text("TMDB List"),
-                )
-              ],
-            ),
+            body: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
+                      border: Border.all(color: Colors.grey), // Add border color
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        "Github List",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                        ),
+                      ),
+                      subtitle: const Text("list of favorite github users using dio, retrofit & hive"),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesValues.githubList);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16), // Add some spacing between ListTiles
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
+                      border: Border.all(color: Colors.grey), // Add border color
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        "TMDB List",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                        ),
+                      ),
+                      subtitle: const Text("list of trending movies using dio, retrofit & sqlite"),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesValues.tmdbList);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
             // body: BlocBuilder<HomeCubit, HomeCubitState>(
             //   builder: (context, state) {
             //     return loadList(context, state);

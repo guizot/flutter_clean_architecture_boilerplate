@@ -182,7 +182,7 @@ class _GithubListPageState extends State<GithubListPage> {
                           maxLines: 2,
                         ),
                         leading: CircleAvatar(
-                          backgroundImage: NetworkImageWithRetry('${item.avatarUrl}'),
+                          backgroundImage: NetworkImage('${item.avatarUrl}'),
                         ),
                       );
                     },

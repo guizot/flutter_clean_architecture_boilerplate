@@ -98,7 +98,7 @@ class _TMDBFavoritePageState extends State<TMDBFavoritePage> {
                 maxLines: 2,
               ),
               leading: CircleAvatar(
-                backgroundImage: NetworkImageWithRetry(movies![index].getPoster()),
+                backgroundImage: NetworkImage(movies![index].getPoster()),
               ),
             );
           }

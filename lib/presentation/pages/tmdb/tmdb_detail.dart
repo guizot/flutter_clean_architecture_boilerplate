@@ -7,6 +7,7 @@ import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/utils/color_utils.dart';
+import '../../core/utils/platform_utils.dart';
 import '../../core/utils/string_utils.dart';
 import 'dart:io' show Platform;
 import 'cubit/tmdb_cubit.dart';
@@ -174,6 +175,32 @@ class _TMDBDetailPageState extends State<TMDBDetailPage> {
     );
   }
 
+  bool isCenterTitle() {
+    if(PlatformUtils.isWeb) {
+      return true;
+    } else {
+      if(Platform.isIOS) {
+        return true;
+      } else if(Platform.isAndroid) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  EdgeInsets? isTitlePadding() {
+    if(PlatformUtils.isWeb) {
+      return const EdgeInsets.symmetric(vertical: 16);
+    } else {
+      if(Platform.isIOS) {
+        return const EdgeInsets.symmetric(vertical: 16);
+      } else if(Platform.isAndroid) {
+        return null;
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<ThemeService, LanguageService> (
@@ -198,8 +225,8 @@ class _TMDBDetailPageState extends State<TMDBDetailPage> {
                             fit: BoxFit.cover,
                           )
                         : Container(),
-                    centerTitle: Platform.isIOS ? true : false,
-                    titlePadding: Platform.isIOS ? const EdgeInsets.symmetric(vertical: 16) : null,
+                    centerTitle: isCenterTitle(),
+                    titlePadding: isTitlePadding(),
                   ),
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                   actions: [
