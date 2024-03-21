@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import 'package:flutter_image/network.dart';
 import '../../core/constant/routes_values.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
