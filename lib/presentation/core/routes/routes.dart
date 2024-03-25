@@ -4,6 +4,7 @@ import 'package:flutter_clean_architecture/presentation/pages/github/github_favo
 import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
+import '../../pages/screen/screen.dart';
 import '../../pages/tmdb/tmdb_detail.dart';
 import '../../pages/tmdb/tmdb_favorite.dart';
 import '../../pages/tmdb/tmdb_list.dart';
@@ -31,6 +32,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => TMDBDetailWrapperProvider(id: id));
       case RoutesValues.tmdbFavorite:
         return MaterialPageRoute(builder: (_) => const TMDBFavoriteWrapperProvider());
+      case RoutesValues.screen:
+        return MaterialPageRoute(builder: (_) => const ScreenWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

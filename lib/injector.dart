@@ -11,7 +11,9 @@ import 'package:flutter_clean_architecture/domain/repositories/home_repo.dart';
 import 'package:flutter_clean_architecture/domain/repositories/tmdb_repo.dart';
 import 'package:flutter_clean_architecture/domain/usecases/home_usecases.dart';
 import 'package:flutter_clean_architecture/domain/usecases/tmdb_usecases.dart';
+import 'package:flutter_clean_architecture/presentation/core/services/font_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/core/services/screen_size_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/cubit/github_cubit.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
@@ -28,51 +30,59 @@ final sl = GetIt.I;
 Future<void> init() async {
 
   /// SERVICES
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => ThemeService(
       sharedPreferenceDataSource: sl(),
     ),
   );
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => LanguageService(
       sharedPreferenceDataSource: sl(),
     ),
   );
+  sl.registerLazySingleton(
+    () => FontService(
+      sharedPreferenceDataSource: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => ScreenSizeService(),
+  );
 
   /// PRESENTATION LAYER
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => HomeCubit(
       homeUseCases: sl()
     ),
   );
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => GithubCubit(
       githubUseCases: sl()
     ),
   );
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => TMDBCubit(
       tmdbUseCases: sl()
     ),
   );
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => SettingCubit(
       sharedPreferenceDataSource: sl()
     ),
   );
 
   /// DOMAIN LAYER
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => HomeUseCases(
       homeRepo: sl(),
     ),
   );
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => GithubUseCases(
       githubRepo: sl(),
     ),
   );
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => TMDBUseCases(
       tmdbRepo: sl(),
     ),
@@ -118,7 +128,7 @@ Future<void> init() async {
   /// MAIN INJECTOR & EXTERNAL LIBRARY
   sl.registerLazySingleton(() => SharedPreferenceDataSource());
   sl.registerLazySingleton(() => HiveDataSource());
-  sl.registerFactory(() => SqliteDataSource());
+  sl.registerLazySingleton(() => SqliteDataSource());
   // sl.registerFactory<Dio>(() {
   //   final dio = Dio();
     // dio.interceptors.add(PrettyDioLogger(

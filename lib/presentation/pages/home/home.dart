@@ -178,10 +178,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme
-                  .of(context)
-                  .colorScheme
-                  .inversePrimary,
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(widget.title),
               actions: [
                 Padding(
@@ -220,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 16), // Add some spacing between ListTiles
+                  const SizedBox(height: 16),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
@@ -238,6 +235,27 @@ class _HomePageState extends State<HomePage> {
                       trailing: const Icon(Icons.arrow_forward),
                       onTap: () {
                         Navigator.pushNamed(context, RoutesValues.tmdbList);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
+                      border: Border.all(color: Colors.grey), // Add border color
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        "Screen Size",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                        ),
+                      ),
+                      subtitle: const Text("responsive ui screen size implementation"),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesValues.screen);
                       },
                     ),
                   ),

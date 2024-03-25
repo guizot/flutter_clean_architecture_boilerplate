@@ -90,6 +90,9 @@ class ThemeService extends ChangeNotifier {
       chipTheme: ChipThemeData(
         selectedColor: ColorUtils().getMaterialColor(colorTheme).shade500
       ),
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(fontFamily: '')
+      )
     );
   }
 

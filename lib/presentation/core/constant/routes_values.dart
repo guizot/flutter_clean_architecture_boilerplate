@@ -9,5 +9,6 @@ class RoutesValues {
   static const String tmdbList = '/tmdb-list';
   static const String tmdbDetail = '/tmdb-detail';
   static const String tmdbFavorite = '/tmdb-favorite';
+  static const String screen = '/screen';
 
 }

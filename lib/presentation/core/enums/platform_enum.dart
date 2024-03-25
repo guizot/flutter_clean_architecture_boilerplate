@@ -1,4 +1,4 @@
-enum IsPlatform {
+enum PlatformEnum {
   desktop,
   ios,
   android,
