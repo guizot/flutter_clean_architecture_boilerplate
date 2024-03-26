@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/language_service_values.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import '../../../data/utils/constant/shared_preferences_values.dart';
+import '../../../data/core/constant/shared_preferences_values.dart';
 import 'package:flutter/cupertino.dart';
 import '../languages/language_delegation.dart';
 

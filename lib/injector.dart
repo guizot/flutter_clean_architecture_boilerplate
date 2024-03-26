@@ -5,7 +5,7 @@ import 'package:flutter_clean_architecture/data/data_source/remote/tmdb_data_sou
 import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
 import 'package:flutter_clean_architecture/data/repositories/github_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/repositories/home_repo_impl.dart';
-import 'package:flutter_clean_architecture/data/utils/interceptor/tmdb_interceptor.dart';
+import 'package:flutter_clean_architecture/data/core/interceptor/tmdb_interceptor.dart';
 import 'package:flutter_clean_architecture/domain/repositories/github_repo.dart';
 import 'package:flutter_clean_architecture/domain/repositories/home_repo.dart';
 import 'package:flutter_clean_architecture/domain/repositories/tmdb_repo.dart';
@@ -21,7 +21,7 @@ import 'package:flutter_clean_architecture/presentation/pages/tmdb/cubit/tmdb_cu
 import 'package:get_it/get_it.dart';
 import 'data/data_source/remote/github_data_source.dart';
 import 'data/repositories/tmdb_repo_impl.dart';
-import 'data/utils/interceptor/github_interceptor.dart';
+import 'data/core/interceptor/github_interceptor.dart';
 import 'domain/usecases/github_usecases.dart';
 
 final sl = GetIt.I;

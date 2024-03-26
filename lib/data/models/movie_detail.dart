@@ -1,4 +1,4 @@
-import '../utils/constant/const_values.dart';
+import '../core/constant/const_values.dart';
 
 class MovieDetail {
   bool? adult;

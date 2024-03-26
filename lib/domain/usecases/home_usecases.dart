@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/data/models/movie_response_wrapper.dart';
 import '../../data/models/user_response_wrapper.dart';
 import '../../data/models/user.dart';
-import '../../data/utils/resources/data_state.dart';
+import '../../data/core/resources/data_state.dart';
 import '../repositories/home_repo.dart';
 
 class HomeUseCases {

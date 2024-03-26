@@ -6,8 +6,8 @@ import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../domain/repositories/tmdb_repo.dart';
 import '../models/movie_response_wrapper.dart';
-import '../utils/constant/const_values.dart';
-import '../utils/resources/data_state.dart';
+import '../core/constant/const_values.dart';
+import '../core/resources/data_state.dart';
 
 class TMDBRepoImpl implements TMDBRepo {
 

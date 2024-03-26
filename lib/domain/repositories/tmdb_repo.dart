@@ -1,7 +1,7 @@
 import 'package:flutter_clean_architecture/data/models/movie_detail.dart';
 import 'package:flutter_clean_architecture/domain/entities/movie_tmdb.dart';
 import '../../data/models/movie_response_wrapper.dart';
-import '../../data/utils/resources/data_state.dart';
+import '../../data/core/resources/data_state.dart';
 
 abstract class TMDBRepo {
 

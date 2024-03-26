@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../utils/constant/const_values.dart';
+import '../../core/constant/const_values.dart';
 
 class SqliteDataSource {
 

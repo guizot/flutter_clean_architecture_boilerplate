@@ -1,4 +1,4 @@
-import 'package:flutter_clean_architecture/data/utils/constant/const_values.dart';
+import 'package:flutter_clean_architecture/data/core/constant/const_values.dart';
 
 class Movie {
   bool? adult;

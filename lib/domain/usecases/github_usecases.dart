@@ -2,7 +2,7 @@ import 'package:flutter_clean_architecture/data/models/user_detail.dart';
 import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
 import '../../data/models/user_response_wrapper.dart';
 import '../../data/models/user.dart';
-import '../../data/utils/resources/data_state.dart';
+import '../../data/core/resources/data_state.dart';
 import '../repositories/github_repo.dart';
 
 class GithubUseCases {

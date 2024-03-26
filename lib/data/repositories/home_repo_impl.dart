@@ -6,7 +6,7 @@ import '../../domain/repositories/home_repo.dart';
 import '../data_source/remote/github_data_source.dart';
 import '../models/user_response_wrapper.dart';
 import '../models/user.dart';
-import '../utils/resources/data_state.dart';
+import '../core/resources/data_state.dart';
 
 class HomeRepoImpl implements HomeRepo {
 

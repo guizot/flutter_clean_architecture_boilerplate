@@ -12,7 +12,7 @@ class ScreenSizeService {
   /// SCREEN CATEGORY
   ScreenEnum get screenCategory {
     double width = screenSize.width;
-    double height = screenSize.height;
+    // double height = screenSize.height;
     if (width < 320) {
       return ScreenEnum.small;
     } else if (width >= 320 && width < 360) {

@@ -1,4 +1,4 @@
-import '../../data/utils/constant/const_values.dart';
+import '../../data/core/constant/const_values.dart';
 
 class MovieTMDB {
   int? id;
