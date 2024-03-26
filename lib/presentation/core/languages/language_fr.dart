@@ -20,4 +20,7 @@ class LanguageFr extends Languages {
   @override
   String get permission => "Permission";
 
+  @override
+  String get fonts => "Polices";
+
 }

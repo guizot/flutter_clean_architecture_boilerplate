@@ -50,22 +50,22 @@ Future<void> init() async {
   );
 
   /// PRESENTATION LAYER
-  sl.registerLazySingleton(
+  sl.registerFactory(
     () => HomeCubit(
       homeUseCases: sl()
     ),
   );
-  sl.registerLazySingleton(
+  sl.registerFactory(
     () => GithubCubit(
       githubUseCases: sl()
     ),
   );
-  sl.registerLazySingleton(
+  sl.registerFactory(
     () => TMDBCubit(
       tmdbUseCases: sl()
     ),
   );
-  sl.registerLazySingleton(
+  sl.registerFactory(
     () => SettingCubit(
       sharedPreferenceDataSource: sl()
     ),

@@ -172,6 +172,30 @@ class _SettingPageState extends State<SettingPage> {
                     )
                   ),
                   itemSetting(
+                    Languages.of(context)!.fonts,
+                    Wrap(
+                        spacing: 10,
+                        runSpacing: 0,
+                        children: List.generate(ThemeServiceValues.fontString.length, (index) {
+                          return FilterChip(
+                            label: Text(ThemeServiceValues.fontString[index]),
+                            backgroundColor: Theme.of(context).highlightColor,
+                            onSelected: (bool value) {
+                              BlocProvider.of<SettingCubit>(context).toggleFont(themeService, ThemeServiceValues.fontString[index]);
+                            },
+                            selected: themeService.fontFamily == ThemeServiceValues.fontString[index] ? true : false,
+                            side: const BorderSide(
+                                style: BorderStyle.none
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24)
+                            ),
+                          );
+                        }
+                        )
+                    )
+                  ),
+                  itemSetting(
                     Languages.of(context)!.permission,
                     Wrap(
                         spacing: 10,

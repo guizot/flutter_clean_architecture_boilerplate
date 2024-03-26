@@ -21,6 +21,11 @@ class SettingCubit extends Cubit<SettingCubitState> {
     notifier.colorSeed = color;
   }
 
+  /// TOGGLE FONT
+  void toggleFont(ThemeService notifier, String font) {
+    notifier.fontFamily = font;
+  }
+
   /// TOGGLE LANGUAGE
   void toggleLanguage(LanguageService notifier, String language) {
     notifier.language = language;

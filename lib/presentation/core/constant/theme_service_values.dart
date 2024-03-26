@@ -41,4 +41,16 @@ class ThemeServiceValues {
     Colors.yellow
   ];
 
+  /// FONT STRING CONSTANTS:
+  static const String fontNone = 'None';
+  static const String fontPoppins = 'Poppins';
+  static const String fontPlayfairDisplay = 'Playfair Display';
+
+  /// TO ADD NEW FONT:
+  static const List<String> fontString = [
+    fontNone,
+    fontPoppins,
+    fontPlayfairDisplay,
+  ];
+
 }

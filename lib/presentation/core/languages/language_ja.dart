@@ -18,6 +18,9 @@ class LanguageJa extends Languages {
   String get language => "言語";
 
   @override
-  String get permission => "Permission";
+  String get permission => "許可";
+
+  @override
+  String get fonts => "フォント";
 
 }

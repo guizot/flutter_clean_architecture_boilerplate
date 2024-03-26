@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                         "Github List",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                          color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700,
                         ),
                       ),
                       subtitle: const Text("list of favorite github users using dio, retrofit & hive"),

@@ -17,4 +17,6 @@ abstract class Languages {
 
   String get permission;
 
+  String get fonts;
+
 }

@@ -18,6 +18,9 @@ class LanguageKo extends Languages {
   String get language => "언어";
 
   @override
-  String get permission => "Permission";
+  String get permission => "허가";
+
+  @override
+  String get fonts => "글꼴";
 
 }

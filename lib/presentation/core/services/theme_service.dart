@@ -10,6 +10,7 @@ class ThemeService extends ChangeNotifier {
   ThemeService({required this.sharedPreferenceDataSource}) {
     _themeMode = ThemeServiceValues.system;
     _colorSeed = ThemeServiceValues.colorBlue;
+    _fontFamily = ThemeServiceValues.fontNone;
     getPreferences();
   }
 
@@ -31,6 +32,15 @@ class ThemeService extends ChangeNotifier {
     notifyListeners();
   }
 
+  late String _fontFamily;
+  String get fontFamily => _fontFamily;
+
+  set fontFamily(String value) {
+    _fontFamily = value;
+    sharedPreferenceDataSource.setString(SharedPreferencesValues.currentFont, value);
+    notifyListeners();
+  }
+
   getPreferences() async {
     _themeMode = await sharedPreferenceDataSource.getString(SharedPreferencesValues.currentTheme);
     if(_themeMode == "") {
@@ -39,6 +49,10 @@ class ThemeService extends ChangeNotifier {
     _colorSeed = await sharedPreferenceDataSource.getString(SharedPreferencesValues.currentColor);
     if(_colorSeed == "") {
       colorSeed = ThemeServiceValues.colorBlue;
+    }
+    _fontFamily = await sharedPreferenceDataSource.getString(SharedPreferencesValues.currentFont);
+    if(_fontFamily == "") {
+      fontFamily = ThemeServiceValues.fontNone;
     }
     notifyListeners();
   }
@@ -56,7 +70,7 @@ class ThemeService extends ChangeNotifier {
     }
   }
 
-  ThemeData currentThemeColor(String brightness) {
+  ThemeData currentThemeData(String brightness) {
     Map<String, ThemeData> themeObject = {};
     for (int i = 0; i < ThemeServiceValues.colorString.length; i++) {
       themeObject[ThemeServiceValues.colorString[i]] = getThemeData(brightness, ThemeServiceValues.colorString[i]);
@@ -91,8 +105,11 @@ class ThemeService extends ChangeNotifier {
         selectedColor: ColorUtils().getMaterialColor(colorTheme).shade500
       ),
       // textTheme: const TextTheme(
-      //   bodyLarge: TextStyle(fontFamily: '')
-      // )
+      //   bodyLarge: TextStyle(fontFamily: 'Poppins'),
+      //   bodyMedium: TextStyle(fontFamily: 'Poppins'),
+      //   bodySmall: TextStyle(fontFamily: 'Poppins'),
+      // ),
+      fontFamily: fontFamily
     );
   }
 

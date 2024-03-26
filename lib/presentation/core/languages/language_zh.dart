@@ -18,6 +18,9 @@ class LanguageZh extends Languages {
   String get language => "语言";
 
   @override
-  String get permission => "Permission";
+  String get permission => "允许";
+
+  @override
+  String get fonts => "字体";
 
 }
