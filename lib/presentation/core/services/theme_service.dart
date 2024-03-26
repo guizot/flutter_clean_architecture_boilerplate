@@ -57,7 +57,7 @@ class ThemeService extends ChangeNotifier {
     notifyListeners();
   }
 
-  ThemeMode currentThemeMode() {
+  ThemeMode get currentThemeMode {
     switch(themeMode) {
       case ThemeServiceValues.light:
         return ThemeMode.light;
@@ -104,11 +104,6 @@ class ThemeService extends ChangeNotifier {
       chipTheme: ChipThemeData(
         selectedColor: ColorUtils().getMaterialColor(colorTheme).shade500
       ),
-      // textTheme: const TextTheme(
-      //   bodyLarge: TextStyle(fontFamily: 'Poppins'),
-      //   bodyMedium: TextStyle(fontFamily: 'Poppins'),
-      //   bodySmall: TextStyle(fontFamily: 'Poppins'),
-      // ),
       fontFamily: fontFamily
     );
   }

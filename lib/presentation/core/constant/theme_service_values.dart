@@ -44,13 +44,17 @@ class ThemeServiceValues {
   /// FONT STRING CONSTANTS:
   static const String fontNone = 'None';
   static const String fontPoppins = 'Poppins';
-  static const String fontPlayfairDisplay = 'Playfair Display';
+  static const String fontCormorantGaramond = 'Cormorant Garamond';
+  static const String fontOutfit = 'Outfit';
+  static const String fontRaleway = 'Raleway';
 
   /// TO ADD NEW FONT:
   static const List<String> fontString = [
     fontNone,
     fontPoppins,
-    fontPlayfairDisplay,
+    fontCormorantGaramond,
+    fontOutfit,
+    fontRaleway
   ];
 
 }

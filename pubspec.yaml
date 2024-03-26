@@ -97,20 +97,45 @@ flutter:
          weight: 700
        - asset: assets/fonts/poppins/Poppins-ExtraBold.otf
          weight: 800
-   - family: Playfair Display
+   - family: Cormorant Garamond
      fonts:
-       - asset: assets/fonts/playfair/PlayfairDisplay-Regular.ttf
+       - asset: assets/fonts/garamond/CormorantGaramond-Regular.ttf
          weight: 400
-       - asset: assets/fonts/playfair/PlayfairDisplay-Italic.ttf
+       - asset: assets/fonts/garamond/CormorantGaramond-Italic.ttf
          weight: 400
          style: italic
-       - asset: assets/fonts/playfair/PlayfairDisplay-Medium.ttf
+       - asset: assets/fonts/garamond/CormorantGaramond-Medium.ttf
          weight: 500
-       - asset: assets/fonts/playfair/PlayfairDisplay-SemiBold.ttf
+       - asset: assets/fonts/garamond/CormorantGaramond-SemiBold.ttf
          weight: 600
-       - asset: assets/fonts/playfair/PlayfairDisplay-Bold.ttf
+       - asset: assets/fonts/garamond/CormorantGaramond-Bold.ttf
          weight: 700
-       - asset: assets/fonts/playfair/PlayfairDisplay-ExtraBold.ttf
+   - family: Outfit
+     fonts:
+       - asset: assets/fonts/outfit/Outfit-Regular.ttf
+         weight: 400
+       - asset: assets/fonts/outfit/Outfit-Medium.ttf
+         weight: 500
+       - asset: assets/fonts/outfit/Outfit-SemiBold.ttf
+         weight: 600
+       - asset: assets/fonts/outfit/Outfit-Bold.ttf
+         weight: 700
+       - asset: assets/fonts/outfit/Outfit-ExtraBold.ttf
+         weight: 800
+   - family: Raleway
+     fonts:
+       - asset: assets/fonts/raleway/Raleway-Regular.ttf
+         weight: 400
+       - asset: assets/fonts/raleway/Raleway-Italic.ttf
+         weight: 400
+         style: italic
+       - asset: assets/fonts/raleway/Raleway-Medium.ttf
+         weight: 500
+       - asset: assets/fonts/raleway/Raleway-SemiBold.ttf
+         weight: 600
+       - asset: assets/fonts/raleway/Raleway-Bold.ttf
+         weight: 700
+       - asset: assets/fonts/raleway/Raleway-ExtraBold.ttf
          weight: 800
 
 flutter_native_splash:

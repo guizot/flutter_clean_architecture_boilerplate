@@ -46,7 +46,7 @@ class MainApp extends StatelessWidget {
             onGenerateRoute: Routes.generate,
             theme: themeService.currentThemeData(ThemeServiceValues.light),
             darkTheme: themeService.currentThemeData(ThemeServiceValues.dark),
-            themeMode: themeService.currentThemeMode(),
+            themeMode: themeService.currentThemeMode,
             locale: languageService.currentLanguage,
             supportedLocales: languageService.supportedLocales,
             localizationsDelegates: languageService.localizationsDelegates,
