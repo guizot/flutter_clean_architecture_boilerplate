@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../data/models/user.dart';
@@ -7,7 +8,6 @@ import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
-import '../../core/utils/color_utils.dart';
 import 'cubit/github_cubit.dart';
 import 'dart:async';
 
@@ -172,7 +172,7 @@ class _GithubListPageState extends State<GithubListPage> {
                           '${item.login}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                              color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
                           ),
                         ),
                         subtitle: Text(

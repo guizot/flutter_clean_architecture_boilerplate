@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
-import '../../core/utils/color_utils.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
@@ -29,148 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  // List<User>? gitUsers;
-  // List<Movie>? movies;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // BlocProvider.of<HomeCubit>(context).getData();
-  //   // getPopularGithubUser();
-  //   getMovieTrending();
-  // }
-  //
-  // void getPopularGithubUser() async {
-  //   List<User>? lists = await BlocProvider.of<HomeCubit>(context).searchUser("");
-  //   setState(()  {
-  //     gitUsers = lists;
-  //   });
-  // }
-  //
-  // void getMovieTrending() async {
-  //   List<Movie>? lists = await BlocProvider.of<HomeCubit>(context).getMovieTrending("day");
-  //   setState(()  {
-  //     movies = lists;
-  //   });
-  // }
-  //
-  // Widget contentLoaded() {
-  //   return SingleChildScrollView(
-  //     padding: const EdgeInsets.all(24),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           Languages.of(context)!.title,
-  //           style: const TextStyle(
-  //               fontSize: 20,
-  //               fontWeight: FontWeight.bold
-  //           ),
-  //         ),
-  //         const SizedBox(
-  //           height: 16,
-  //         ),
-  //         Text(
-  //           Languages.of(context)!.description,
-  //           style: const TextStyle(
-  //               height: 1.5
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
-  // Widget loadData(BuildContext context, HomeCubitState state) {
-  //   if (state is HomeInitial) {
-  //     return Container();
-  //   }
-  //   else if (state is HomeStateLoading) {
-  //     return const Center(
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: [
-  //           CircularProgressIndicator(),
-  //           SizedBox(height: 16),
-  //           Text('Loading..')
-  //         ],
-  //       ),
-  //     );
-  //   }
-  //   else if (state is HomeStateLoaded) {
-  //     return contentLoaded();
-  //   }
-  //   else if (state is HomeStateError) {
-  //     return const Center(
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: [
-  //           Text('Error')
-  //         ],
-  //       ),
-  //     );
-  //   }
-  //   return Container();
-  // }
-  //
-  // Widget loadList(BuildContext context, HomeCubitState state) {
-  //   if (state is HomeInitial) {
-  //     return Container();
-  //   }
-  //   else if (state is HomeStateLoading) {
-  //     return const Center(
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: [
-  //           CircularProgressIndicator(),
-  //           SizedBox(height: 16),
-  //           Text('Loading..')
-  //         ],
-  //       ),
-  //     );
-  //   }
-  //   else if (state is HomeStateLoaded) {
-  //     return ListView.builder(
-  //         padding: const EdgeInsets.all(8),
-  //         itemCount: movies != null ? movies!.length : 0 ,
-  //         itemBuilder: (BuildContext context, int index) {
-  //           return ListTile(
-  //             title: Text(
-  //               '${movies![index].title}',
-  //               style: TextStyle(
-  //                 fontWeight: FontWeight.bold,
-  //                 color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
-  //               ),
-  //             ),
-  //             subtitle: Text(
-  //               '${movies![index].overview}',
-  //               overflow: TextOverflow.ellipsis,
-  //               maxLines: 2,
-  //             ),
-  //             leading: CircleAvatar(
-  //               backgroundImage: NetworkImageWithRetry(movies![index].getPoster()),
-  //             ),
-  //           );
-  //         }
-  //     );
-  //   }
-  //   else if (state is HomeStateError) {
-  //     return Center(
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(24),
-  //         child: Text(
-  //           state.message,
-  //           textAlign: TextAlign.center,
-  //         ),
-  //       )
-  //     );
-  //   }
-  //   return Container();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                         "Github List",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700,
+                          color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700,
                         ),
                       ),
                       subtitle: const Text("list of favorite github users using dio, retrofit & hive"),
@@ -228,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                         "TMDB List",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                          color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
                         ),
                       ),
                       subtitle: const Text("list of trending movies using dio, retrofit & sqlite"),
@@ -249,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                         "Screen Size",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade700
+                            color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
                         ),
                       ),
                       subtitle: const Text("responsive ui screen size implementation"),
@@ -262,16 +120,6 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             )
-            // body: BlocBuilder<HomeCubit, HomeCubitState>(
-            //   builder: (context, state) {
-            //     return loadList(context, state);
-            //   },
-            // )
-            // body: BlocBuilder<HomeCubit, HomeCubitState>(
-            //   builder: (context, state) {
-            //     return loadData(context, state);
-            //   },
-            // )
           );
         }
     );

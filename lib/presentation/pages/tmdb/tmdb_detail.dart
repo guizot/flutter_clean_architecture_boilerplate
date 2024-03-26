@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/movie_detail.dart';
+import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import '../../../domain/entities/movie_tmdb.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
-import '../../core/utils/color_utils.dart';
 import '../../core/utils/platform_utils.dart';
 import '../../core/utils/string_utils.dart';
 import 'dart:io' show Platform;
@@ -99,7 +99,7 @@ class _TMDBDetailPageState extends State<TMDBDetailPage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-                  color: ColorUtils().getMaterialColor(Theme.of(context).colorScheme.primary).shade800
+                  color: Theme.of(context).colorScheme.primary.toMaterialColor().shade800
                 ),
               ),
               const SizedBox(height: 4),
