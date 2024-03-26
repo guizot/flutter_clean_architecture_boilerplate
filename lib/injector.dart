@@ -11,7 +11,6 @@ import 'package:flutter_clean_architecture/domain/repositories/home_repo.dart';
 import 'package:flutter_clean_architecture/domain/repositories/tmdb_repo.dart';
 import 'package:flutter_clean_architecture/domain/usecases/home_usecases.dart';
 import 'package:flutter_clean_architecture/domain/usecases/tmdb_usecases.dart';
-import 'package:flutter_clean_architecture/presentation/core/services/font_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/screen_size_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
@@ -37,11 +36,6 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => LanguageService(
-      sharedPreferenceDataSource: sl(),
-    ),
-  );
-  sl.registerLazySingleton(
-    () => FontService(
       sharedPreferenceDataSource: sl(),
     ),
   );

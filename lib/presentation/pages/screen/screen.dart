@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/mixins/logger_mixin.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
 import '../../core/services/screen_size_service.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
-import '../../core/constant/routes_values.dart';
 import '../../core/utils/color_utils.dart';
 import 'cubit/screen_cubit.dart';
 
