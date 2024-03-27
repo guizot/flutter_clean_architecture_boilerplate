@@ -82,35 +82,31 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            body: Column(
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: lists.length,
-                  padding: const EdgeInsets.all(16.0),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 16.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
-                        border: Border.all(color: Colors.grey), // Add border color
+            body: ListView.builder(
+              shrinkWrap: true,
+              itemCount: lists.length,
+              padding: const EdgeInsets.all(16.0),
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
+                    border: Border.all(color: Colors.grey), // Add border color
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      lists[index]["title"],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700,
                       ),
-                      child: ListTile(
-                        title: Text(
-                          lists[index]["title"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700,
-                          ),
-                        ),
-                        subtitle: Text(lists[index]["subtitle"]),
-                        trailing: const Icon(Icons.arrow_forward),
-                        onTap: () => lists[index]["tap"](context),
-                      ),
-                    );
-                  },
-                )
-              ],
+                    ),
+                    subtitle: Text(lists[index]["subtitle"]),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () => lists[index]["tap"](context),
+                  ),
+                );
+              },
             )
           );
         }
