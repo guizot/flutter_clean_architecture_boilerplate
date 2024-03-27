@@ -29,38 +29,94 @@ class ImagePage extends StatefulWidget {
 
 class _ImagePageState extends State<ImagePage> {
 
-  List<Map<String, dynamic>> extLists = [
+  List<Map<String, dynamic>> extensionLists = [
     {
       "title": "Grayscale",
-      "method": (Image image) => image.toGrayscale(),
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.toGrayscale();
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
     {
       "title": "Sepia",
-      "method": (Image image) => image.toSepia(),
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.toSepia();
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
     {
-      "title": "Invert Color",
-      "method": (Image image) => image.invertColors(),
+      "title": "Inverted Color",
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.invertColors();
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
     {
       "title": "Brightness",
-      "method": (Image image) => image.adjustBrightness(3.0),
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.adjustBrightness(2.0);
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
     {
       "title": "Blur Image",
-      "method": (Image image) => image.blurImage(5.0, 5.0),
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.blurImage(5.0, 5.0);
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
     {
       "title": "Color Overlay",
-      "method": (Image image) => image.colorOverlay(Colors.blue),
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.colorOverlay(Colors.blue);
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
     {
       "title": "Mirror Image",
-      "method": (Image image) => image.mirrorImage(Axis.horizontal),
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.mirrorImage(Axis.horizontal);
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
     {
       "title": "Exposure",
-      "method": (Image image) => image.adjustExposure(0.3),
+      "method": (Image image, bool isApplied) {
+        if(isApplied) {
+          return image.adjustExposure(0.3);
+        } else {
+          return image;
+        }
+      },
+      "applied": true
     },
   ];
 
@@ -74,7 +130,7 @@ class _ImagePageState extends State<ImagePage> {
               title: Text(widget.title),
             ),
             body: ListView.builder(
-              itemCount: extLists.length,
+              itemCount: extensionLists.length,
               shrinkWrap: true,
               padding: const EdgeInsets.all(16.0),
               itemBuilder: (context, index) {
@@ -83,27 +139,51 @@ class _ImagePageState extends State<ImagePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      extLists[index]["title"],
+                      extensionLists[index]["title"],
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16
+                        fontSize: 18
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Container(
-                      height: 120,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.0),
-                        child: extLists[index]["method"](Image.network(
-                          'https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2023/09/getty_creative.jpeg.jpg',
-                          fit: BoxFit.cover, // Adjust the fit property
-                        )),
-                      ),
+                    const SizedBox(height: 8),
+                    Stack(
+                      children: [
+                        Container(
+                          height: 200,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: extensionLists[index]["method"](
+                              Image.network(
+                                'https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2023/09/getty_creative.jpeg.jpg',
+                                fit: BoxFit.cover, // Adjust the fit property
+                              ),
+                              extensionLists[index]["applied"]
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            child: Switch(
+                              value: extensionLists[index]["applied"],
+                              onChanged: (value) {
+                                setState(() {
+                                  extensionLists[index]["applied"] = value;
+                                });
+                              },
+                              activeColor: Colors.white,
+                              activeTrackColor: Theme.of(context).colorScheme.inversePrimary
+                            )
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16)
                   ],
