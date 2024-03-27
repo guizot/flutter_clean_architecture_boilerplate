@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 extension ColorExtension on Color {
 
+  /// Convert Color to Material Color
   MaterialColor toMaterialColor() {
     Map<int, Color> colorShades = {
       50: withOpacity(0.1),

@@ -10,5 +10,6 @@ class RoutesValues {
   static const String tmdbDetail = '/tmdb-detail';
   static const String tmdbFavorite = '/tmdb-favorite';
   static const String screen = '/screen';
+  static const String image = '/image';
 
 }

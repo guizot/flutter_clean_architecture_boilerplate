@@ -16,7 +16,7 @@ class ScreenWrapperProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<ScreenCubit>(),
-      child: const ScreenPage(title: "Screen Page"),
+      child: const ScreenPage(title: "Screen Size"),
     );
   }
 }

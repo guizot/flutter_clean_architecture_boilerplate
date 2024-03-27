@@ -30,6 +30,37 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  List<Map<String, dynamic>> lists = [
+    {
+      "title": "Github List",
+      "subtitle": "list of favorite github users using dio, retrofit & hive",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.githubList);
+      }
+    },
+    {
+      "title": "TMDB List",
+      "subtitle": "list of trending movies using dio, retrofit & sqlite",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.tmdbList);
+      }
+    },
+    {
+      "title": "Screen Size",
+      "subtitle": "responsive ui screen size implementation",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.screen);
+      }
+    },
+    {
+      "title": "Image Extension",
+      "subtitle": "image manipulation implementation",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.image);
+      }
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<ThemeService, LanguageService> (
@@ -51,74 +82,35 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
-                      border: Border.all(color: Colors.grey), // Add border color
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        "Github List",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700,
-                        ),
+            body: Column(
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: lists.length,
+                  padding: const EdgeInsets.all(16.0),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
+                        border: Border.all(color: Colors.grey), // Add border color
                       ),
-                      subtitle: const Text("list of favorite github users using dio, retrofit & hive"),
-                      trailing: const Icon(Icons.arrow_forward),
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutesValues.githubList);
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
-                      border: Border.all(color: Colors.grey), // Add border color
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        "TMDB List",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
-                        ),
-                      ),
-                      subtitle: const Text("list of trending movies using dio, retrofit & sqlite"),
-                      trailing: const Icon(Icons.arrow_forward),
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutesValues.tmdbList);
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
-                      border: Border.all(color: Colors.grey), // Add border color
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        "Screen Size",
-                        style: TextStyle(
+                      child: ListTile(
+                        title: Text(
+                          lists[index]["title"],
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
+                            color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700,
+                          ),
                         ),
+                        subtitle: Text(lists[index]["subtitle"]),
+                        trailing: const Icon(Icons.arrow_forward),
+                        onTap: () => lists[index]["tap"](context),
                       ),
-                      subtitle: const Text("responsive ui screen size implementation"),
-                      trailing: const Icon(Icons.arrow_forward),
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutesValues.screen);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                    );
+                  },
+                )
+              ],
             )
           );
         }
