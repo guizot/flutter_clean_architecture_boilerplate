@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/movie.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
@@ -9,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
 import 'dart:async';
-
 import 'cubit/tmdb_cubit.dart';
 
 class TMDBListWrapperProvider extends StatelessWidget {
@@ -35,11 +35,20 @@ class TMDBListPage extends StatefulWidget {
 class _TMDBListPageState extends State<TMDBListPage> {
 
   final PagingController<int, Movie> pagingController = PagingController(firstPageKey: 1);
+  final ScrollController scrollController = ScrollController();
+  bool isVisible = true;
 
   @override
   void initState() {
     pagingController.addPageRequestListener((pageKey) {
       fetchData(pageKey);
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+        if (isVisible) setState(() => isVisible = false);
+      } else {
+        if (!isVisible) setState(() => isVisible = true);
+      }
     });
     super.initState();
   }
@@ -64,6 +73,7 @@ class _TMDBListPageState extends State<TMDBListPage> {
   @override
   void dispose() {
     pagingController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -89,45 +99,56 @@ class _TMDBListPageState extends State<TMDBListPage> {
                   )
                 ],
               ),
-              body: RefreshIndicator(
-                onRefresh: () => Future.sync(
-                      () => pagingController.refresh(),
-                ),
-                child: PagedListView<int, Movie>(
-                  pagingController: pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<Movie>(
-                    itemBuilder: (context, item, index) {
-                      return ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(context, RoutesValues.tmdbDetail, arguments: item.id);
+              body: Stack(
+                children: [
+                  RefreshIndicator(
+                    onRefresh: () => Future.sync(
+                          () => pagingController.refresh(),
+                    ),
+                    child: PagedListView<int, Movie>(
+                      padding: const EdgeInsets.only(top: 60.0),
+                      scrollController: scrollController,
+                      pagingController: pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Movie>(
+                        itemBuilder: (context, item, index) {
+                          return ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(context, RoutesValues.tmdbDetail, arguments: item.id);
+                            },
+                            title: Text(
+                              '${item.title}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
+                              ),
+                            ),
+                            subtitle: Text(
+                              '${item.overview}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(item.getPoster()),
+                            ),
+                          );
                         },
-                        title: Text(
-                          '${item.title}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
-                          ),
-                        ),
-                        subtitle: Text(
-                          '${item.overview}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(item.getPoster()),
-                        ),
-                      );
-                    },
-                    // firstPageErrorIndicatorBuilder: (context) {
-                    //   return TextButton(onPressed: () => pagingController.retryLastFailedRequest(), child: const Text("Reload First Data"));
-                    // }
-                    // newPageErrorIndicatorBuilder: (context) {
-                    //   return TextButton(onPressed: () => pagingController.retryLastFailedRequest(), child:  const Text("Reload New Data"));
-                    // }
+                      ),
+                    ),
                   ),
-                )
+                  AnimatedOpacity(
+                    opacity: isVisible ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Container(
+                      height: 60.0,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: const Text('I appear when you scroll up!'),
+                    ),
+                  ),
+                ],
               )
           );
         }
