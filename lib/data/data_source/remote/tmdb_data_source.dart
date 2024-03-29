@@ -16,6 +16,11 @@ abstract class TMDBDataSource {
     @Queries() required Map<String, dynamic> queries
   });
 
+  @GET('search/movie')
+  Future<HttpResponse<MovieResponseWrapper>> searchMovie({
+    @Queries() required Map<String, dynamic> queries
+  });
+
   @GET('movie/{movieId}')
   Future<HttpResponse<MovieDetail>> detailMovie({
     @Path("movieId") required int movieId

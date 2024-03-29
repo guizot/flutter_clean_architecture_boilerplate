@@ -12,7 +12,13 @@ class TMDBUseCases {
 
   /// REGION: REMOTE DATA SOURCE
   Future<DataState<MovieResponseWrapper>> getMovieTrending(String time, Map<String, dynamic> movieQuery) async {
+    // space for business logic (before return / before send)
     return tmdbRepo.getMovieTrending(time, movieQuery);
+  }
+
+  Future<DataState<MovieResponseWrapper>> searchMovie(Map<String, dynamic> movieQuery) async {
+    // space for business logic (before return / before send)
+    return tmdbRepo.searchMovie(movieQuery);
   }
 
   Future<DataState<MovieDetail>> detailMovie(int movieId) async {

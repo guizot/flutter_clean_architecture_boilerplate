@@ -1,9 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/data/models/movie.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/core/utils/date_time_utils.dart';
+import 'package:glass/glass.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -37,11 +40,24 @@ class _TMDBListPageState extends State<TMDBListPage> {
   final PagingController<int, Movie> pagingController = PagingController(firstPageKey: 1);
   final ScrollController scrollController = ScrollController();
   bool isVisible = true;
+  bool isTop = true;
+
+  final TextEditingController searchController = TextEditingController();
+  List<String> years = DateTimeUtils().generatePastYearsList(40);
+  String? selectedYears;
+  String? selectedQuery;
+
+  Timer? debounceController;
+  bool get isSearch => (selectedYears != null && selectedYears != "" || selectedQuery != null && selectedQuery != "");
 
   @override
   void initState() {
     pagingController.addPageRequestListener((pageKey) {
-      fetchData(pageKey);
+      if(!isSearch) {
+        fetchData(pageKey);
+      } else {
+        refreshData(pageKey);
+      }
     });
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
@@ -49,21 +65,50 @@ class _TMDBListPageState extends State<TMDBListPage> {
       } else {
         if (!isVisible) setState(() => isVisible = true);
       }
+      if(scrollController.position.pixels != 0) {
+        if (isTop) setState(() => isTop = false);
+      } else {
+        if (!isTop) setState(() => isTop = true);
+      }
     });
     super.initState();
   }
 
   Future<void> fetchData(int pageKey) async {
     try {
-      Map<String, dynamic> movieQuery = {
-        'page': pageKey
-      };
-      final newItems = await BlocProvider.of<TMDBCubit>(context).getMovieTrending("day", movieQuery);
-      final nextPageKey = pageKey + 1;
-      pagingController.appendPage(newItems, nextPageKey);
+      List<Movie> newItems = [];
+      if(!isSearch) {
+        Map<String, dynamic> movieQuery = {
+          'page': pageKey
+        };
+        newItems = await BlocProvider.of<TMDBCubit>(context).getMovieTrending("day", movieQuery);
+        final nextPageKey = pageKey + 1;
+        pagingController.appendPage(newItems, nextPageKey);
+      } else {
+        Map<String, dynamic> movieQuery = {
+          'page': pageKey,
+          'primary_release_year': selectedYears,
+          'query': selectedQuery
+        };
+        newItems = await BlocProvider.of<TMDBCubit>(context).searchMovie(movieQuery);
+        final isLastPage = newItems.length < 20;
+        if (isLastPage) {
+          pagingController.appendLastPage(newItems);
+        } else {
+          final nextPageKey = pageKey + 1;
+          pagingController.appendPage(newItems, nextPageKey);
+        }
+      }
     } catch (error) {
       pagingController.error = error;
     }
+  }
+
+  Future<void> refreshData (int pageKey) async {
+    if (debounceController?.isActive ?? false) debounceController?.cancel();
+    debounceController = Timer(const Duration(milliseconds: 750), () {
+      fetchData(pageKey);
+    });
   }
 
   void favoriteList () {
@@ -74,7 +119,33 @@ class _TMDBListPageState extends State<TMDBListPage> {
   void dispose() {
     pagingController.dispose();
     scrollController.dispose();
+    searchController.dispose();
+    debounceController?.cancel();
     super.dispose();
+  }
+
+  Widget searchWrapper(Widget child) {
+    if(isTop) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.inversePrimary
+        ),
+        padding: const EdgeInsets.only(top: 0.0, bottom: 16.0, left: 16.0, right: 16.0),
+        width: double.infinity,
+        child: child
+      );
+    }
+    else {
+      return Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+          width: double.infinity,
+          child: child
+      ).asGlass(
+        blurX: 9.0,
+        blurY: 9.0,
+        tintColor: Theme.of(context).colorScheme.primary
+      );
+    }
   }
 
   @override
@@ -106,7 +177,7 @@ class _TMDBListPageState extends State<TMDBListPage> {
                           () => pagingController.refresh(),
                     ),
                     child: PagedListView<int, Movie>(
-                      padding: const EdgeInsets.only(top: 60.0),
+                      padding: const EdgeInsets.only(top: 65.0),
                       scrollController: scrollController,
                       pagingController: pagingController,
                       builderDelegate: PagedChildBuilderDelegate<Movie>(
@@ -140,16 +211,124 @@ class _TMDBListPageState extends State<TMDBListPage> {
                   AnimatedOpacity(
                     opacity: isVisible ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 300),
-                    child: Container(
-                      height: 60.0,
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: const Text('I appear when you scroll up!'),
-                    ),
+                    child: searchWrapper(
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            child: TextField(
+                              controller: searchController,
+                              cursorRadius: const Radius.circular(24),
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Theme.of(context).colorScheme.background.toMaterialColor().shade300,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                    borderSide: BorderSide.none
+                                ),
+                                hintText: 'Search..',
+                                contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                                isDense: true,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedQuery = value;
+                                });
+                                pagingController.refresh();
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.background.toMaterialColor().shade300,
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                                child: DropdownButton<String>(
+                                  value: selectedYears,
+                                  items: years.map((String animal) {
+                                    return DropdownMenuItem<String>(
+                                      value: animal,
+                                      child: Text(animal),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedYears = newValue;
+                                    });
+                                    pagingController.refresh();
+                                  },
+                                  hint: const Text('Year'),
+                                  underline: Container(),
+                                  isDense: true,
+                                  isExpanded: true,
+                                ),
+                              ),
+                            ),
+                          ),
+                          isSearch
+                          ? Row(
+                            children: [
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              Container(
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.background.toMaterialColor().shade300,
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: IconButton(
+                                  style: const ButtonStyle(
+                                    padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                                    visualDensity: VisualDensity.compact
+                                  ),
+                                  icon: const Icon(
+                                      Icons.close,
+                                      size: 26.0
+                                  ),
+                                  onPressed: (){
+                                    setState(() {
+                                      selectedYears = null;
+                                      selectedQuery = null;
+                                      searchController.clear();
+                                    });
+                                    pagingController.refresh();
+                                  },
+                                  visualDensity: VisualDensity.compact,
+                                ),
+                              ),
+                            ],
+                          )
+                          : const Row()
+                        ],
+                      )
+                    )
                   ),
                 ],
-              )
+              ),
+            floatingActionButton: FloatingActionButton(
+              shape: const CircleBorder(),
+              onPressed: () {
+                scrollController.animateTo(
+                  scrollController.position.minScrollExtent,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 500),
+                );
+              },
+              child: const Icon(
+                Icons.keyboard_arrow_up,
+                size: 26,
+              ),
+            ),
           );
         }
     );

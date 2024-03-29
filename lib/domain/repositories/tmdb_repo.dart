@@ -7,6 +7,7 @@ abstract class TMDBRepo {
 
   /// REGION: REMOTE DATA SOURCE
   Future<DataState<MovieResponseWrapper>> getMovieTrending(String time, Map<String, dynamic> movieQuery);
+  Future<DataState<MovieResponseWrapper>> searchMovie(Map<String, dynamic> movieQuery);
   Future<DataState<MovieDetail>> detailMovie(int movieId);
 
   /// REGION: LOCAL DATA SOURCE

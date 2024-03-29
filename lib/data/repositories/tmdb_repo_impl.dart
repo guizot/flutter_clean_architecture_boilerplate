@@ -40,6 +40,24 @@ class TMDBRepoImpl implements TMDBRepo {
   }
 
   @override
+  Future<DataState<MovieResponseWrapper>> searchMovie(Map<String, dynamic> movieQuery) async {
+    try {
+      final httpResponse = await tmdbDataSource.searchMovie(queries: movieQuery);
+      if (httpResponse.response.statusCode == 200) {
+        return DataSuccess(httpResponse.data);
+      }
+      return DataError(DioException(
+        error: httpResponse.response.statusMessage,
+        response: httpResponse.response,
+        requestOptions: httpResponse.response.requestOptions,
+        type: DioExceptionType.badResponse,
+      ));
+    } on DioException catch (e) {
+      return DataError(e);
+    }
+  }
+
+  @override
   Future<DataState<MovieDetail>> detailMovie(int movieId) async {
     try {
       final httpResponse = await tmdbDataSource.detailMovie(movieId: movieId);

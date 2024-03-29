@@ -23,6 +23,17 @@ class TMDBCubit extends Cubit<TMDBCubitState> {
     return List.empty();
   }
 
+  Future<List<Movie>> searchMovie(Map<String, dynamic> movieQuery) async {
+    final results = await tmdbUseCases.searchMovie(movieQuery);
+    if(results.data != null) {
+      return results.data != null ? results.data!.results! : List.empty();
+    }
+    if(results.error != null) {
+      throw Exception(results.error.toString());
+    }
+    return List.empty();
+  }
+
   Future<MovieDetail?> detailMovie(int movieId) async {
     emit(TMDBStateLoading());
     final users = await tmdbUseCases.detailMovie(movieId);
