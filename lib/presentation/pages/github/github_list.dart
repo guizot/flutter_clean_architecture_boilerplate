@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../data/models/user.dart';
 import '../../core/services/theme_service.dart';
@@ -164,25 +165,38 @@ class _GithubListPageState extends State<GithubListPage> {
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate<User>(
                     itemBuilder: (context, item, index) {
-                      return ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login);
-                        },
-                        title: Text(
-                          '${item.login}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
+                      return Slidable(
+                        key: ValueKey(index),
+                        closeOnScroll: true,
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) => Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login),
+                              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                              icon: Icons.info,
+                              label: 'Detail',
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          onTap: () => Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login),
+                          title: Text(
+                            '${item.login}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
+                            ),
                           ),
-                        ),
-                        subtitle: Text(
-                          '${item.htmlUrl}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage('${item.avatarUrl}'),
-                        ),
+                          subtitle: Text(
+                            '${item.htmlUrl}',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage('${item.avatarUrl}'),
+                          ),
+                        )
                       );
                     },
                     // firstPageErrorIndicatorBuilder: (context) {
