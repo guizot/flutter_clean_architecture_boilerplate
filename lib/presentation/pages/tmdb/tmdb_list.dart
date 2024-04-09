@@ -40,15 +40,20 @@ class _TMDBListPageState extends State<TMDBListPage> {
   final PagingController<int, Movie> pagingController = PagingController(firstPageKey: 1);
   final ScrollController scrollController = ScrollController();
   bool isVisible = true;
-  bool isTop = true;
 
   final TextEditingController searchController = TextEditingController();
   List<String> years = DateTimeUtils().generatePastYearsList(40);
   String? selectedYears;
   String? selectedQuery;
+  int pageSize = 20;
 
   Timer? debounceController;
-  bool get isSearch => (selectedYears != null && selectedYears != "" || selectedQuery != null && selectedQuery != "");
+  bool get isSearch => (
+      selectedYears != null &&
+      selectedYears != "" ||
+      selectedQuery != null &&
+      selectedQuery != ""
+  );
 
   @override
   void initState() {
@@ -62,13 +67,9 @@ class _TMDBListPageState extends State<TMDBListPage> {
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (isVisible) setState(() => isVisible = false);
-      } else {
-        if (!isVisible) setState(() => isVisible = true);
       }
-      if(scrollController.position.pixels != 0) {
-        if (isTop) setState(() => isTop = false);
-      } else {
-        if (!isTop) setState(() => isTop = true);
+      else {
+        if (!isVisible) setState(() => isVisible = true);
       }
     });
     super.initState();
@@ -91,7 +92,7 @@ class _TMDBListPageState extends State<TMDBListPage> {
           'query': selectedQuery
         };
         newItems = await BlocProvider.of<TMDBCubit>(context).searchMovie(movieQuery);
-        final isLastPage = newItems.length < 20;
+        final isLastPage = newItems.length < pageSize;
         if (isLastPage) {
           pagingController.appendLastPage(newItems);
         } else {
@@ -125,27 +126,15 @@ class _TMDBListPageState extends State<TMDBListPage> {
   }
 
   Widget searchWrapper(Widget child) {
-    if(isTop) {
-      return Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.inversePrimary
-        ),
-        padding: const EdgeInsets.only(top: 0.0, bottom: 16.0, left: 16.0, right: 16.0),
+    return Container(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         width: double.infinity,
         child: child
-      );
-    }
-    else {
-      return Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-          width: double.infinity,
-          child: child
-      ).asGlass(
-        blurX: 9.0,
-        blurY: 9.0,
+    ).asGlass(
+        blurX: 10.0,
+        blurY: 10.0,
         tintColor: Theme.of(context).colorScheme.primary
-      );
-    }
+    );
   }
 
   @override
@@ -177,7 +166,7 @@ class _TMDBListPageState extends State<TMDBListPage> {
                           () => pagingController.refresh(),
                     ),
                     child: PagedListView<int, Movie>(
-                      padding: const EdgeInsets.only(top: 65.0),
+                      padding: const EdgeInsets.only(top: 75.0),
                       scrollController: scrollController,
                       pagingController: pagingController,
                       builderDelegate: PagedChildBuilderDelegate<Movie>(

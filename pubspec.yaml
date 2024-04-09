@@ -81,6 +81,9 @@ dependencies:
   # HTML Viewer
   flutter_html: ^3.0.0-beta.2
 
+  # Share Content
+  share_plus: ^8.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

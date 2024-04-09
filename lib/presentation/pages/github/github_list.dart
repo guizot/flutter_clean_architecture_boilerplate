@@ -5,6 +5,7 @@ import 'package:flutter_clean_architecture/presentation/core/services/language_s
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../data/models/user.dart';
+import '../../core/mixins/share_mixin.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -32,7 +33,7 @@ class GithubListPage extends StatefulWidget {
   State<GithubListPage> createState() => _GithubListPageState();
 }
 
-class _GithubListPageState extends State<GithubListPage> {
+class _GithubListPageState extends State<GithubListPage> with ShareMixin {
 
   final TextEditingController searchController = TextEditingController();
   final PagingController<int, User> pagingController = PagingController(firstPageKey: 1);
@@ -172,10 +173,12 @@ class _GithubListPageState extends State<GithubListPage> {
                           motion: const ScrollMotion(),
                           children: [
                             SlidableAction(
-                              onPressed: (context) => Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login),
+                              onPressed: (context) {
+                                shareText('Github: ${item.login} - URL: ${item.htmlUrl}');
+                              },
                               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                              icon: Icons.info,
-                              label: 'Detail',
+                              icon: Icons.share,
+                              label: 'Share',
                             ),
                           ],
                         ),
