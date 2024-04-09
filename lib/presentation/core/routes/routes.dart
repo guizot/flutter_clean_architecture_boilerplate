@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture/presentation/pages/expanded/expanded.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_detail.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_favorite.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
@@ -37,6 +38,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ScreenWrapperProvider());
       case RoutesValues.image:
         return MaterialPageRoute(builder: (_) => const ImageWrapperProvider());
+      case RoutesValues.expanded:
+        return MaterialPageRoute(builder: (_) => const ExpandedWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

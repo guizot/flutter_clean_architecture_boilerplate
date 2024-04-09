@@ -46,6 +46,13 @@ class _HomePageState extends State<HomePage> {
       }
     },
     {
+      "title": "Expanded Panel List",
+      "subtitle": "list dynamic expanded panel",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.expanded);
+      }
+    },
+    {
       "title": "Screen Size",
       "subtitle": "responsive ui screen size implementation",
       "tap": (context) {
