@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -14,7 +15,9 @@ class PickerHandler {
         return File(image.path);
       }
     } catch (e) {
-      print('Error picking image: $e');
+      if (kDebugMode) {
+        print('Error picking image: $e');
+      }
     }
     return null;
   }
@@ -27,7 +30,9 @@ class PickerHandler {
         return result.paths.map((path) => File(path!)).toList();
       }
     } catch (e) {
-      print('Error picking files: $e');
+      if (kDebugMode) {
+        print('Error picking files: $e');
+      }
     }
     return null;
   }
