@@ -6,6 +6,7 @@ import 'package:flutter_clean_architecture/presentation/pages/github/github_list
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/image/image.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
+import '../../pages/picker/picker.dart';
 import '../../pages/screen/screen.dart';
 import '../../pages/tmdb/tmdb_detail.dart';
 import '../../pages/tmdb/tmdb_favorite.dart';
@@ -40,6 +41,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ImageWrapperProvider());
       case RoutesValues.expanded:
         return MaterialPageRoute(builder: (_) => const ExpandedWrapperProvider());
+      case RoutesValues.picker:
+        return MaterialPageRoute(builder: (_) => const PickerWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

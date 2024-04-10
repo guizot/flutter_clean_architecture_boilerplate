@@ -12,5 +12,6 @@ class RoutesValues {
   static const String screen = '/screen';
   static const String image = '/image';
   static const String expanded = '/expanded';
+  static const String picker = '/picker';
 
 }

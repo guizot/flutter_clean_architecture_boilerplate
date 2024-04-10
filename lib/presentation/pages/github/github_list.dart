@@ -174,7 +174,7 @@ class _GithubListPageState extends State<GithubListPage> with ShareMixin {
                           children: [
                             SlidableAction(
                               onPressed: (context) {
-                                shareText('Github: ${item.login} - URL: ${item.htmlUrl}');
+                                shareText('GITHUB: ${item.login} - URL: ${item.htmlUrl}');
                               },
                               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                               icon: Icons.share,

@@ -60,6 +60,13 @@ class _HomePageState extends State<HomePage> {
       }
     },
     {
+      "title": "Picker File",
+      "subtitle": "picker image and file implementation",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.picker);
+      }
+    },
+    {
       "title": "Image Extension",
       "subtitle": "image manipulation implementation",
       "tap": (context) {

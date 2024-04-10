@@ -31,6 +31,10 @@ class ExpandedPage extends StatefulWidget {
 
 class _ExpandedPageState extends State<ExpandedPage> {
 
+  static const String termsString = "Terms Panel";
+
+  static const String agreementString = "Agreement Panel";
+
   List<Map<String, dynamic>> termsPanel = [
     {
       "title": "Terms of Service",
@@ -61,10 +65,20 @@ class _ExpandedPageState extends State<ExpandedPage> {
       "content": "<h2>Usage Policy</h2><img src=\"https://lelogama.go-jek.com/post_featured_image/header_blog_transaksi-goride-gocar-100_goclub_xp.jpg\" alt=\"Image\"><p>Please review the following <strong>usage policy</strong> carefully. Your use of this service indicates your agreement to be bound by this policy. This policy governs the acceptable use of our platform and sets forth guidelines for user conduct, content submission, and community interaction. It also outlines the consequences of violating these guidelines. By using our service, you agree to comply with this usage policy.</p><p>We may, at our discretion, terminate or suspend access to our service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the terms.</p>"
     },
     {
+      "title": "Privacy Policy",
+      "isExpanded": false,
+      "content": "<h2>Privacy Policy</h2><img src=\"https://lelogama.go-jek.com/post_featured_image/gopromo-ads-solutions-en-banner.jpg\" alt=\"Image\"><p>Our privacy policy outlines how we collect, use, disclose, and manage your personal information when you use our services. It also explains your rights and choices regarding your information. By using our services, you agree to the terms of our privacy policy.</p><p>We may update our privacy policy from time to time. It is your responsibility to review the privacy policy periodically for changes. Your continued use of our services after the changes are made constitutes your acceptance of the updated privacy policy.</p>"
+    },
+    {
+      "title": "Cookie Policy",
+      "isExpanded": false,
+      "content": "<h2>Cookie Policy</h2><img src=\"https://lelogama.go-jek.com/post_featured_image/Tartibjek_Blog_Banner_2.jpg\" alt=\"Image\"><p>Our cookie policy explains how we use cookies and similar tracking technologies on our website. It describes the types of cookies we use, the purposes for which we use them, and your choices regarding cookies. By using our website, you consent to the use of cookies in accordance with our cookie policy.</p><p>We may update our cookie policy from time to time. Any changes to the cookie policy will be posted on our website. By continuing to use our website after the changes are posted, you agree to the updated cookie policy.</p>"
+    },
+    {
       "title": "Service Agreement",
       "isExpanded": false,
       "content": "<h2>Service Agreement</h2><img src=\"https://lelogama.go-jek.com/post_featured_image/header_promo_jago_gopay.jpg\" alt=\"Image\"><p>Your use of this website constitutes acceptance of the <a href=\"https://lelogama.go-jek.com/post_featured_image/header_blog_promo_game_and_entertainment.jpg\">service agreement</a>, as well as our privacy policy. The service agreement outlines the terms and conditions under which we provide our services to you. It includes provisions related to account registration, payment terms, and service limitations. By using our website, you agree to be bound by the terms of this agreement and our privacy policy.</p><p>We reserve the right to modify, suspend, or terminate the service or any part thereof at any time without notice. We will not be liable to you or to any third party for any modification, suspension, or termination of the service.</p>"
-    }
+    },
   ];
 
   String currentPanelName = "";
@@ -73,20 +87,20 @@ class _ExpandedPageState extends State<ExpandedPage> {
 
   @override
   void initState() {
-    currentPanelName = "Terms Panel";
+    currentPanelName = termsString;
     onChangePanel(currentPanelName);
     super.initState();
   }
 
   void onChangePanel (String item) {
     switch(item) {
-      case "Terms Panel": {
+      case termsString: {
         setState(() {
           currentPanelName = item;
           currentPanel = termsPanel;
         });
       }
-      case "Agreement Panel": {
+      case agreementString: {
         setState(() {
           currentPanelName = item;
           currentPanel = agreementPanel;
@@ -110,9 +124,17 @@ class _ExpandedPageState extends State<ExpandedPage> {
               child: ListView(
                 clipBehavior: Clip.none,
                 children: [
+                  const Text(
+                    "Select Panel",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   PopupMenuButton<String>(
                     popUpAnimationStyle: AnimationStyle.noAnimation,
-                    offset: const Offset(0, 74),
+                    offset: const Offset(0, 65),
                     constraints: BoxConstraints(
                       minWidth: ss.screenSize.width - 32,
                     ),
@@ -122,39 +144,45 @@ class _ExpandedPageState extends State<ExpandedPage> {
                         ),
                         side: BorderSide(color: Colors.grey)
                     ),
-                    color: Theme.of(context).colorScheme.background,
+                    surfaceTintColor: Theme.of(context).colorScheme.background,
                     onSelected: onChangePanel,
                     itemBuilder: (BuildContext context) => [
                       PopupMenuItem<String>(
-                        value: "Terms Panel",
+                        value: termsString,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: ListTile(
                               title: const Text(
-                                'Terms Panel',
+                                termsString,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal
                                 ),
                               ),
-                              trailing: currentPanelName == 'Terms Panel' ? const Icon(Icons.check) : null
+                              trailing: currentPanelName == termsString ? Icon(
+                                Icons.check_circle,
+                                color: Theme.of(context).colorScheme.inversePrimary,
+                              ) : null
                           ),
                         )
                       ),
                       const PopupMenuDivider(),
                       PopupMenuItem<String>(
-                        value: "Agreement Panel",
+                        value: agreementString,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: ListTile(
                               title: const Text(
-                                'Agreement Panel',
+                                agreementString,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal
                                 ),
                               ),
-                              trailing: currentPanelName == 'Agreement Panel' ? const Icon(Icons.check) : null
+                              trailing: currentPanelName == agreementString ? Icon(
+                                Icons.check_circle,
+                                color: Theme.of(context).colorScheme.inversePrimary,
+                              ) : null
                           ),
                         )
                       )
@@ -175,6 +203,14 @@ class _ExpandedPageState extends State<ExpandedPage> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
+                  Text(
+                    currentPanelName,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
