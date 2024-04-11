@@ -53,17 +53,17 @@ class _HomePageState extends State<HomePage> {
       }
     },
     {
-      "title": "Screen Size",
-      "subtitle": "responsive ui screen size implementation",
-      "tap": (context) {
-        Navigator.pushNamed(context, RoutesValues.screen);
-      }
-    },
-    {
       "title": "Picker File",
       "subtitle": "picker image and file implementation",
       "tap": (context) {
         Navigator.pushNamed(context, RoutesValues.picker);
+      }
+    },
+    {
+      "title": "Screen Size",
+      "subtitle": "responsive ui screen size implementation",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.screen);
       }
     },
     {

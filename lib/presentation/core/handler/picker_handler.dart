@@ -8,12 +8,28 @@ class PickerHandler {
   final FilePicker _filePicker = FilePicker.platform;
 
   // Method to pick a single image
-  Future<File?> pickImage() async {
+  Future<XFile?> pickImage(ImageSource source) async {
     try {
-      final XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+      final XFile? image = await _imagePicker.pickImage(source: source);
       if (image != null) {
-        return File(image.path);
+        return image;
       }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error picking image: $e');
+      }
+    }
+    return null;
+  }
+
+  Future<List<XFile>?> multiImages() async {
+    try {
+      List<XFile> listFiles = [];
+      final List<XFile> selectedImages = await _imagePicker.pickMultiImage();
+      if (selectedImages.isNotEmpty) {
+        listFiles.addAll(selectedImages);
+      }
+      return listFiles;
     } catch (e) {
       if (kDebugMode) {
         print('Error picking image: $e');

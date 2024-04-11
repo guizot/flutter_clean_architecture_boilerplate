@@ -84,7 +84,10 @@ dependencies:
   # Share Content
   share_plus: ^8.0.3
 
+  # Image Picker
   image_picker: ^1.0.7
+
+  # File Picker
   file_picker: ^8.0.0+1
 
 dev_dependencies:
