@@ -22,6 +22,22 @@ class PickerHandler {
     return null;
   }
 
+  // Method to pick a single video
+  Future<XFile?> pickVideo(ImageSource source) async {
+    try {
+      final XFile? image = await _imagePicker.pickVideo(source: source);
+      if (image != null) {
+        return image;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error picking image: $e');
+      }
+    }
+    return null;
+  }
+
+  // Method to pick a multi image
   Future<List<XFile>?> multiImages() async {
     try {
       List<XFile> listFiles = [];
@@ -41,7 +57,9 @@ class PickerHandler {
   // Method to pick multiple files with extension filter
   Future<List<File>?> pickFiles() async {
     try {
-      final FilePickerResult? result = await _filePicker.pickFiles(allowMultiple: true);
+      final FilePickerResult? result = await _filePicker.pickFiles(
+        allowMultiple: true
+      );
       if (result != null) {
         return result.paths.map((path) => File(path!)).toList();
       }
@@ -53,10 +71,4 @@ class PickerHandler {
     return null;
   }
 
-// Add more methods for other picker types if needed (e.g., picking directories)
-
-// Example usage:
-// final pickerHandler = PickerHandler();
-// final pickedImage = await pickerHandler.pickImage();
-// final pickedFiles = await pickerHandler.pickFiles();
 }
