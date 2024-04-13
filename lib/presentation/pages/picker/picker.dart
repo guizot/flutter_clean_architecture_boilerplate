@@ -1,13 +1,12 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/list_extension.dart';
+import 'package:flutter_clean_architecture/presentation/core/extension/string_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/handler/picker_handler.dart';
 import 'package:flutter_clean_architecture/presentation/core/mixins/share_mixin.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import '../../core/services/theme_service.dart';
@@ -41,7 +40,8 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
   String singleImagePath = "";
   String singleVideoPath = "";
   List<File> multiImageFile = [];
-  String fileString = "Pick File";
+  String singleFilePath = "";
+  List<File> multiFile = [];
 
   void pickImage(ImageSource source) async {
     final pickedImage = await PickerHandler().pickImage(source);
@@ -82,6 +82,19 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
     shareFiles([file], text: '', subject: '');
   }
 
+  void pickFile(bool isMultiple) async {
+    final pickedFile = await PickerHandler().pickFiles(isMultiple: isMultiple);
+    if(pickedFile != null && pickedFile.isNotEmpty) {
+      setState(() {
+        if(isMultiple) {
+          multiFile =  pickedFile;
+        } else {
+          singleFilePath =  pickedFile.first.path;
+        }
+      });
+    }
+  }
+
   @override
   void dispose() {
     videoPlayerController.dispose();
@@ -102,7 +115,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
               clipBehavior: Clip.none,
               children: [
 
-                // SINGLE IMAGE PICKER
+                // IMAGE PICKER (SINGLE)
                 const Text(
                   "Image Picker (Single)",
                   style: TextStyle(
@@ -230,7 +243,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
                 // DIVIDER
                 const SizedBox(height: 24.0),
 
-                // MULTI IMAGE PICKER
+                // IMAGE PICKER (MULTIPLE)
                 const Text(
                   "Image Picker (Multiple)",
                   style: TextStyle(
@@ -333,7 +346,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
                                         size: 36,
                                       ),
                                       SizedBox(height: 8.0),
-                                      Text("pick multi image from gallery.")
+                                      Text("pick multiple image from gallery.")
                                     ],
                                   )
                               )
@@ -345,7 +358,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
                               ),
                               child: ListTile(
                                 title: const Text(
-                                  "Pick Multi Image",
+                                  "Pick Multiple Image",
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 trailing: const Icon(Icons.arrow_forward),
@@ -360,7 +373,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
                 // DIVIDER
                 const SizedBox(height: 24.0),
 
-                // SINGLE VIDEO PICKER
+                // VIDEO PICKER (SINGLE)
                 const Text(
                   "Video Picker (Single)",
                   style: TextStyle(
@@ -560,9 +573,9 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
                 // DIVIDER
                 const SizedBox(height: 24.0),
 
-                // FILE PICKER
+                // FILE PICKER (SINGLE)
                 const Text(
-                  "File Picker",
+                  "File Picker (Single)",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18
@@ -576,23 +589,259 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
                     border: Border.all(color: Colors.grey),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: ListTile(
-                      title: Text(fileString),
-                      trailing: const Icon(Icons.arrow_forward_outlined),
-                      onTap: () async {
-                        final pickedFiles = await PickerHandler().pickFiles();
-                        if(pickedFiles != null) {
-                          setState(() {
-                            fileString =  pickedFiles.first.path;
-                          });
-                          XFile file = XFile(pickedFiles.first.path);
-                          shareFiles([file], text: '', subject: '');
-                        }
-                      },
-                    ),
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Column(
+                        children: [
+                          (singleFilePath != "")
+                              ? Container(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row (
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 80,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(24),
+                                          topRight: Radius.circular(8),
+                                          bottomLeft: Radius.circular(8),
+                                          bottomRight: Radius.circular(8),
+                                        ),
+                                        border: Border.all(color: Colors.grey),
+                                        color: Theme.of(context).hintColor.toMaterialColor().shade50,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          singleFilePath.getFileExtension().toUpperCase(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16
+                                          ),
+                                        ),
+                                      )
+                                    ),
+                                    const SizedBox(width: 16.0),
+                                    Expanded(
+                                      child: Text(
+                                        singleFilePath.getFileName(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        )
+                                      )
+                                    )
+                                  ],
+                              )
+                          )
+                              : Container(
+                                  height: 120,
+                                  width: double.infinity,
+                                  color: Theme.of(context).hintColor.toMaterialColor().shade50,
+                                  child: const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.file_copy_outlined,
+                                        size: 36,
+                                      ),
+                                      SizedBox(height: 8.0),
+                                      Text("pick a single file from files.")
+                                    ],
+                                  )
+                              ),
+                          (singleFilePath != "")
+                              ? Container(
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                border: Border(top: BorderSide(color: Colors.grey)),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.only(left: 16, right: 8),
+                                title: Text(
+                                  singleFilePath,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                trailing: Wrap(
+                                  children: [
+                                    IconButton(
+                                        icon: const Icon(
+                                          Icons.share,
+                                          size: 20,
+                                        ),
+                                        onPressed: () => shareFile(singleFilePath)
+                                    ),
+                                    IconButton(
+                                        icon: const Icon(Icons.close),
+                                        onPressed: () => setState(() {
+                                          singleFilePath = "";
+                                        })
+                                    )
+                                  ],
+                                ),
+                              )
+                          )
+                              : Container(),
+                          Container(
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                border: Border(top: BorderSide(color: Colors.grey)),
+                              ),
+                              child: ListTile(
+                                title: const Text(
+                                  "Pick Single File",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                trailing: const Icon(Icons.arrow_forward),
+                                onTap: () => pickFile(false),
+                              )
+                          ),
+                        ],
+                      )
                   ),
-                )
+                ),
+
+                // DIVIDER
+                const SizedBox(height: 24.0),
+
+                // FILE PICKER (MULTIPLE)
+                const Text(
+                  "File Picker (Multiple)",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                              height: 120,
+                              width: double.infinity,
+                              child: (multiFile.isNotEmpty)
+                                  ? ListView(
+                                  padding: const EdgeInsets.all(16.0),
+                                  scrollDirection: Axis.horizontal,
+                                  children: multiFile.mapIndexed((index, item) {
+                                    return Container(
+                                      margin: const EdgeInsets.only(right: 16.0),
+                                      child: Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          Container(
+                                              height: 80,
+                                              width: 65,
+                                              decoration: BoxDecoration(
+                                                borderRadius: const BorderRadius.only(
+                                                  topLeft: Radius.circular(24),
+                                                  topRight: Radius.circular(8),
+                                                  bottomLeft: Radius.circular(8),
+                                                  bottomRight: Radius.circular(8),
+                                                ),
+                                                border: Border.all(color: Colors.grey),
+                                                color: Theme.of(context).hintColor.toMaterialColor().shade50,
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  item.path.getFileExtension().toUpperCase(),
+                                                  style: const TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16
+                                                  ),
+                                                ),
+                                              )
+                                          ),
+                                          Positioned(
+                                              top: -8.0,
+                                              right: -8.0,
+                                              child: Column(
+                                                children: [
+                                                  GestureDetector(
+                                                      onTap: () => setState(() {
+                                                        multiFile.remove(item);
+                                                      }),
+                                                      child: Container(
+                                                          height: 24,
+                                                          width: 24,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(24.0),
+                                                              border: Border.all(color: Colors.grey),
+                                                              color: Theme.of(context).colorScheme.background.toMaterialColor().shade800
+                                                          ),
+                                                          child: const Icon(
+                                                            Icons.close,
+                                                            size: 14,
+                                                          )
+                                                      )
+                                                  ),
+                                                  // const SizedBox(height: 4.0),
+                                                  // GestureDetector(
+                                                  //     onTap: () => shareFile(item.path),
+                                                  //     child: Container(
+                                                  //         height: 24,
+                                                  //         width: 24,
+                                                  //         decoration: BoxDecoration(
+                                                  //             borderRadius: BorderRadius.circular(24.0),
+                                                  //             border: Border.all(color: Colors.grey),
+                                                  //             color: Theme.of(context).colorScheme.background.toMaterialColor().shade800
+                                                  //         ),
+                                                  //         child: const Icon(
+                                                  //           Icons.share,
+                                                  //           size: 12,
+                                                  //         )
+                                                  //     )
+                                                  // ),
+                                                ],
+                                              )
+                                          ),
+                                        ],
+                                      )
+                                    );
+                                  }).toList()
+                              )
+                                  : Container(
+                                  color: Theme.of(context).hintColor.toMaterialColor().shade50,
+                                  child: const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.file_copy,
+                                        size: 36,
+                                      ),
+                                      SizedBox(height: 8.0),
+                                      Text("pick a multiple file from files.")
+                                    ],
+                                  )
+                              )
+                          ),
+                          Container(
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                border: Border(top: BorderSide(color: Colors.grey)),
+                              ),
+                              child: ListTile(
+                                title: const Text(
+                                  "Pick Multiple File",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                trailing: const Icon(Icons.arrow_forward),
+                                onTap: () => pickFile(true),
+                              )
+                          ),
+                        ],
+                      )
+                  ),
+                ),
 
               ]
             )
@@ -602,3 +851,26 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
   }
 
 }
+
+// Container(
+// height: 80,
+// width: 60,
+// decoration: BoxDecoration(
+// borderRadius: const BorderRadius.only(
+// topLeft: Radius.circular(24),
+// topRight: Radius.circular(8),
+// bottomLeft: Radius.circular(8),
+// bottomRight: Radius.circular(8),
+// ),
+// border: Border.all(color: Colors.grey),
+// color: Theme.of(context).hintColor.toMaterialColor().shade50,
+// ),
+// child: const Center(
+// child: Text(
+// "PDF",
+// style: TextStyle(
+// fontWeight: FontWeight.bold
+// ),
+// ),
+// ),
+// )

@@ -55,10 +55,16 @@ class PickerHandler {
   }
 
   // Method to pick multiple files with extension filter
-  Future<List<File>?> pickFiles() async {
+  Future<List<File>?> pickFiles({
+    bool isMultiple = false,
+    FileType fileType = FileType.any,
+    List<String>? extensions
+  }) async {
     try {
       final FilePickerResult? result = await _filePicker.pickFiles(
-        allowMultiple: true
+        allowMultiple: isMultiple,
+        type: fileType,
+        allowedExtensions: extensions
       );
       if (result != null) {
         return result.paths.map((path) => File(path!)).toList();
