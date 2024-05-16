@@ -851,26 +851,3 @@ class _PickerPageState extends State<PickerPage> with ShareMixin {
   }
 
 }
-
-// Container(
-// height: 80,
-// width: 60,
-// decoration: BoxDecoration(
-// borderRadius: const BorderRadius.only(
-// topLeft: Radius.circular(24),
-// topRight: Radius.circular(8),
-// bottomLeft: Radius.circular(8),
-// bottomRight: Radius.circular(8),
-// ),
-// border: Border.all(color: Colors.grey),
-// color: Theme.of(context).hintColor.toMaterialColor().shade50,
-// ),
-// child: const Center(
-// child: Text(
-// "PDF",
-// style: TextStyle(
-// fontWeight: FontWeight.bold
-// ),
-// ),
-// ),
-// )
