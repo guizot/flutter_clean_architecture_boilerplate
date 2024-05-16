@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
       "title": "Web View",
       "subtitle": "the example of web view",
       "tap": (context) {
-        Navigator.pushNamed(context, RoutesValues.webView, arguments: "http://www.google.com/");
+        Navigator.pushNamed(context, RoutesValues.webView, arguments: "https://www.google.com/");
       }
     }
   ];

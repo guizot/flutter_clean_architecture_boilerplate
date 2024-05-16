@@ -1,43 +1,117 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import '../../core/services/screen_size_service.dart';
-import '../../core/services/theme_service.dart';
-import 'package:provider/provider.dart';
-import '../../../injector.dart';
-import 'cubit/webview_cubit.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+// #docregion platform_imports
+// Import for Android features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+// #enddocregion platform_imports
 
-class WebViewWrapperProvider extends StatelessWidget {
-  const WebViewWrapperProvider({Key? key, required this.url}) : super(key: key);
-  final String url;
+void main() => runApp(const MaterialApp(home: WebViewExample()));
+
+const String kNavigationExamplePage = '''
+<!DOCTYPE html><html>
+<head><title>Navigation Delegate Example</title></head>
+<body>
+<p>
+The navigation delegate is set to block navigation to the youtube website.
+</p>
+<ul>
+<ul><a href="https://www.youtube.com/">https://www.youtube.com/</a></ul>
+<ul><a href="https://www.google.com/">https://www.google.com/</a></ul>
+</ul>
+</body>
+</html>
+''';
+
+const String kLocalExamplePage = '''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Load file or HTML string example</title>
+</head>
+<body>
+
+<h1>Local demo page</h1>
+<p>
+  This is an example page used to demonstrate how to load a local file or HTML
+  string using the <a href="https://pub.dev/packages/webview_flutter">Flutter
+  webview</a> plugin.
+</p>
+
+</body>
+</html>
+''';
+
+const String kTransparentBackgroundPage = '''
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Transparent background test</title>
+  </head>
+  <style type="text/css">
+    body { background: transparent; margin: 0; padding: 0; }
+    #container { position: relative; margin: 0; padding: 0; width: 100vw; height: 100vh; }
+    #shape { background: red; width: 200px; height: 200px; margin: 0; padding: 0; position: absolute; top: calc(50% - 100px); left: calc(50% - 100px); }
+    p { text-align: center; }
+  </style>
+  <body>
+    <div id="container">
+      <p>Transparent background test</p>
+      <div id="shape"></div>
+    </div>
+  </body>
+  </html>
+''';
+
+const String kLogExamplePage = '''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Load file or HTML string example</title>
+</head>
+<body onload="console.log('Logging that the page is loading.')">
+
+<h1>Local demo page</h1>
+<p>
+  This page is used to test the forwarding of console logs to Dart.
+</p>
+
+<style>
+    .btn-group button {
+      padding: 24px; 24px;
+      display: block;
+      width: 25%;
+      margin: 5px 0px 0px 0px;
+    }
+</style>
+
+<div class="btn-group">
+    <button onclick="console.error('This is an error message.')">Error</button>
+    <button onclick="console.warn('This is a warning message.')">Warning</button>
+    <button onclick="console.info('This is a info message.')">Info</button>
+    <button onclick="console.debug('This is a debug message.')">Debug</button>
+    <button onclick="console.log('This is a log message.')">Log</button>
+</div>
+
+</body>
+</html>
+''';
+
+class WebViewExample extends StatefulWidget {
+  const WebViewExample({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<WebViewCubit>(),
-      child: WebViewPage(title: "Web View", url: url),
-    );
-  }
+  State<WebViewExample> createState() => _WebViewExampleState();
 }
 
-class WebViewPage extends StatefulWidget {
-  const WebViewPage({super.key, required this.title, required this.url});
-  final String title;
-  final String url;
-
-  @override
-  State<WebViewPage> createState() => _WebViewPageState();
-}
-
-class _WebViewPageState extends State<WebViewPage> {
+class _WebViewExampleState extends State<WebViewExample> {
   late final WebViewController _controller;
 
   @override
@@ -76,15 +150,13 @@ class _WebViewPageState extends State<WebViewPage> {
             debugPrint('Page finished loading: $url');
           },
           onWebResourceError: (WebResourceError error) {
-            debugPrint(
-              '''
-                Page resource error:
+            debugPrint('''
+              Page resource error:
                 code: ${error.errorCode}
                 description: ${error.description}
                 errorType: ${error.errorType}
                 isForMainFrame: ${error.isForMainFrame}
-              '''
-            );
+          ''');
           },
           onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
@@ -110,7 +182,7 @@ class _WebViewPageState extends State<WebViewPage> {
           );
         },
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse('https://flutter.dev'));
 
 
     // region platform_features
@@ -124,6 +196,37 @@ class _WebViewPageState extends State<WebViewPage> {
     // endregion platform_features
 
     _controller = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.green,
+      appBar: AppBar(
+        title: const Text('Flutter WebView example'),
+        // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
+        actions: <Widget>[
+          NavigationControls(webViewController: _controller),
+          SampleMenu(webViewController: _controller),
+        ],
+      ),
+      body: WebViewWidget(controller: _controller),
+      floatingActionButton: favoriteButton(),
+    );
+  }
+
+  Widget favoriteButton() {
+    return FloatingActionButton(
+      onPressed: () async {
+        final String? url = await _controller.currentUrl();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Favorited $url')),
+          );
+        }
+      },
+      child: const Icon(Icons.favorite),
+    );
   }
 
   Future<void> openDialog(HttpAuthRequest httpRequest) async {
@@ -179,26 +282,6 @@ class _WebViewPageState extends State<WebViewPage> {
           ],
         );
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var ss = sl<ScreenSizeService>()..init(context);
-    return Consumer2<ThemeService, LanguageService> (
-        builder: (context, ThemeService themeService, LanguageService languageService, child) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: Text(widget.title),
-              actions: <Widget>[
-                NavigationControls(webViewController: _controller),
-                SampleMenu(webViewController: _controller),
-              ],
-            ),
-            body: WebViewWidget(controller: _controller),
-          );
-        }
     );
   }
 }
@@ -562,92 +645,3 @@ class NavigationControls extends StatelessWidget {
     );
   }
 }
-
-const String kNavigationExamplePage = '''
-<!DOCTYPE html><html>
-<head><title>Navigation Delegate Example</title></head>
-<body>
-<p>
-The navigation delegate is set to block navigation to the youtube website.
-</p>
-<ul>
-<ul><a href="https://www.youtube.com/">https://www.youtube.com/</a></ul>
-<ul><a href="https://www.google.com/">https://www.google.com/</a></ul>
-</ul>
-</body>
-</html>
-''';
-
-const String kLocalExamplePage = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Load file or HTML string example</title>
-</head>
-<body>
-
-<h1>Local demo page</h1>
-<p>
-  This is an example page used to demonstrate how to load a local file or HTML
-  string using the <a href="https://pub.dev/packages/webview_flutter">Flutter
-  webview</a> plugin.
-</p>
-
-</body>
-</html>
-''';
-
-const String kTransparentBackgroundPage = '''
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Transparent background test</title>
-  </head>
-  <style type="text/css">
-    body { background: transparent; margin: 0; padding: 0; }
-    #container { position: relative; margin: 0; padding: 0; width: 100vw; height: 100vh; }
-    #shape { background: red; width: 200px; height: 200px; margin: 0; padding: 0; position: absolute; top: calc(50% - 100px); left: calc(50% - 100px); }
-    p { text-align: center; }
-  </style>
-  <body>
-    <div id="container">
-      <p>Transparent background test</p>
-      <div id="shape"></div>
-    </div>
-  </body>
-  </html>
-''';
-
-const String kLogExamplePage = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Load file or HTML string example</title>
-</head>
-<body onload="console.log('Logging that the page is loading.')">
-
-<h1>Local demo page</h1>
-<p>
-  This page is used to test the forwarding of console logs to Dart.
-</p>
-
-<style>
-    .btn-group button {
-      padding: 24px; 24px;
-      display: block;
-      width: 25%;
-      margin: 5px 0px 0px 0px;
-    }
-</style>
-
-<div class="btn-group">
-    <button onclick="console.error('This is an error message.')">Error</button>
-    <button onclick="console.warn('This is a warning message.')">Warning</button>
-    <button onclick="console.info('This is a info message.')">Info</button>
-    <button onclick="console.debug('This is a debug message.')">Debug</button>
-    <button onclick="console.log('This is a log message.')">Log</button>
-</div>
-
-</body>
-</html>
-''';

@@ -93,6 +93,12 @@ dependencies:
   # Video Player
   video_player: ^2.8.6
 
+  # Web View
+  webview_flutter: ^4.7.0
+
+  # Skeleton Loading
+  skeletonizer: ^1.1.2+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
