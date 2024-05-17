@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/core/widget/github/item_github.dart';
 import '../../core/constant/routes_values.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -74,31 +75,19 @@ class _GithubFavoritePageState extends State<GithubFavoritePage> {
       return ListView.builder(
           itemCount: users != null ? users!.length : 0 ,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              onTap: () {
-                Navigator.pushNamed(
-                    context,
-                    RoutesValues.githubDetail,
-                    arguments: users![index].login
-                ).then((value) {
-                  getUserLocal();
-                });
-              },
-              title: Text(
-                '${users![index].login}',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
-                ),
-              ),
-              subtitle: Text(
-                '${users![index].htmlUrl}',
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('${users![index].avatarUrl}'),
-              ),
+            return ItemGithub(
+                title: '${users![index].login}',
+                subtitle: '${users![index].htmlUrl}',
+                url: '${users![index].avatarUrl}',
+                onTap: () {
+                  Navigator.pushNamed(
+                      context,
+                      RoutesValues.githubDetail,
+                      arguments: users![index].login
+                  ).then((value) {
+                    getUserLocal();
+                  });
+                }
             );
           }
         );

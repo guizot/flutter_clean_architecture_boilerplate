@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/core/widget/github/item_github.dart';
+import 'package:flutter_clean_architecture/presentation/core/widget/list_skeleton.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../data/models/user.dart';
 import '../../core/mixins/share_mixin.dart';
 import '../../core/services/theme_service.dart';
@@ -182,26 +185,17 @@ class _GithubListPageState extends State<GithubListPage> with ShareMixin {
                             ),
                           ],
                         ),
-                        child: ListTile(
-                          onTap: () => Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login),
-                          title: Text(
-                            '${item.login}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
-                            ),
-                          ),
-                          subtitle: Text(
-                            '${item.htmlUrl}',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage('${item.avatarUrl}'),
-                          ),
+                        child: ItemGithub(
+                          title: item.login ?? "",
+                          subtitle: item.htmlUrl ?? "",
+                          url: item.avatarUrl ?? "",
+                          onTap: () => Navigator.pushNamed(context, RoutesValues.githubDetail, arguments: item.login)
                         )
                       );
                     },
+                    firstPageProgressIndicatorBuilder: (context) {
+                      return const ListSkeleton();
+                    }
                     // firstPageErrorIndicatorBuilder: (context) {
                     //   return TextButton(onPressed: () => pagingController.retryLastFailedRequest(), child: const Text("Reload First Data"));
                     // }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/core/widget/home/item_home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -114,18 +115,11 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
                     border: Border.all(color: Colors.grey), // Add border color
                   ),
-                  child: ListTile(
-                    title: Text(
-                      lists[index]["title"],
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700,
-                      ),
-                    ),
-                    subtitle: Text(lists[index]["subtitle"]),
-                    trailing: const Icon(Icons.arrow_forward),
-                    onTap: () => lists[index]["tap"](context),
-                  ),
+                  child: ItemHome(
+                    title: lists[index]["title"],
+                    subtitle: lists[index]["subtitle"],
+                    onTap: lists[index]["tap"],
+                  )
                 );
               },
             )
@@ -135,4 +129,3 @@ class _HomePageState extends State<HomePage> {
   }
 
 }
-

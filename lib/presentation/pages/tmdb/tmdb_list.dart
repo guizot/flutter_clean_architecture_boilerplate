@@ -6,6 +6,7 @@ import 'package:flutter_clean_architecture/data/models/movie.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/utils/date_time_utils.dart';
+import 'package:flutter_clean_architecture/presentation/core/widget/tmdb/item_tmdb.dart';
 import 'package:glass/glass.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../core/services/theme_service.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
 import 'dart:async';
+import '../../core/widget/list_skeleton.dart';
 import 'cubit/tmdb_cubit.dart';
 
 class TMDBListWrapperProvider extends StatelessWidget {
@@ -171,30 +173,19 @@ class _TMDBListPageState extends State<TMDBListPage> {
                       pagingController: pagingController,
                       builderDelegate: PagedChildBuilderDelegate<Movie>(
                         itemBuilder: (context, item, index) {
-                          return ListTile(
-                            onTap: () {
-                              Navigator.pushNamed(context, RoutesValues.tmdbDetail, arguments: item.id);
-                            },
-                            title: Text(
-                              '${item.title}',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
-                              ),
-                            ),
-                            subtitle: Text(
-                              '${item.overview}',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(item.getPoster()),
-                            ),
+                          return ItemTMDB(
+                              title: item.title ?? "",
+                              subtitle: item.overview ?? "",
+                              url: item.getPoster(),
+                              onTap: () {
+                                Navigator.pushNamed(context, RoutesValues.tmdbDetail, arguments: item.id);
+                              }
                           );
                         },
-                      ),
+                        firstPageProgressIndicatorBuilder: (context) {
+                          return const ListSkeleton();
+                        }
+                      )
                     ),
                   ),
                   AnimatedOpacity(
