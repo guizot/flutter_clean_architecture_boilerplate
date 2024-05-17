@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/domain/entities/user_github.dart';
-import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/widget/github/item_github.dart';
 import '../../core/constant/routes_values.dart';

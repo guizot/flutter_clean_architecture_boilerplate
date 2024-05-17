@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import '../../core/services/screen_size_service.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -184,7 +183,6 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    var ss = sl<ScreenSizeService>()..init(context);
     return Consumer2<ThemeService, LanguageService> (
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(

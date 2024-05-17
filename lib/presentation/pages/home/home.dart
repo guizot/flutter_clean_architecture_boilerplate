@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/widget/home/item_home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
@@ -79,6 +78,13 @@ class _HomePageState extends State<HomePage> {
       "subtitle": "the example of web view",
       "tap": (context) {
         Navigator.pushNamed(context, RoutesValues.webView, arguments: "https://www.google.com/");
+      }
+    },
+    {
+      "title": "Coach Mark",
+      "subtitle": "the example of coach mark tutorial",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.coachMark);
       }
     }
   ];

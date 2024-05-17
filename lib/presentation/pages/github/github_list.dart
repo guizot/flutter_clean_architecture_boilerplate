@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/widget/github/item_github.dart';
 import 'package:flutter_clean_architecture/presentation/core/widget/list_skeleton.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import '../../../data/models/user.dart';
 import '../../core/mixins/share_mixin.dart';
 import '../../core/services/theme_service.dart';

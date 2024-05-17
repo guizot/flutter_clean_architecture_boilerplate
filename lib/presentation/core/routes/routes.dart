@@ -7,6 +7,7 @@ import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/image/image.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
 import 'package:flutter_clean_architecture/presentation/pages/webview/webview.dart';
+import '../../pages/coachmark/coachmark.dart';
 import '../../pages/picker/picker.dart';
 import '../../pages/screen/screen.dart';
 import '../../pages/tmdb/tmdb_detail.dart';
@@ -47,6 +48,8 @@ class Routes {
       case RoutesValues.webView:
         var url = settings.arguments as String;
         return MaterialPageRoute(builder: (_) => WebViewWrapperProvider(url: url));
+      case RoutesValues.coachMark:
+        return MaterialPageRoute(builder: (_) => const CoachMarkWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(
