@@ -85,6 +85,8 @@ class _ExpandedPageState extends State<ExpandedPage> {
 
   List<Map<String, dynamic>> currentPanel = [];
 
+  final TextEditingController menuController = TextEditingController();
+
   @override
   void initState() {
     currentPanelName = termsString;
@@ -113,148 +115,233 @@ class _ExpandedPageState extends State<ExpandedPage> {
   Widget build(BuildContext context) {
     var ss = sl<ScreenSizeService>()..init(context);
     return Consumer2<ThemeService, LanguageService> (
-        builder: (context, ThemeService themeService, LanguageService languageService, child) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: Text(widget.title),
-            ),
-            body: Container(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView(
-                clipBehavior: Clip.none,
-                children: [
-                  const Text(
-                    "Select Panel",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18
+      builder: (context, ThemeService themeService, LanguageService languageService, child) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            title: Text(widget.title),
+          ),
+          body: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              clipBehavior: Clip.none,
+              children: [
+                const Text(
+                  "Dropdown Search Panel",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: DropdownMenu<MenuItem>(
+                      controller: menuController,
+                      width: ss.screenSize.width - 32,
+                      hintText: "Select Panel",
+                      requestFocusOnTap: true,
+                      enableFilter: true,
+                      menuStyle: MenuStyle(
+                        surfaceTintColor: MaterialStatePropertyAll(
+                          Theme.of(context).colorScheme.background
+                        ),
+                        padding: const MaterialStatePropertyAll(
+                            EdgeInsets.all(8.0)
+                        ),
+                        shape: const MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(16.0)
+                            ),
+                            side: BorderSide(color: Colors.grey)
+                          )
+                        ),
+                      ),
+                      inputDecorationTheme: const InputDecorationTheme(
+                        isDense: true,
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(16.0),
+                      ),
+                      onSelected: (MenuItem? menu) {
+                        print(menu?.label);
+                      },
+                      dropdownMenuEntries: menuItems.map<DropdownMenuEntry<MenuItem>>((MenuItem menu) {
+                        return DropdownMenuEntry<MenuItem>(
+                          value: menu,
+                          label: menu.label,
+                          // leadingIcon: Icon(menu.icon),
+                          style: const ButtonStyle(
+                            textStyle: MaterialStatePropertyAll(
+                              TextStyle(
+                                fontSize: 16.0
+                              )
+                            ),
+                          )
+                        );
+                      }).toList(),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  PopupMenuButton<String>(
-                    popUpAnimationStyle: AnimationStyle.noAnimation,
-                    offset: const Offset(0, 65),
-                    constraints: BoxConstraints(
-                      minWidth: ss.screenSize.width - 32,
+                ),
+                const SizedBox(height: 16.0),
+                const Text(
+                  "Select Panel",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                  ),
+                ),
+                const SizedBox(height: 8),
+                PopupMenuButton<String>(
+                  popUpAnimationStyle: AnimationStyle.noAnimation,
+                  offset: const Offset(0, 65),
+                  constraints: BoxConstraints(
+                    minWidth: ss.screenSize.width - 32,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(16.0)
                     ),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(16.0)
-                        ),
-                        side: BorderSide(color: Colors.grey)
-                    ),
-                    surfaceTintColor: Theme.of(context).colorScheme.background,
-                    onSelected: onChangePanel,
-                    itemBuilder: (BuildContext context) => [
-                      PopupMenuItem<String>(
-                        value: termsString,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: ListTile(
-                              title: const Text(
-                                termsString,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal
-                                ),
-                              ),
-                              trailing: currentPanelName == termsString ? Icon(
-                                Icons.check_circle,
-                                color: Theme.of(context).colorScheme.inversePrimary,
-                              ) : null
-                          ),
-                        )
-                      ),
-                      const PopupMenuDivider(),
-                      PopupMenuItem<String>(
-                        value: agreementString,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: ListTile(
-                              title: const Text(
-                                agreementString,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal
-                                ),
-                              ),
-                              trailing: currentPanelName == agreementString ? Icon(
-                                Icons.check_circle,
-                                color: Theme.of(context).colorScheme.inversePrimary,
-                              ) : null
-                          ),
-                        )
-                      )
-                    ],
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.0),
+                    side: BorderSide(color: Colors.grey)
+                  ),
+                  surfaceTintColor: Theme.of(context).colorScheme.background,
+                  onSelected: onChangePanel,
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem<String>(
+                      value: termsString,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: ListTile(
-                            title: Text(currentPanelName),
-                            trailing: const Icon(Icons.arrow_forward_outlined)
+                            title: const Text(
+                              termsString,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal
+                              ),
+                            ),
+                            trailing: currentPanelName == termsString ? Icon(
+                              Icons.check_circle,
+                              color: Theme.of(context).colorScheme.inversePrimary,
+                            ) : null
                         ),
-                      ),
+                      )
                     ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    currentPanelName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
+                    const PopupMenuDivider(),
+                    PopupMenuItem<String>(
+                      value: agreementString,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: ListTile(
+                            title: const Text(
+                              agreementString,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal
+                              ),
+                            ),
+                            trailing: currentPanelName == agreementString ? Icon(
+                              Icons.check_circle,
+                              color: Theme.of(context).colorScheme.inversePrimary,
+                            ) : null
+                        ),
+                      )
+                    )
+                  ],
+                  child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: Colors.grey),
                     ),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.0),
-                        child: ExpansionPanelList(
-                            dividerColor: Colors.grey,
-                            elevation: 0,
-                            expandedHeaderPadding: EdgeInsets.zero,
-                            expansionCallback: (int index, bool isExpanded) {
-                              setState(() {
-                                currentPanel[index]['isExpanded'] = isExpanded;
-                              });
-                            },
-                            materialGapSize: 0,
-                            children: currentPanel.mapIndexed((index, item) {
-                              return ExpansionPanel(
-                                canTapOnHeader: true,
-                                headerBuilder: (BuildContext context, bool isExpanded) {
-                                  return ListTile(
-                                    title: Text(item['title']),
-                                  );
-                                },
-                                body: ListTile(
-                                  subtitle: Html(
-                                    data: item['content'],
-                                  ),
-                                  tileColor: Theme.of(context).hoverColor,
-                                ),
-                                isExpanded: item['isExpanded'],
-                              );
-                            }).toList()
-                        )
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: ListTile(
+                          title: Text(currentPanelName),
+                          trailing: const Icon(Icons.arrow_forward_outlined)
+                      ),
                     ),
                   ),
-                ],
-              )
+                ),
+                const SizedBox(height: 16.0),
+                Text(
+                  currentPanelName,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: ExpansionPanelList(
+                          dividerColor: Colors.grey,
+                          elevation: 0,
+                          expandedHeaderPadding: EdgeInsets.zero,
+                          expansionCallback: (int index, bool isExpanded) {
+                            setState(() {
+                              currentPanel[index]['isExpanded'] = isExpanded;
+                            });
+                          },
+                          materialGapSize: 0,
+                          children: currentPanel.mapIndexed((index, item) {
+                            return ExpansionPanel(
+                              canTapOnHeader: true,
+                              headerBuilder: (BuildContext context, bool isExpanded) {
+                                return ListTile(
+                                  title: Text(item['title']),
+                                );
+                              },
+                              body: ListTile(
+                                subtitle: Html(
+                                  data: item['content'],
+                                ),
+                                tileColor: Theme.of(context).hoverColor,
+                              ),
+                              isExpanded: item['isExpanded'],
+                            );
+                          }).toList()
+                      )
+                  ),
+                ),
+              ],
             )
-          );
-        }
+          )
+        );
+      }
     );
   }
 
 }
+
+class MenuItem {
+  final int id;
+  final String label;
+  final IconData icon;
+
+  MenuItem(this.id, this.label, this.icon);
+}
+
+List<MenuItem> menuItems = [
+  MenuItem(1, 'Home', Icons.home),
+  MenuItem(2, 'Profile', Icons.person),
+  MenuItem(3, 'Settings', Icons.settings),
+  MenuItem(4, 'Favorites', Icons.favorite),
+  MenuItem(5, 'Notifications', Icons.notifications),
+  MenuItem(6, 'Messages', Icons.message),
+  MenuItem(7, 'Explore', Icons.explore),
+  MenuItem(8, 'Search', Icons.search),
+  MenuItem(9, 'Chat', Icons.chat),
+  MenuItem(10, 'Calendar', Icons.calendar_today),
+];
