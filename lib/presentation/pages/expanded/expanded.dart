@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/list_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_html/flutter_html.dart';
+import '../../core/model/menu_item.dart';
 import '../../core/services/screen_size_service.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -172,7 +173,7 @@ class _ExpandedPageState extends State<ExpandedPage> {
                       onSelected: (MenuItem? menu) {
                         print(menu?.label);
                       },
-                      dropdownMenuEntries: menuItems.map<DropdownMenuEntry<MenuItem>>((MenuItem menu) {
+                      dropdownMenuEntries: getDummyMenuItem().map<DropdownMenuEntry<MenuItem>>((MenuItem menu) {
                         return DropdownMenuEntry<MenuItem>(
                           value: menu,
                           label: menu.label,
@@ -324,24 +325,3 @@ class _ExpandedPageState extends State<ExpandedPage> {
   }
 
 }
-
-class MenuItem {
-  final int id;
-  final String label;
-  final IconData icon;
-
-  MenuItem(this.id, this.label, this.icon);
-}
-
-List<MenuItem> menuItems = [
-  MenuItem(1, 'Home', Icons.home),
-  MenuItem(2, 'Profile', Icons.person),
-  MenuItem(3, 'Settings', Icons.settings),
-  MenuItem(4, 'Favorites', Icons.favorite),
-  MenuItem(5, 'Notifications', Icons.notifications),
-  MenuItem(6, 'Messages', Icons.message),
-  MenuItem(7, 'Explore', Icons.explore),
-  MenuItem(8, 'Search', Icons.search),
-  MenuItem(9, 'Chat', Icons.chat),
-  MenuItem(10, 'Calendar', Icons.calendar_today),
-];
