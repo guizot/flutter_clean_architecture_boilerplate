@@ -15,5 +15,6 @@ class RoutesValues {
   static const String picker = '/picker';
   static const String webView = '/web-view';
   static const String coachMark = '/coach-mark';
+  static const String staggered = '/staggered';
 
 }

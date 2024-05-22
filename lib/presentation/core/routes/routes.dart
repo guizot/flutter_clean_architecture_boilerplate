@@ -10,6 +10,7 @@ import 'package:flutter_clean_architecture/presentation/pages/webview/webview.da
 import '../../pages/coachmark/coachmark.dart';
 import '../../pages/picker/picker.dart';
 import '../../pages/screen/screen.dart';
+import '../../pages/staggered/staggered.dart';
 import '../../pages/tmdb/tmdb_detail.dart';
 import '../../pages/tmdb/tmdb_favorite.dart';
 import '../../pages/tmdb/tmdb_list.dart';
@@ -50,6 +51,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => WebViewWrapperProvider(url: url));
       case RoutesValues.coachMark:
         return MaterialPageRoute(builder: (_) => const CoachMarkWrapperProvider());
+      case RoutesValues.staggered:
+        return MaterialPageRoute(builder: (_) => const StaggeredWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

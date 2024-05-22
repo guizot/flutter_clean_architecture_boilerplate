@@ -102,6 +102,9 @@ dependencies:
   # Coach Mark
   tutorial_coach_mark: ^1.2.11
 
+  # Staggered View
+  flutter_staggered_grid_view: ^0.7.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

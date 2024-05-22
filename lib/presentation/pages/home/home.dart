@@ -60,6 +60,27 @@ class _HomePageState extends State<HomePage> {
       }
     },
     {
+      "title": "Web View",
+      "subtitle": "the example of web view",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.webView, arguments: "https://www.google.com/");
+      }
+    },
+    {
+      "title": "Staggered List View",
+      "subtitle": "the example of staggered list and others",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.staggered);
+      }
+    },
+    {
+      "title": "Coach Mark",
+      "subtitle": "the example of coach mark tutorial",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.coachMark);
+      }
+    },
+    {
       "title": "Screen Size",
       "subtitle": "responsive ui screen size implementation",
       "tap": (context) {
@@ -73,20 +94,6 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushNamed(context, RoutesValues.image);
       }
     },
-    {
-      "title": "Web View",
-      "subtitle": "the example of web view",
-      "tap": (context) {
-        Navigator.pushNamed(context, RoutesValues.webView, arguments: "https://www.google.com/");
-      }
-    },
-    {
-      "title": "Coach Mark",
-      "subtitle": "the example of coach mark tutorial",
-      "tap": (context) {
-        Navigator.pushNamed(context, RoutesValues.coachMark);
-      }
-    }
   ];
 
   @override
