@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture/presentation/pages/datetime/datetime.dart';
 import 'package:flutter_clean_architecture/presentation/pages/expanded/expanded.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_detail.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_favorite.dart';
@@ -53,6 +54,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const CoachMarkWrapperProvider());
       case RoutesValues.staggered:
         return MaterialPageRoute(builder: (_) => const StaggeredWrapperProvider());
+      case RoutesValues.datetime:
+        return MaterialPageRoute(builder: (_) => const DateTimeWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

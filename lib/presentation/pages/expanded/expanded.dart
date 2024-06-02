@@ -111,7 +111,6 @@ class _ExpandedPageState extends State<ExpandedPage> {
       }
     }
   }
-
   @override
   Widget build(BuildContext context) {
     var ss = sl<ScreenSizeService>()..init(context);
@@ -316,6 +315,7 @@ class _ExpandedPageState extends State<ExpandedPage> {
                       )
                   ),
                 ),
+                const SizedBox(height: 16.0),
               ],
             )
           )
@@ -325,3 +325,4 @@ class _ExpandedPageState extends State<ExpandedPage> {
   }
 
 }
+

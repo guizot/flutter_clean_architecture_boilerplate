@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/mixins/share_mixin.dart';
@@ -72,34 +73,38 @@ class _StaggeredPageState extends State<StaggeredPage> with ShareMixin, TickerPr
                 tabAlignment: TabAlignment.start,
                 indicatorSize: TabBarIndicatorSize.tab,
                 controller: tabController,
-                tabs: const <Widget>[
-                  SizedBox(
-                    width: 80,
-                    child: Tab(
-                      icon: Icon(Icons.view_comfy_sharp),
-                      child: Text("Staggered"),
+                tabs: <Widget>[
+                  Tab(
+                    icon: const Icon(Icons.view_comfy_sharp),
+                    child: Container(
+                      width: 75,
+                      alignment: Alignment.center,
+                      child: const Text("Staggered"),
                     ),
                   ),
-                  SizedBox(
-                    width: 80,
-                    child: Tab(
-                      icon: Icon(Icons.view_quilt_sharp),
-                      child: Text("Quilted"),
+                  Tab(
+                    icon: const Icon(Icons.view_quilt_sharp),
+                    child: Container(
+                      width: 75,
+                      alignment: Alignment.center,
+                      child: const Text("Quilted"),
                     ),
                   ),
-                  SizedBox(
-                    width: 80,
-                    child: Tab(
-                      icon: Icon(Icons.grid_view_sharp),
-                      child: Text("Grid"),
+                  Tab(
+                    icon: const Icon(Icons.grid_view_sharp),
+                    child: Container(
+                      width: 75,
+                      alignment: Alignment.center,
+                      child: const Text("Grid"),
                     ),
                   ),
-                  SizedBox(
-                    width: 80,
-                    child: Tab(
-                      icon: Icon(Icons.view_column_sharp),
-                      child: Text("Aligned"),
-                    ),
+                  Tab(
+                    icon: const Icon(Icons.view_column_sharp),
+                    child: Container(
+                    width: 75,
+                      alignment: Alignment.center,
+                    child: const Text("Aligned"),
+                  ),
                   ),
                 ],
               ),
