@@ -51,7 +51,6 @@ class _StaggeredPageState extends State<StaggeredPage> with ShareMixin, TickerPr
     "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cat_November_2010-1a.jpg/1200px-Cat_November_2010-1a.jpg",
     "https://www.thesprucepets.com/thmb/OoMBiCxD3B02Jx-WO9dmY0DAaaI=/4000x0/filters:no_upscale():strip_icc()/cats-recirc3_2-1f5de201af94447a9063f83249260aff.jpg",
     "https://static.standard.co.uk/2023/10/26/12/Battersea%20-%20Black%20Cat%20photo.jpg?width=1200&height=1200&fit=crop",
-    "https://www.dailypaws.com/thmb/EwXoizWjWeD9bou3GxYiVycYqnQ=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/orange-british-shorthair-1070960066-ff593bc81cfa47e29aa80f0a0085f336.jpg",
     "https://images.theconversation.com/files/560110/original/file-20231117-29-fv986f.jpg?ixlib=rb-4.1.0&rect=0%2C0%2C5048%2C2524&q=45&auto=format&w=1356&h=668&fit=crop",
     "https://www.animalfriends.co.uk/siteassets/media/images/article-images/cat-articles/51_afi_article1_the-secret-language-of-cats.png",
     "https://images.theconversation.com/files/540798/original/file-20230802-25-fqa49r.jpg?ixlib=rb-4.1.0&q=30&auto=format&w=754&h=1131&fit=crop&dpr=2",
