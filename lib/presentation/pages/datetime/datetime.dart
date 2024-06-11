@@ -36,7 +36,7 @@ class _DateTimePageState extends State<DateTimePage> {
   TimeOfDay cupertinoSelectedTime = TimeOfDay.now();
   String radioValue = "No Data";
   bool isSwitched = false;
-  double sliderValue = 0.2;
+  double sliderValue = 0.1;
 
   @override
   Widget build(BuildContext context) {
@@ -534,6 +534,7 @@ class _DateTimePageState extends State<DateTimePage> {
                     Slider(
                       value: sliderValue,
                       label: sliderValue.round().toString(),
+                      secondaryTrackValue: 0.5,
                       max: 1,
                       divisions: 10,
                       onChanged: (double value) {
