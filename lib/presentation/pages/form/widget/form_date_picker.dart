@@ -26,11 +26,11 @@ class _FormDatePickerState extends State<FormDatePicker> {
       try {
         return DateTime.parse(widget.item.value);
       } catch (e) {
-        setValue("No Date");
+        widget.item.value = "No Date";
         return DateTime.now();
       }
     } else {
-      setValue("No Date");
+      widget.item.value = "No Date";
       return DateTime.now();
     }
   }

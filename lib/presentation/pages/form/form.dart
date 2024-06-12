@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
@@ -57,7 +58,7 @@ class _FormPageState extends State<FormPage> {
                 context: context,
                 items: forms,
                 onSubmit: (List<FormAnswer> answers) {
-                  print(answers.map((answer) => '${answer.id}: ${answer.answer}').join('\n'));
+                  print(jsonEncode(answers.map((answer) => answer.toJson()).toList()));
                 },
               ).getForms(),
             )

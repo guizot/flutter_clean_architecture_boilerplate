@@ -47,11 +47,11 @@ class _FormTimePickerState extends State<FormTimePicker> {
         int minute = int.parse(parts[1]);
         return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hour, minute);
       } catch (e) {
-        setValue("No Time");
+        widget.item.value = "No Time";
         return DateTime.now();
       }
     } else {
-      setValue("No Time");
+      widget.item.value = "No Time";
       return DateTime.now();
     }
   }
