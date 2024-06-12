@@ -17,7 +17,7 @@ class FormWrapperProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<FormCubit>(),
-      child: const FormPage(title: "Form"),
+      child: const FormPage(title: "Form Designer"),
     );
   }
 }
@@ -32,8 +32,8 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final List<FormItem> forms = [
-    FormItem(id: "A001", type: '01', typeName: "Date Picker", label: "Label 1", value: ""),
-    FormItem(id: "A002", type: '02', typeName: "Time Picker", label: "Label 2", value: ""),
+    FormItem(id: "A0001", type: '01', typeName: "Date Picker", label: "Label 1", value: "", error: false, required: false),
+    FormItem(id: "A0002", type: '02', typeName: "Time Picker", label: "Label 2", value: "", error: false, required: true),
   ];
 
   @override
@@ -52,15 +52,11 @@ class _FormPageState extends State<FormPage> {
           ),
           body: Container(
             padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              clipBehavior: Clip.none,
-              children: FormDesigner(
-                context: context,
-                items: forms,
-                onSubmit: (List<FormAnswer> answers) {
-                  print(jsonEncode(answers.map((answer) => answer.toJson()).toList()));
-                },
-              ).getForms(),
+            child: FormDesigner(
+              items: forms,
+              onSubmit: (List<FormAnswer> answers) {
+                print(jsonEncode(answers.map((answer) => answer.toJson()).toList()));
+              },
             )
           )
         );

@@ -30,11 +30,11 @@ class _FormTimePickerState extends State<FormTimePicker> {
         int minute = int.parse(parts[1]);
         return TimeOfDay(hour: hour, minute: minute);
       } catch (e) {
-        setValue("No Time");
+        widget.item.value = "No Data";
         return TimeOfDay.now();
       }
     } else {
-      setValue("No Time");
+      widget.item.value = "No Data";
       return TimeOfDay.now();
     }
   }
@@ -47,11 +47,11 @@ class _FormTimePickerState extends State<FormTimePicker> {
         int minute = int.parse(parts[1]);
         return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, hour, minute);
       } catch (e) {
-        widget.item.value = "No Time";
+        widget.item.value = "No Data";
         return DateTime.now();
       }
     } else {
-      widget.item.value = "No Time";
+      widget.item.value = "No Data";
       return DateTime.now();
     }
   }
@@ -59,6 +59,7 @@ class _FormTimePickerState extends State<FormTimePicker> {
   void setValue(String value) {
     setState(() {
       widget.item.value = value;
+      widget.item.error = false;
     });
   }
 
@@ -79,7 +80,7 @@ class _FormTimePickerState extends State<FormTimePicker> {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: widget.item.error ? Colors.red : Colors.grey),
             ),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(16.0),
@@ -98,7 +99,27 @@ class _FormTimePickerState extends State<FormTimePicker> {
                 )
             )
         ),
-        const SizedBox(height: 8.0),
+        (
+            widget.item.error
+                ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 4.0),
+                Text(
+                    "${widget.item.label} can not be empty",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 12,
+                    )
+                ),
+                const SizedBox(height: 4.0),
+              ],
+            )
+                : const SizedBox(height: 8.0)
+        ),
         (
           Platform.isIOS
               ? ElevatedButton(

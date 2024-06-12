@@ -3,6 +3,8 @@ class FormItem {
   final String type;
   final String typeName;
   final String label;
+  bool error = false;
+  bool required = false;
   dynamic value;
 
   FormItem({
@@ -10,6 +12,8 @@ class FormItem {
     required this.type,
     required this.typeName,
     required this.label,
+    required this.error,
+    required this.required,
     this.value
   });
 }
