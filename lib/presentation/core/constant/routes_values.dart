@@ -17,5 +17,6 @@ class RoutesValues {
   static const String coachMark = '/coach-mark';
   static const String staggered = '/staggered';
   static const String datetime = '/date-time';
+  static const String form = '/form';
 
 }

@@ -67,6 +67,13 @@ class _HomePageState extends State<HomePage> {
       }
     },
     {
+      "title": "Form Designer",
+      "subtitle": "dynamic form creation example",
+      "tap": (context) {
+        Navigator.pushNamed(context, RoutesValues.form);
+      }
+    },
+    {
       "title": "Web View",
       "subtitle": "the example of web view",
       "tap": (context) {

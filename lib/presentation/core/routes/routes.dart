@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/pages/datetime/datetime.dart';
 import 'package:flutter_clean_architecture/presentation/pages/expanded/expanded.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/form.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_detail.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_favorite.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
@@ -56,6 +57,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const StaggeredWrapperProvider());
       case RoutesValues.datetime:
         return MaterialPageRoute(builder: (_) => const DateTimeWrapperProvider());
+      case RoutesValues.form:
+        return MaterialPageRoute(builder: (_) => const FormWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(
