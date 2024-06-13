@@ -3,6 +3,7 @@ import 'package:flutter_clean_architecture/presentation/pages/form/model/form_an
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_date_picker.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_radio.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_switch.dart';
 import '../model/form_item.dart';
 import '../widget/form_time_picker.dart';
 import '../widget/form_unknown.dart';
@@ -26,7 +27,7 @@ class _FormDesignerState extends State<FormDesigner> {
   bool validateForm() {
     bool isValid = true;
     for (var item in widget.items) {
-      if (item.value == null || item.value == "" || item.value == "No Data") {
+      if (item.value == null || item.value == "" || item.value == "No Data" || item.value == false) {
         if(item.required) {
           item.error = true;
           isValid = false;
@@ -51,6 +52,9 @@ class _FormDesignerState extends State<FormDesigner> {
       case '03':
         /// e.g. value: "Monday"
         return FormRadio(item: item);
+      case '04':
+      /// e.g. value: true
+        return FormSwitch(item: item);
       default:
         return const FormUnknown();
     }

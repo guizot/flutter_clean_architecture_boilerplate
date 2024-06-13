@@ -75,6 +75,25 @@ class _FormPageState extends State<FormPage> {
           }
         ]
     ),
+    FormItem(
+        id: "A0004",
+        type: '04',
+        typeName: "Switch Picker",
+        label: "Do you agree to the terms?",
+        value: false,
+        error: false,
+        required: true,
+        content: [
+          {
+            'value': 'Agree',
+            'label': 'Agree',
+          },
+          {
+            'value': 'Not Agree',
+            'label': 'Not Agree',
+          },
+        ]
+    ),
   ];
 
   @override

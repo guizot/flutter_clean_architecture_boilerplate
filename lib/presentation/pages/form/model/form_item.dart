@@ -6,7 +6,7 @@ class FormItem {
   bool error = false;
   bool required = false;
   dynamic value;
-  List<Map<String, String>> content = [];
+  List<Map<String, dynamic>> content = [];
 
   FormItem({
     required this.id,

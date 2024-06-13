@@ -1,6 +1,6 @@
 class FormAnswer {
   String id;
-  String answer;
+  dynamic answer;
 
   FormAnswer({required this.id, required this.answer});
 
