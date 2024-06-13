@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
+import 'package:flutter_clean_architecture/presentation/core/utils/platform_utils.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +18,11 @@ class _FormTimePickerState extends State<FormTimePicker> {
 
   @override
   void initState() {
-    Platform.isIOS ? getValueIos() : getValueAndroid();
+    if(PlatformUtils.isWeb) {
+      getValueAndroid();
+    } else if (PlatformUtils.isMobile) {
+      Platform.isIOS ? getValueIos() : getValueAndroid();
+    }
     super.initState();
   }
 
@@ -68,11 +72,26 @@ class _FormTimePickerState extends State<FormTimePicker> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          widget.item.label,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: widget.item.label,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Theme.of(context).textTheme.bodyLarge?.color
+                ),
+              ),
+              TextSpan(
+                text: widget.item.required ? " *" : " (Optional)",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: widget.item.required ? 18 : 14,
+                    color: widget.item.required ? Colors.red : Colors.grey
+                ),
+              )
+            ],
           ),
         ),
         const SizedBox(height: 8),
@@ -102,27 +121,61 @@ class _FormTimePickerState extends State<FormTimePicker> {
         (
             widget.item.error
                 ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4.0),
-                Text(
-                    "${widget.item.label} can not be empty",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 12,
-                    )
-                ),
-                const SizedBox(height: 4.0),
-              ],
-            )
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 4.0),
+                      Text(
+                          "${widget.item.label} can not be empty",
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12,
+                          )
+                      ),
+                      const SizedBox(height: 4.0),
+                    ],
+                  )
                 : const SizedBox(height: 8.0)
         ),
         (
-          Platform.isIOS
-              ? ElevatedButton(
+          PlatformUtils.isWeb
+            ? ElevatedButton(
+              onPressed: () async {
+                final TimeOfDay? picked = await showTimePicker(
+                  context: context,
+                  initialTime: getValueAndroid(),
+                );
+                if(picked != null) {
+                  String formattedTime = '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
+                  setValue(formattedTime);
+                }
+              },
+              style: ButtonStyle(
+                elevation: const MaterialStatePropertyAll(0.0),
+                shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        side: const BorderSide(
+                          width: 1.0,
+                          color: Colors.grey,
+                        )
+                    )
+                ),
+              ),
+              child: Text(
+                  "Select Time",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inverseSurface,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                  )
+              ),
+            )
+            : (
+                Platform.isIOS
+                  ? ElevatedButton(
                 onPressed: () async {
                   showModalBottomSheet(
                     context: context,
@@ -162,37 +215,38 @@ class _FormTimePickerState extends State<FormTimePicker> {
                     )
                 ),
               )
-              : ElevatedButton(
-                onPressed: () async {
-                  final TimeOfDay? picked = await showTimePicker(
-                    context: context,
-                    initialTime: getValueAndroid(),
-                  );
-                  if(picked != null) {
-                    String formattedTime = '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
-                    setValue(formattedTime);
-                  }
-                },
-                style: ButtonStyle(
-                  elevation: const MaterialStatePropertyAll(0.0),
-                  shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: const BorderSide(
-                            width: 1.0,
-                            color: Colors.grey,
-                          )
-                      )
-                  ),
-                ),
-                child: Text(
-                    "Select Time",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inverseSurface,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
+                  : ElevatedButton(
+              onPressed: () async {
+                final TimeOfDay? picked = await showTimePicker(
+                  context: context,
+                  initialTime: getValueAndroid(),
+                );
+                if(picked != null) {
+                  String formattedTime = '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
+                  setValue(formattedTime);
+                }
+              },
+              style: ButtonStyle(
+                elevation: const MaterialStatePropertyAll(0.0),
+                shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        side: const BorderSide(
+                          width: 1.0,
+                          color: Colors.grey,
+                        )
                     )
                 ),
+              ),
+              child: Text(
+                  "Select Time",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inverseSurface,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                  )
+              ),
+            )
               )
         ),
         const SizedBox(height: 16.0),

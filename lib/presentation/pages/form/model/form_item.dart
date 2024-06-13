@@ -6,6 +6,7 @@ class FormItem {
   bool error = false;
   bool required = false;
   dynamic value;
+  List<Map<String, String>> content = [];
 
   FormItem({
     required this.id,
@@ -14,6 +15,7 @@ class FormItem {
     required this.label,
     required this.error,
     required this.required,
-    this.value
+    this.value,
+    required this.content
   });
 }

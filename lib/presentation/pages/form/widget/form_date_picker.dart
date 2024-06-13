@@ -5,6 +5,8 @@ import 'package:flutter_clean_architecture/presentation/core/extension/color_ext
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/utils/platform_utils.dart';
+
 class FormDatePicker extends StatefulWidget {
   final FormItem item;
   const FormDatePicker({super.key, required this.item});
@@ -47,11 +49,26 @@ class _FormDatePickerState extends State<FormDatePicker> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          widget.item.label,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: widget.item.label,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                    color: Theme.of(context).textTheme.bodyLarge?.color
+                ),
+              ),
+              TextSpan(
+                text: widget.item.required ? " *" : " (Optional)",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: widget.item.required ? 18 : 14,
+                  color: widget.item.required ? Colors.red : Colors.grey
+                ),
+              )
+            ],
           ),
         ),
         const SizedBox(height: 8),
@@ -87,7 +104,7 @@ class _FormDatePickerState extends State<FormDatePicker> {
                 const SizedBox(height: 4.0),
                 Text(
                     "${widget.item.label} can not be empty",
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                     style: const TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.normal,
@@ -100,81 +117,118 @@ class _FormDatePickerState extends State<FormDatePicker> {
             : const SizedBox(height: 8.0)
         ),
         (
-          Platform.isIOS
-              ? ElevatedButton(
-              onPressed: () async {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext builder) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.date,
-                        initialDateTime: getValue(),
-                        onDateTimeChanged: (DateTime newDate) {
-                          String formattedDate = DateFormat('yyyy-MM-dd').format(newDate);
-                          setValue(formattedDate);
-                        },
-                      ),
+          PlatformUtils.isWeb
+            ? ElevatedButton(
+          onPressed: () async {
+            final DateTime? picked = await showDatePicker(
+                context: context,
+                initialDate: getValue(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2025)
+            );
+            if(picked != null) {
+              String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+              setValue(formattedDate);
+            }
+          },
+          style: ButtonStyle(
+            elevation: const MaterialStatePropertyAll(0.0),
+            shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: const BorderSide(
+                      width: 1.0,
+                      color: Colors.grey,
+                    )
+                )
+            ),
+          ),
+          child: Text(
+              "Select Date",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.inverseSurface,
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+              )
+          ),
+        )
+            : (
+                Platform.isIOS
+                    ? ElevatedButton(
+                  onPressed: () async {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext builder) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height / 3,
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.date,
+                            initialDateTime: getValue(),
+                            onDateTimeChanged: (DateTime newDate) {
+                              String formattedDate = DateFormat('yyyy-MM-dd').format(newDate);
+                              setValue(formattedDate);
+                            },
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-              style: ButtonStyle(
-                elevation: const MaterialStatePropertyAll(0.0),
-                shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: const BorderSide(
-                          width: 1.0,
-                          color: Colors.grey,
+                  style: ButtonStyle(
+                    elevation: const MaterialStatePropertyAll(0.0),
+                    shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: const BorderSide(
+                              width: 1.0,
+                              color: Colors.grey,
+                            )
                         )
-                    )
-                ),
-              ),
-              child: Text(
-                  "Select Date",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inverseSurface,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                  )
-              ),
-            )
-              : ElevatedButton(
-              onPressed: () async {
-                final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: getValue(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2025)
-                );
-                if(picked != null) {
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
-                  setValue(formattedDate);
-                }
-              },
-              style: ButtonStyle(
-                elevation: const MaterialStatePropertyAll(0.0),
-                shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: const BorderSide(
-                          width: 1.0,
-                          color: Colors.grey,
+                    ),
+                  ),
+                  child: Text(
+                      "Select Date",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inverseSurface,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16,
+                      )
+                  ),
+                )
+                    : ElevatedButton(
+                    onPressed: () async {
+                      final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: getValue(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2025)
+                      );
+                      if(picked != null) {
+                        String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+                        setValue(formattedDate);
+                      }
+                    },
+                    style: ButtonStyle(
+                      elevation: const MaterialStatePropertyAll(0.0),
+                      shape: MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              side: const BorderSide(
+                                width: 1.0,
+                                color: Colors.grey,
+                              )
+                          )
+                      ),
+                    ),
+                    child: Text(
+                        "Select Date",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inverseSurface,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
                         )
-                    )
-                ),
-              ),
-              child: Text(
-                  "Select Date",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inverseSurface,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
+                    ),
                   )
-              ),
-            )
+              )
         ),
         const SizedBox(height: 16.0),
       ],

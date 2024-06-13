@@ -32,14 +32,50 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final List<FormItem> forms = [
-    FormItem(id: "A0001", type: '01', typeName: "Date Picker", label: "Label 1", value: "", error: false, required: false),
-    FormItem(id: "A0002", type: '02', typeName: "Time Picker", label: "Label 2", value: "", error: false, required: true),
+    FormItem(
+        id: "A0001",
+        type: '01',
+        typeName: "Date Picker",
+        label: "When will you go to Switzerland?",
+        value: "",
+        error: false,
+        required: false,
+        content: []
+    ),
+    FormItem(
+        id: "A0002",
+        type: '02',
+        typeName: "Time Picker",
+        label: "What time did you sleep?",
+        value: "",
+        error: false,
+        required: true,
+        content: []
+    ),
+    FormItem(
+        id: "A0003",
+        type: '03',
+        typeName: "Radio Picker",
+        label: "What day will you stay?",
+        value: "",
+        error: false,
+        required: true,
+        content: [
+          {
+            'value': 'Monday',
+            'label': 'Monday',
+          },
+          {
+            'value': 'Tuesday',
+            'label': 'Tuesday',
+          },
+          {
+            'value': 'Wednesday',
+            'label': 'Wednesday',
+          }
+        ]
+    ),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

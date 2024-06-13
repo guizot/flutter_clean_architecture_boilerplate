@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_answer.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_date_picker.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_radio.dart';
 import '../model/form_item.dart';
 import '../widget/form_time_picker.dart';
 import '../widget/form_unknown.dart';
@@ -47,6 +48,9 @@ class _FormDesignerState extends State<FormDesigner> {
       case '02':
         /// e.g. value: "13:15"
         return FormTimePicker(item: item);
+      case '03':
+        /// e.g. value: "Monday"
+        return FormRadio(item: item);
       default:
         return const FormUnknown();
     }
