@@ -60,13 +60,6 @@ class _HomePageState extends State<HomePage> {
       }
     },
     {
-      "title": "Date Time Picker",
-      "subtitle": "date time picker implementation",
-      "tap": (context) {
-        Navigator.pushNamed(context, RoutesValues.datetime);
-      }
-    },
-    {
       "title": "Form Designer",
       "subtitle": "dynamic form creation example",
       "tap": (context) {

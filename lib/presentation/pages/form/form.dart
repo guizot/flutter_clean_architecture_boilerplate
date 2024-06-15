@@ -39,7 +39,7 @@ class _FormPageState extends State<FormPage> {
         label: "When will you go to Switzerland?",
         value: "",
         error: false,
-        required: false,
+        required: true,
         content: []
     ),
     FormItem(
@@ -85,14 +85,47 @@ class _FormPageState extends State<FormPage> {
         required: true,
         content: [
           {
-            'value': 'Agree',
+            'value': true,
             'label': 'Agree',
           },
           {
-            'value': 'Not Agree',
+            'value': false,
             'label': 'Not Agree',
           },
         ]
+    ),
+    FormItem(
+        id: "A0005",
+        type: '05',
+        typeName: "Slider Picker",
+        label: "How much you satisfy?",
+        value: 10.0,
+        error: false,
+        required: true,
+        content: [
+          {
+            'value': 20.0,
+            'label': 'min',
+          },
+          {
+            'value': 50.0,
+            'label': 'max',
+          },
+          {
+            'value': null,
+            'label': 'division',
+          },
+        ]
+    ),
+    FormItem(
+        id: "A0006",
+        type: '06',
+        typeName: "Text Field",
+        label: "Where do you stay?",
+        value: "",
+        error: false,
+        required: true,
+        content: []
     ),
   ];
 

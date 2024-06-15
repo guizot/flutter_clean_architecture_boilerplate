@@ -3,7 +3,9 @@ import 'package:flutter_clean_architecture/presentation/pages/form/model/form_an
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_date_picker.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_radio.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_slider.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_switch.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_text_field.dart';
 import '../model/form_item.dart';
 import '../widget/form_time_picker.dart';
 import '../widget/form_unknown.dart';
@@ -27,15 +29,26 @@ class _FormDesignerState extends State<FormDesigner> {
   bool validateForm() {
     bool isValid = true;
     for (var item in widget.items) {
-      if (item.value == null || item.value == "" || item.value == "No Data" || item.value == false) {
-        if(item.required) {
-          item.error = true;
-          isValid = false;
+      try {
+        if (
+            item.value == null ||
+            item.value == "" ||
+            item.value == "No Data" ||
+            item.value == false ||
+            (item.type == '05' && item.value == item.content.elementAt(0)['value'])
+        ) {
+          if(item.required) {
+            item.error = true;
+            isValid = false;
+          } else {
+            item.error = false;
+          }
         } else {
           item.error = false;
         }
-      } else {
-        item.error = false;
+      } catch(e) {
+        item.error = true;
+        isValid = false;
       }
     }
     return isValid;
@@ -53,10 +66,19 @@ class _FormDesignerState extends State<FormDesigner> {
         /// e.g. value: "Monday"
         return FormRadio(item: item);
       case '04':
-      /// e.g. value: true
+        /// e.g. value: true
         return FormSwitch(item: item);
+      case '05':
+        /// e.g. value: 5
+        return FormSlider(item: item);
+      case '06':
+        /// e.g. value: "Indonesia"
+        return FormTextField(item: item);
       default:
-        return const FormUnknown();
+        return const FormUnknown(
+            label: "Unknown Type",
+            message: "Unknown Type"
+        );
     }
   }
 

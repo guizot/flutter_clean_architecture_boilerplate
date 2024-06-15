@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 
 class FormUnknown extends StatefulWidget {
-  const FormUnknown({super.key});
+  final String label;
+  final String message;
+  const FormUnknown({super.key, required this.label, required this.message});
 
   @override
   State<FormUnknown> createState() => _FormUnknownState();
@@ -15,9 +17,9 @@ class _FormUnknownState extends State<FormUnknown> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          "Unknown Type",
-          style: TextStyle(
+        Text(
+          widget.label,
+          style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18
           ),
@@ -27,7 +29,7 @@ class _FormUnknownState extends State<FormUnknown> {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: Colors.red),
             ),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(16.0),
@@ -35,10 +37,10 @@ class _FormUnknownState extends State<FormUnknown> {
                   color: Theme.of(context).hintColor.toMaterialColor().shade50,
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                      "Unknown Type",
+                      widget.message,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.inverseSurface,
+                      style: const TextStyle(
+                        color: Colors.red,
                         fontWeight: FontWeight.normal,
                         fontSize: 16,
                       )
