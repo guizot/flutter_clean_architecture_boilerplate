@@ -85,12 +85,12 @@ class _FormPageState extends State<FormPage> {
         required: true,
         content: [
           {
-            'value': true,
-            'label': 'Agree',
+            'value': 'Agree',
+            'label': 'positive',
           },
           {
-            'value': false,
-            'label': 'Not Agree',
+            'value': 'Not Agree',
+            'label': 'negative',
           },
         ]
     ),
@@ -126,6 +126,29 @@ class _FormPageState extends State<FormPage> {
         error: false,
         required: true,
         content: []
+    ),
+    FormItem(
+        id: "A0007",
+        type: '07',
+        typeName: "Check Box Picker",
+        label: "Which country you will visit?",
+        value: [],
+        error: false,
+        required: true,
+        content: [
+          {
+            'value': false,
+            'label': 'Germany',
+          },
+          {
+            'value': false,
+            'label': 'Switzerland',
+          },
+          {
+            'value': false,
+            'label': 'France',
+          }
+        ]
     ),
   ];
 

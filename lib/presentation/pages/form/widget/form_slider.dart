@@ -29,17 +29,17 @@ class _FormSliderState extends State<FormSlider> {
           widget.item.value is int
       ) {
         if(
-            widget.item.value < widget.item.content.elementAt(0)['value'] ||
-            widget.item.value > widget.item.content.elementAt(1)['value']
+            widget.item.value < getContentValue('min') ||
+            widget.item.value > getContentValue('max')
         ) {
-          double minValue = widget.item.content.elementAt(0)['value'];
+          double minValue = getContentValue('min');
           widget.item.value = minValue;
           return minValue;
         } else {
           return widget.item.value.toDouble();
         }
       } else {
-        double minValue = widget.item.content.elementAt(0)['value'];
+        double minValue = getContentValue('min');
         widget.item.value = minValue;
         return minValue;
       }
@@ -54,6 +54,11 @@ class _FormSliderState extends State<FormSlider> {
       widget.item.value = value;
       widget.item.error = false;
     });
+  }
+
+  dynamic getContentValue(String key) {
+    Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
+    return foundItem['value'];
   }
 
   @override
@@ -98,9 +103,9 @@ class _FormSliderState extends State<FormSlider> {
             child: Slider(
               value: getValue(),
               label: getValue().round().toString(),
-              min: widget.item.content.elementAt(0)['value'],
-              max: widget.item.content.elementAt(1)['value'],
-              divisions: widget.item.content.elementAt(2)['value'],
+              min: getContentValue('min'),
+              max: getContentValue('max'),
+              divisions: getContentValue('division'),
               onChanged: (double value) {
                 setValue(value.round());
               },

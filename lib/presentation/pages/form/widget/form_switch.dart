@@ -37,6 +37,11 @@ class _FormSwitchState extends State<FormSwitch> {
     });
   }
 
+  dynamic getContentValue(String key) {
+    Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
+    return foundItem['value'];
+  }
+
   @override
   Widget build(BuildContext context) {
     try {
@@ -61,7 +66,7 @@ class _FormSwitchState extends State<FormSwitch> {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        getValue() ? widget.item.content.elementAt(0)['label']! : widget.item.content.elementAt(1)['label']!,
+                        getValue() ? getContentValue('positive') : getContentValue('negative'),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.inverseSurface,

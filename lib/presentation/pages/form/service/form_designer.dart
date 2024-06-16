@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_answer.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_check_box.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_date_picker.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_radio.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_slider.dart';
@@ -35,7 +36,8 @@ class _FormDesignerState extends State<FormDesigner> {
             item.value == "" ||
             item.value == "No Data" ||
             item.value == false ||
-            (item.type == '05' && item.value == item.content.elementAt(0)['value'])
+            (item.type == '05' && item.value == item.content.elementAt(0)['value']) ||
+            (item.value is List && item.value.isEmpty)
         ) {
           if(item.required) {
             item.error = true;
@@ -74,6 +76,9 @@ class _FormDesignerState extends State<FormDesigner> {
       case '06':
         /// e.g. value: "Indonesia"
         return FormTextField(item: item);
+      case '07':
+        /// e.g. value: ['Germany', 'Switzerland']
+        return FormCheckBox(item: item);
       default:
         return const FormUnknown(
             label: "Unknown Type",
