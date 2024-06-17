@@ -131,7 +131,7 @@ class _FormPageState extends State<FormPage> {
         id: "A0007",
         type: '07',
         typeName: "Check Box Picker",
-        label: "Which country you will visit?",
+        label: "Which country will you visit?",
         value: [],
         error: false,
         required: true,
@@ -147,6 +147,37 @@ class _FormPageState extends State<FormPage> {
           {
             'value': false,
             'label': 'France',
+          }
+        ]
+    ),
+    FormItem(
+        id: "A0008",
+        type: '08',
+        typeName: "Drop Down Picker",
+        label: "Which city will you visit?",
+        value: null,
+        error: false,
+        required: true,
+        content: [
+          {
+            'value': 'Washington',
+            'label': 'Washington',
+          },
+          {
+            'value': 'London',
+            'label': 'London',
+          },
+          {
+            'value': 'Berlin',
+            'label': 'Berlin',
+          },
+          {
+            'value': 'Tokyo',
+            'label': 'Tokyo',
+          },
+          {
+            'value': 'Jakarta',
+            'label': 'Jakarta',
           }
         ]
     ),

@@ -3,6 +3,7 @@ import 'package:flutter_clean_architecture/presentation/pages/form/model/form_an
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_check_box.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_date_picker.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_drop_down.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_radio.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_slider.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_switch.dart';
@@ -79,6 +80,9 @@ class _FormDesignerState extends State<FormDesigner> {
       case '07':
         /// e.g. value: ['Germany', 'Switzerland']
         return FormCheckBox(item: item);
+      case '08':
+        /// e.g. value: "London"
+        return FormDropDown(item: item);
       default:
         return const FormUnknown(
             label: "Unknown Type",
