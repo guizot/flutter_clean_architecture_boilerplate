@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 
+import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
 import 'form_unknown.dart';
 
 class FormRadio extends StatefulWidget {
   final FormItem item;
-  const FormRadio({super.key, required this.item});
+  final FormController? controller;
+  const FormRadio({super.key, required this.item, this.controller});
 
   @override
   State<FormRadio> createState() => _FormRadioState();
@@ -19,6 +21,7 @@ class _FormRadioState extends State<FormRadio> {
   @override
   void initState() {
     initValue();
+    setController();
     super.initState();
   }
 
@@ -33,6 +36,11 @@ class _FormRadioState extends State<FormRadio> {
       widget.item.value = value;
       widget.item.error = false;
     });
+    setController();
+  }
+
+  void setController() {
+    widget.controller?.item = widget.item;
   }
 
   @override

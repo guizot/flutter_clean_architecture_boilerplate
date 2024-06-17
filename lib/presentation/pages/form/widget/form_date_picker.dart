@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_error_message.dart';
 import 'package:intl/intl.dart';
 
@@ -12,7 +13,8 @@ import 'form_unknown.dart';
 
 class FormDatePicker extends StatefulWidget {
   final FormItem item;
-  const FormDatePicker({super.key, required this.item});
+  final FormController? controller;
+  const FormDatePicker({super.key, required this.item, this.controller});
 
   @override
   State<FormDatePicker> createState() => _FormDatePickerState();
@@ -23,6 +25,7 @@ class _FormDatePickerState extends State<FormDatePicker> {
   @override
   void initState() {
     getValue();
+    setController();
     super.initState();
   }
 
@@ -45,6 +48,11 @@ class _FormDatePickerState extends State<FormDatePicker> {
       widget.item.value = value;
       widget.item.error = false;
     });
+    setController();
+  }
+
+  void setController() {
+    widget.controller?.item = widget.item;
   }
 
   @override

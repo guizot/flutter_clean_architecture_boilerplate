@@ -3,12 +3,14 @@ import 'package:flutter_clean_architecture/presentation/core/extension/color_ext
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_unknown.dart';
 
+import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
 
 class FormSlider extends StatefulWidget {
   final FormItem item;
-  const FormSlider({super.key, required this.item});
+  final FormController? controller;
+  const FormSlider({super.key, required this.item, this.controller});
 
   @override
   State<FormSlider> createState() => _FormSliderState();
@@ -19,6 +21,7 @@ class _FormSliderState extends State<FormSlider> {
   @override
   void initState() {
     getValue();
+    setController();
     super.initState();
   }
 
@@ -54,11 +57,16 @@ class _FormSliderState extends State<FormSlider> {
       widget.item.value = value;
       widget.item.error = false;
     });
+    setController();
   }
 
   dynamic getContentValue(String key) {
     Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
     return foundItem['value'];
+  }
+
+  void setController() {
+    widget.controller?.item = widget.item;
   }
 
   @override

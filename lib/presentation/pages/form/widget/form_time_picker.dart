@@ -6,13 +6,15 @@ import 'package:flutter_clean_architecture/presentation/core/utils/platform_util
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:intl/intl.dart';
 
+import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
 import 'form_unknown.dart';
 
 class FormTimePicker extends StatefulWidget {
   final FormItem item;
-  const FormTimePicker({super.key, required this.item});
+  final FormController? controller;
+  const FormTimePicker({super.key, required this.item, this.controller});
 
   @override
   State<FormTimePicker> createState() => _FormTimePickerState();
@@ -27,6 +29,7 @@ class _FormTimePickerState extends State<FormTimePicker> {
     } else if (PlatformUtils.isMobile) {
       Platform.isIOS ? getValueIos() : getValueAndroid();
     }
+    setController();
     super.initState();
   }
 
@@ -69,6 +72,11 @@ class _FormTimePickerState extends State<FormTimePicker> {
       widget.item.value = value;
       widget.item.error = false;
     });
+    setController();
+  }
+
+  void setController() {
+    widget.controller?.item = widget.item;
   }
 
   @override

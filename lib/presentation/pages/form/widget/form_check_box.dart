@@ -3,13 +3,15 @@ import 'package:flutter_clean_architecture/presentation/core/extension/color_ext
 import 'package:flutter_clean_architecture/presentation/core/extension/list_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 
+import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
 import 'form_unknown.dart';
 
 class FormCheckBox extends StatefulWidget {
   final FormItem item;
-  const FormCheckBox({super.key, required this.item});
+  final FormController? controller;
+  const FormCheckBox({super.key, required this.item, this.controller});
 
   @override
   State<FormCheckBox> createState() => _FormCheckBoxState();
@@ -20,6 +22,7 @@ class _FormCheckBoxState extends State<FormCheckBox> {
   @override
   void initState() {
     getValue();
+    setController();
     super.initState();
   }
 
@@ -47,6 +50,11 @@ class _FormCheckBoxState extends State<FormCheckBox> {
       widget.item.value = list.isNotEmpty ? list : "No Data";
       widget.item.error = false;
     });
+    setController();
+  }
+
+  void setController() {
+    widget.controller?.item = widget.item;
   }
 
   @override

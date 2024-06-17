@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 
+import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
 import 'form_unknown.dart';
 
 class FormTextField extends StatefulWidget {
   final FormItem item;
-  const FormTextField({super.key, required this.item});
+  final FormController? controller;
+  const FormTextField({super.key, required this.item, this.controller});
 
   @override
   State<FormTextField> createState() => _FormTextFieldState();
@@ -19,6 +21,7 @@ class _FormTextFieldState extends State<FormTextField> {
   @override
   void initState() {
     getValue();
+    setController();
     super.initState();
   }
 
@@ -35,6 +38,11 @@ class _FormTextFieldState extends State<FormTextField> {
       widget.item.value = value;
       widget.item.error = false;
     });
+    setController();
+  }
+
+  void setController() {
+    widget.controller?.item = widget.item;
   }
 
   @override

@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 
+import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
 import 'form_unknown.dart';
 
 class FormSwitch extends StatefulWidget {
   final FormItem item;
-  const FormSwitch({super.key, required this.item});
+  final FormController? controller;
+  const FormSwitch({super.key, required this.item, this.controller});
 
   @override
   State<FormSwitch> createState() => _FormSwitchState();
@@ -19,6 +21,7 @@ class _FormSwitchState extends State<FormSwitch> {
   @override
   void initState() {
     getValue();
+    setController();
     super.initState();
   }
 
@@ -35,11 +38,16 @@ class _FormSwitchState extends State<FormSwitch> {
       widget.item.value = value;
       widget.item.error = false;
     });
+    setController();
   }
 
   dynamic getContentValue(String key) {
     Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
     return foundItem['value'];
+  }
+
+  void setController() {
+    widget.controller?.item = widget.item;
   }
 
   @override
