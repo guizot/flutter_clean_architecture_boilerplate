@@ -81,7 +81,7 @@ class _CoachMarkPageState extends State<CoachMarkPage> with LoggerMixin {
       skipWidget: Text(
         "SKIP GAN!",
         style: TextStyle(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             fontWeight: FontWeight.bold
         ),
       ),

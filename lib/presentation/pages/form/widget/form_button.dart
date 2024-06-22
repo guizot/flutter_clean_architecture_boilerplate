@@ -16,8 +16,8 @@ class _FormButtonState extends State<FormButton> {
     return ElevatedButton(
       onPressed: widget.onPressed,
       style: ButtonStyle(
-        elevation: const MaterialStatePropertyAll(0.0),
-        shape: MaterialStatePropertyAll(
+        elevation: const WidgetStatePropertyAll(0.0),
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
             side: const BorderSide(
@@ -26,8 +26,8 @@ class _FormButtonState extends State<FormButton> {
             ),
           ),
         ),
-        minimumSize: const MaterialStatePropertyAll(Size(double.infinity, 60)),
-        backgroundColor: MaterialStatePropertyAll(
+        minimumSize: const WidgetStatePropertyAll(Size(double.infinity, 60)),
+        backgroundColor: WidgetStatePropertyAll(
             Theme.of(context).colorScheme.inversePrimary
         ),
       ),

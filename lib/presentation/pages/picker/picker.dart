@@ -331,7 +331,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin, TickerProvider
                                                                     decoration: BoxDecoration(
                                                                         borderRadius: BorderRadius.circular(24.0),
                                                                         border: Border.all(color: Colors.grey),
-                                                                        color: Theme.of(context).colorScheme.background.toMaterialColor().shade800
+                                                                        color: Theme.of(context).colorScheme.surface.toMaterialColor().shade800
                                                                     ),
                                                                     child: const Icon(
                                                                       Icons.close,
@@ -348,7 +348,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin, TickerProvider
                                                                     decoration: BoxDecoration(
                                                                         borderRadius: BorderRadius.circular(24.0),
                                                                         border: Border.all(color: Colors.grey),
-                                                                        color: Theme.of(context).colorScheme.background.toMaterialColor().shade800
+                                                                        color: Theme.of(context).colorScheme.surface.toMaterialColor().shade800
                                                                     ),
                                                                     child: const Icon(
                                                                       Icons.share,
@@ -462,7 +462,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin, TickerProvider
                                                               decoration: BoxDecoration(
                                                                   borderRadius: BorderRadius.circular(24.0),
                                                                   border: Border.all(color: Colors.grey),
-                                                                  color: Theme.of(context).colorScheme.background.toMaterialColor().shade800
+                                                                  color: Theme.of(context).colorScheme.surface.toMaterialColor().shade800
                                                               ),
                                                               child: ClipRRect(
                                                                   borderRadius: const BorderRadius.all(Radius.circular(16.0)),
@@ -488,7 +488,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin, TickerProvider
                                                                 decoration: BoxDecoration(
                                                                     borderRadius: BorderRadius.circular(24.0),
                                                                     border: Border.all(color: Colors.grey),
-                                                                    color: Theme.of(context).colorScheme.background.toMaterialColor().shade800
+                                                                    color: Theme.of(context).colorScheme.surface.toMaterialColor().shade800
                                                                 ),
                                                                 child: Icon(
                                                                   videoPlayerController.value.isPlaying
@@ -816,7 +816,7 @@ class _PickerPageState extends State<PickerPage> with ShareMixin, TickerProvider
                                                                     decoration: BoxDecoration(
                                                                         borderRadius: BorderRadius.circular(24.0),
                                                                         border: Border.all(color: Colors.grey),
-                                                                        color: Theme.of(context).colorScheme.background.toMaterialColor().shade800
+                                                                        color: Theme.of(context).colorScheme.surface.toMaterialColor().shade800
                                                                     ),
                                                                     child: const Icon(
                                                                       Icons.close,

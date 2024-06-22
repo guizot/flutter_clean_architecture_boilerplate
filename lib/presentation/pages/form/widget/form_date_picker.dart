@@ -92,8 +92,8 @@ class _FormDatePickerState extends State<FormDatePicker> {
                       }
                     },
                     style: ButtonStyle(
-                      elevation: const MaterialStatePropertyAll(0.0),
-                      shape: MaterialStatePropertyAll(
+                      elevation: const WidgetStatePropertyAll(0.0),
+                      shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                               side: const BorderSide(
@@ -134,8 +134,8 @@ class _FormDatePickerState extends State<FormDatePicker> {
                           );
                         },
                         style: ButtonStyle(
-                          elevation: const MaterialStatePropertyAll(0.0),
-                          shape: MaterialStatePropertyAll(
+                          elevation: const WidgetStatePropertyAll(0.0),
+                          shape: WidgetStatePropertyAll(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   side: const BorderSide(
@@ -168,8 +168,8 @@ class _FormDatePickerState extends State<FormDatePicker> {
                           }
                         },
                         style: ButtonStyle(
-                          elevation: const MaterialStatePropertyAll(0.0),
-                          shape: MaterialStatePropertyAll(
+                          elevation: const WidgetStatePropertyAll(0.0),
+                          shape: WidgetStatePropertyAll(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   side: const BorderSide(

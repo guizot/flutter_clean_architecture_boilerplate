@@ -203,7 +203,7 @@ class _TMDBListPageState extends State<TMDBListPage> {
                               cursorRadius: const Radius.circular(24),
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Theme.of(context).colorScheme.background.toMaterialColor().shade300,
+                                fillColor: Theme.of(context).colorScheme.surface.toMaterialColor().shade300,
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(24),
                                     borderSide: BorderSide.none
@@ -227,7 +227,7 @@ class _TMDBListPageState extends State<TMDBListPage> {
                             flex: 1,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.background.toMaterialColor().shade300,
+                                color: Theme.of(context).colorScheme.surface.toMaterialColor().shade300,
                                 borderRadius: BorderRadius.circular(24),
                               ),
                               child: Padding(
@@ -263,12 +263,12 @@ class _TMDBListPageState extends State<TMDBListPage> {
                               Container(
                                 padding: EdgeInsets.zero,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.background.toMaterialColor().shade300,
+                                  color: Theme.of(context).colorScheme.surface.toMaterialColor().shade300,
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: IconButton(
                                   style: const ButtonStyle(
-                                    padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                                    padding: WidgetStatePropertyAll(EdgeInsets.zero),
                                     visualDensity: VisualDensity.compact
                                   ),
                                   icon: const Icon(

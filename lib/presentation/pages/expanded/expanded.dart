@@ -145,7 +145,7 @@ class _ExpandedPageState extends State<ExpandedPage> {
                     ),
                     side: BorderSide(color: Colors.grey)
                   ),
-                  surfaceTintColor: Theme.of(context).colorScheme.background,
+                  surfaceTintColor: Theme.of(context).colorScheme.surface,
                   onSelected: onChangePanel,
                   itemBuilder: (BuildContext context) => [
                     PopupMenuItem<String>(

@@ -124,7 +124,7 @@ class _GithubListPageState extends State<GithubListPage> with ShareMixin {
                   cursorRadius: const Radius.circular(24),
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Theme.of(context).colorScheme.background,
+                    fillColor: Theme.of(context).colorScheme.surface,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(24),
                       borderSide: BorderSide.none
