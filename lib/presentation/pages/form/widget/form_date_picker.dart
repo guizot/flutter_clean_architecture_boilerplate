@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_error_message.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_value.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/utils/platform_utils.dart';
@@ -51,6 +51,14 @@ class _FormDatePickerState extends State<FormDatePicker> {
     setController();
   }
 
+  void clearValue() {
+    setState(() {
+      widget.item.value = "No Data";
+      widget.item.error = false;
+    });
+    setController();
+  }
+
   void setController() {
     widget.controller?.item = widget.item;
   }
@@ -62,20 +70,41 @@ class _FormDatePickerState extends State<FormDatePicker> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           FormLabel(item: widget.item),
-          Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: widget.item.error ? Colors.red : Colors.grey),
-              ),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16.0),
-                  child: Container(
-                    color: Theme.of(context).hintColor.toMaterialColor().shade50,
-                    padding: const EdgeInsets.all(16),
+          FormValue(
+            item: widget.item,
+            value: widget.item.value,
+            onClear: clearValue
+          ),
+          FormErrorMessage(item: widget.item),
+          (
+            PlatformUtils.isWeb
+                ? ElevatedButton(
+                    onPressed: widget.item.disabled ? null : () async {
+                      final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: getValue(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2025),
+                      );
+                      if(picked != null) {
+                        String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+                        setValue(formattedDate);
+                      }
+                    },
+                    style: ButtonStyle(
+                      elevation: const MaterialStatePropertyAll(0.0),
+                      shape: MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              side: const BorderSide(
+                                width: 1.0,
+                                color: Colors.grey,
+                              )
+                          )
+                      ),
+                    ),
                     child: Text(
-                        widget.item.value,
-                        textAlign: TextAlign.center,
+                        "Select Date",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.inverseSurface,
                           fontWeight: FontWeight.normal,
@@ -83,121 +112,82 @@ class _FormDatePickerState extends State<FormDatePicker> {
                         )
                     ),
                   )
-              )
-          ),
-          FormErrorMessage(item: widget.item),
-          (
-            PlatformUtils.isWeb
-                ? ElevatedButton(
-              onPressed: () async {
-                final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: getValue(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2025)
-                );
-                if(picked != null) {
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
-                  setValue(formattedDate);
-                }
-              },
-              style: ButtonStyle(
-                elevation: const MaterialStatePropertyAll(0.0),
-                shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: const BorderSide(
-                          width: 1.0,
-                          color: Colors.grey,
-                        )
-                    )
-                ),
-              ),
-              child: Text(
-                  "Select Date",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inverseSurface,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                  )
-              ),
-            )
                 : (
                 Platform.isIOS
                     ? ElevatedButton(
-                  onPressed: () async {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext builder) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height / 3,
-                          child: CupertinoDatePicker(
-                            mode: CupertinoDatePickerMode.date,
-                            initialDateTime: getValue(),
-                            onDateTimeChanged: (DateTime newDate) {
-                              String formattedDate = DateFormat('yyyy-MM-dd').format(newDate);
-                              setValue(formattedDate);
+                        onPressed: widget.item.disabled ? null : () async {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext builder) {
+                              return SizedBox(
+                                height: MediaQuery.of(context).size.height / 3,
+                                child: CupertinoDatePicker(
+                                  mode: CupertinoDatePickerMode.date,
+                                  initialDateTime: getValue(),
+                                  onDateTimeChanged: (DateTime newDate) {
+                                    String formattedDate = DateFormat('yyyy-MM-dd').format(newDate);
+                                    setValue(formattedDate);
+                                  },
+                                ),
+                              );
                             },
+                          );
+                        },
+                        style: ButtonStyle(
+                          elevation: const MaterialStatePropertyAll(0.0),
+                          shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  side: const BorderSide(
+                                    width: 1.0,
+                                    color: Colors.grey,
+                                  )
+                              )
                           ),
-                        );
-                      },
-                    );
-                  },
-                  style: ButtonStyle(
-                    elevation: const MaterialStatePropertyAll(0.0),
-                    shape: MaterialStatePropertyAll(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            side: const BorderSide(
-                              width: 1.0,
-                              color: Colors.grey,
+                        ),
+                        child: Text(
+                            "Select Date",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.inverseSurface,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
                             )
-                        )
-                    ),
-                  ),
-                  child: Text(
-                      "Select Date",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.inverseSurface,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16,
+                        ),
                       )
-                  ),
-                )
                     : ElevatedButton(
-                  onPressed: () async {
-                    final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: getValue(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2025)
-                    );
-                    if(picked != null) {
-                      String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
-                      setValue(formattedDate);
-                    }
-                  },
-                  style: ButtonStyle(
-                    elevation: const MaterialStatePropertyAll(0.0),
-                    shape: MaterialStatePropertyAll(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            side: const BorderSide(
-                              width: 1.0,
-                              color: Colors.grey,
+                        onPressed: widget.item.disabled ? null : () async {
+                          final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: getValue(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2025)
+                          );
+                          if(picked != null) {
+                            String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+                            setValue(formattedDate);
+                          }
+                        },
+                        style: ButtonStyle(
+                          elevation: const MaterialStatePropertyAll(0.0),
+                          shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  side: const BorderSide(
+                                    width: 1.0,
+                                    color: Colors.grey,
+                                  )
+                              )
+                          ),
+                        ),
+                        child: Text(
+                            "Select Date",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.inverseSurface,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
                             )
-                        )
-                    ),
-                  ),
-                  child: Text(
-                      "Select Date",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.inverseSurface,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16,
+                        ),
                       )
-                  ),
-                )
             )
           ),
           const SizedBox(height: 16.0),

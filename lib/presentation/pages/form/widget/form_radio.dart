@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
-
 import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
 import 'form_unknown.dart';
+import 'form_value.dart';
 
 class FormRadio extends StatefulWidget {
   final FormItem item;
@@ -39,6 +38,14 @@ class _FormRadioState extends State<FormRadio> {
     setController();
   }
 
+  void clearValue() {
+    setState(() {
+      widget.item.value = "No Data";
+      widget.item.error = false;
+    });
+    setController();
+  }
+
   void setController() {
     widget.controller?.item = widget.item;
   }
@@ -50,28 +57,10 @@ class _FormRadioState extends State<FormRadio> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           FormLabel(item: widget.item),
-          Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: widget.item.error ? Colors.red : Colors.grey),
-              ),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16.0),
-                  child: Container(
-                    color: Theme.of(context).hintColor.toMaterialColor().shade50,
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                        widget.item.value,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inverseSurface,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                        )
-                    ),
-                  )
-              )
+          FormValue(
+            item: widget.item,
+            value: widget.item.value,
+            onClear: clearValue
           ),
           FormErrorMessage(item: widget.item),
           Column(
@@ -90,7 +79,7 @@ class _FormRadioState extends State<FormRadio> {
                           title: Text(item['label']!),
                           value: item['value']!,
                           groupValue: widget.item.value,
-                          onChanged: (value) => setValue(value.toString()),
+                          onChanged: widget.item.disabled ? null : (value) => setValue(value.toString()),
                         ),
                       ),
                       const SizedBox(height: 8.0),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
-
+import 'package:flutter_clean_architecture/presentation/pages/form/service/form_validation.dart';
 import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
@@ -17,6 +17,9 @@ class FormTextField extends StatefulWidget {
 }
 
 class _FormTextFieldState extends State<FormTextField> {
+
+  final key = GlobalKey<FormFieldState>();
+  String? emailValidationText;
 
   @override
   void initState() {
@@ -36,9 +39,61 @@ class _FormTextFieldState extends State<FormTextField> {
   void setValue(String value) {
     setState(() {
       widget.item.value = value;
-      widget.item.error = false;
+      if(isEmail()) {
+        if(!key.currentState!.isValid) {
+          emailValidationText = "Enter a valid email address";
+          widget.item.error = true;
+        } else {
+          emailValidationText = null;
+          widget.item.error = false;
+        }
+      } else {
+        emailValidationText = null;
+        widget.item.error = false;
+      }
     });
     setController();
+  }
+
+  dynamic getContentValue(String key) {
+    Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
+    return foundItem['value'];
+  }
+
+  bool isPassword() {
+    try {
+      if(getContentValue('type') == 'password') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch(e) {
+      return false;
+    }
+  }
+
+  bool isEmail() {
+    try {
+      if(getContentValue('type') == 'email') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch(e) {
+      return false;
+    }
+  }
+
+  bool isNumber() {
+    try {
+      if(getContentValue('type') == 'number') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch(e) {
+      return false;
+    }
   }
 
   void setController() {
@@ -59,9 +114,10 @@ class _FormTextFieldState extends State<FormTextField> {
               border: Border.all(color: widget.item.error ? Colors.red : Colors.grey),
             ),
             child: TextFormField(
+              readOnly: widget.item.disabled,
               initialValue: widget.item.value,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
+              keyboardType: isNumber() ? TextInputType.number : TextInputType.multiline,
+              maxLines: isPassword() ? 1 : null,
               minLines: 1,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(16), // Padding inside the TextFormField
@@ -88,9 +144,12 @@ class _FormTextFieldState extends State<FormTextField> {
               onChanged: (value) {
                 setValue(value);
               },
+              key: key,
+              validator: isEmail() ? FormValidation().checkIsEmail : null,
+              obscureText: isPassword(),
             ),
           ),
-          FormErrorMessage(item: widget.item),
+          FormErrorMessage(item: widget.item, message: emailValidationText),
           const SizedBox(height: 8.0),
         ],
       );

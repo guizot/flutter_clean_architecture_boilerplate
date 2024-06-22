@@ -28,11 +28,11 @@ class _FormLabelState extends State<FormLabel> {
                 ),
               ),
               TextSpan(
-                text: widget.item.required ? " *" : " (Optional)",
+                text: widget.item.disabled ? "" : widget.item.required ? " *" : " (Optional)",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: widget.item.required ? 18 : 14,
-                    color: widget.item.required ? Colors.red : Colors.grey
+                    fontSize: widget.item.disabled ? 14 : widget.item.required ? 18 : 14,
+                    color: widget.item.disabled ? Colors.grey : widget.item.required ? Colors.red : Colors.grey
                 ),
               )
             ],

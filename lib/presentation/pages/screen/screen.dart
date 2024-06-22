@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
-import 'package:flutter_clean_architecture/presentation/core/mixins/logger_mixin.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import '../../core/services/screen_size_service.dart';
 import '../../core/services/theme_service.dart';
@@ -29,17 +28,7 @@ class ScreenPage extends StatefulWidget {
   State<ScreenPage> createState() => _ScreenPageState();
 }
 
-class _ScreenPageState extends State<ScreenPage> with LoggerMixin {
-
-  @override
-  void initState() {
-
-    log("isLogged BEFORE: $isLogged");
-    isLogged = "TEST SCREEN PAGE";
-    log("isLogged AFTER: $isLogged");
-
-    super.initState();
-  }
+class _ScreenPageState extends State<ScreenPage> {
 
   @override
   Widget build(BuildContext context) {

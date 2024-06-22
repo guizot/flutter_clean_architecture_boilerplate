@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_designer.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
+import '../../core/mixins/logger_mixin.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -30,8 +33,9 @@ class FormPage extends StatefulWidget {
   State<FormPage> createState() => _FormPageState();
 }
 
-class _FormPageState extends State<FormPage> {
-  final List<FormItem> forms = [
+class _FormPageState extends State<FormPage> with LoggerMixin {
+
+  final List<FormItem> formList = [
     FormItem(
         id: "A0001",
         type: '01',
@@ -40,6 +44,7 @@ class _FormPageState extends State<FormPage> {
         value: "",
         error: false,
         required: true,
+        disabled: false,
         content: []
     ),
     FormItem(
@@ -50,6 +55,7 @@ class _FormPageState extends State<FormPage> {
         value: "",
         error: false,
         required: true,
+        disabled: false,
         content: []
     ),
     FormItem(
@@ -60,6 +66,7 @@ class _FormPageState extends State<FormPage> {
         value: "",
         error: false,
         required: true,
+        disabled: false,
         content: [
           {
             'value': 'Monday',
@@ -83,6 +90,7 @@ class _FormPageState extends State<FormPage> {
         value: false,
         error: false,
         required: true,
+        disabled: false,
         content: [
           {
             'value': 'Agree',
@@ -102,6 +110,7 @@ class _FormPageState extends State<FormPage> {
         value: 10.0,
         error: false,
         required: true,
+        disabled: false,
         content: [
           {
             'value': 20.0,
@@ -125,7 +134,14 @@ class _FormPageState extends State<FormPage> {
         value: "",
         error: false,
         required: true,
-        content: []
+        disabled: false,
+        content: [
+          // {
+          //   /// 'password', 'email', 'number'
+          //   'value': 'email',
+          //   'label': 'type',
+          // },
+        ]
     ),
     FormItem(
         id: "A0007",
@@ -135,6 +151,7 @@ class _FormPageState extends State<FormPage> {
         value: [],
         error: false,
         required: true,
+        disabled: false,
         content: [
           {
             'value': false,
@@ -147,6 +164,10 @@ class _FormPageState extends State<FormPage> {
           {
             'value': false,
             'label': 'France',
+          },
+          {
+            'value': false,
+            'label': 'Australia',
           }
         ]
     ),
@@ -158,6 +179,7 @@ class _FormPageState extends State<FormPage> {
         value: null,
         error: false,
         required: true,
+        disabled: false,
         content: [
           {
             'value': 'Washington',
@@ -178,10 +200,28 @@ class _FormPageState extends State<FormPage> {
           {
             'value': 'Jakarta',
             'label': 'Jakarta',
+          },
+          {
+            'value': 'Melbourne',
+            'label': 'Melbourne',
+          },
+          {
+            'value': 'Sydney',
+            'label': 'Sydney',
+          },
+          {
+            'value': 'Seoul',
+            'label': 'Seoul',
           }
         ]
     ),
   ];
+
+  final FormController formController = FormController();
+
+  void formHandle(List<FormAnswer> answers) {
+    log(jsonEncode(answers.map((answer) => answer.toJson()).toList()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,11 +234,19 @@ class _FormPageState extends State<FormPage> {
           ),
           body: Container(
             padding: const EdgeInsets.all(16.0),
-            child: FormDesigner(
-              items: forms,
-              onSubmit: (List<FormAnswer> answers) {
-                print(jsonEncode(answers.map((answer) => answer.toJson()).toList()));
-              },
+            child: Column(
+              children: [
+                Expanded(
+                  child: FormDesigner(
+                    items: formList,
+                    controller: formController,
+                    handleForm: formHandle,
+                  ),
+                ),
+                FormButton(onPressed: () {
+                  formController.callback();
+                })
+              ],
             )
           )
         );

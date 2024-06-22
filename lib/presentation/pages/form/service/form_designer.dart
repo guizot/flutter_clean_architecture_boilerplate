@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_answer.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_check_box.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_date_picker.dart';
@@ -11,50 +12,39 @@ import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_t
 import '../model/form_item.dart';
 import '../widget/form_time_picker.dart';
 import '../widget/form_unknown.dart';
+import 'form_validation.dart';
 
 class FormDesigner extends StatefulWidget {
   final List<FormItem> items;
-  final Function(List<FormAnswer>) onSubmit;
+  final Function(List<FormAnswer>) handleForm;
+  final FormController? controller;
 
   const FormDesigner({
     Key? key,
     required this.items,
-    required this.onSubmit,
+    required this.handleForm,
+    this.controller,
   }) : super(key: key);
 
   @override
-  _FormDesignerState createState() => _FormDesignerState();
+  FormDesignerState createState() => FormDesignerState();
 }
 
-class _FormDesignerState extends State<FormDesigner> {
+class FormDesignerState extends State<FormDesigner> {
 
-  bool validateForm() {
-    bool isValid = true;
-    for (var item in widget.items) {
-      try {
-        if (
-            item.value == null ||
-            item.value == "" ||
-            item.value == "No Data" ||
-            item.value == false ||
-            (item.type == '05' && item.value == item.content.elementAt(0)['value']) ||
-            (item.value is List && item.value.isEmpty)
-        ) {
-          if(item.required) {
-            item.error = true;
-            isValid = false;
-          } else {
-            item.error = false;
-          }
-        } else {
-          item.error = false;
-        }
-      } catch(e) {
-        item.error = true;
-        isValid = false;
-      }
+  @override
+  void initState() {
+    widget.controller?.callback = submitForm;
+    super.initState();
+  }
+
+  void submitForm() {
+    if (FormValidation().checkFormItems(widget.items)) {
+      List<FormAnswer> answers = widget.items.map((e) => FormAnswer(id: e.id, answer: e.value)).toList();
+      widget.handleForm(answers);
+    } else {
+      setState((){});
     }
-    return isValid;
   }
 
   Widget getItem(FormItem item) {
@@ -97,18 +87,9 @@ class _FormDesignerState extends State<FormDesigner> {
       return getItem(item);
     }).toList();
 
-    widgets.add(
-      FormButton(
-        onPressed: () {
-          if (validateForm()) {
-            List<FormAnswer> answers = widget.items.map((e) => FormAnswer(id: e.id, answer: e.value)).toList();
-            widget.onSubmit(answers);
-          } else {
-            setState((){});
-          }
-        }
-      )
-    );
+    if(widget.controller == null) {
+      widgets.add(FormButton(onPressed: submitForm));
+    }
 
     return widgets;
   }

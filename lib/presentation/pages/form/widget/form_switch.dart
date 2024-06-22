@@ -85,7 +85,7 @@ class _FormSwitchState extends State<FormSwitch> {
                     ),
                     Switch(
                       value: getValue(),
-                      onChanged: (value) {
+                      onChanged: widget.item.disabled ? null : (value) {
                         setValue(value);
                       },
                     ),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_unknown.dart';
-
 import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
+import 'form_value.dart';
 
 class FormSlider extends StatefulWidget {
   final FormItem item;
@@ -60,6 +59,15 @@ class _FormSliderState extends State<FormSlider> {
     setController();
   }
 
+  void clearValue() {
+    setState(() {
+      double minValue = getContentValue('min');
+      widget.item.value = minValue;
+      widget.item.error = false;
+    });
+    setController();
+  }
+
   dynamic getContentValue(String key) {
     Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
     return foundItem['value'];
@@ -76,28 +84,10 @@ class _FormSliderState extends State<FormSlider> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           FormLabel(item: widget.item),
-          Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: widget.item.error ? Colors.red : Colors.grey),
-              ),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16.0),
-                  child: Container(
-                    color: Theme.of(context).hintColor.toMaterialColor().shade50,
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                        getValue().round().toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inverseSurface,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                        )
-                    ),
-                  )
-              )
+          FormValue(
+              item: widget.item,
+              value: getValue().round().toString(),
+              onClear: clearValue
           ),
           FormErrorMessage(item: widget.item),
           Container(
@@ -114,7 +104,7 @@ class _FormSliderState extends State<FormSlider> {
               min: getContentValue('min'),
               max: getContentValue('max'),
               divisions: getContentValue('division'),
-              onChanged: (double value) {
+              onChanged: widget.item.disabled ? null :(double value) {
                 setValue(value.round());
               },
             ),

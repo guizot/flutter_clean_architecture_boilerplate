@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import '../../core/mixins/logger_mixin.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -28,7 +29,7 @@ class CoachMarkPage extends StatefulWidget {
   State<CoachMarkPage> createState() => _CoachMarkPageState();
 }
 
-class _CoachMarkPageState extends State<CoachMarkPage> {
+class _CoachMarkPageState extends State<CoachMarkPage> with LoggerMixin {
 
   int currentPageIndex = 0;
 
@@ -88,20 +89,20 @@ class _CoachMarkPageState extends State<CoachMarkPage> {
       opacityShadow: 0.5,
       imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       onFinish: () {
-        print("finish");
+        log("finish");
       },
       onClickTarget: (target) {
-        print('onClickTarget: $target');
+        log('onClickTarget: $target');
       },
       onClickTargetWithTapPosition: (target, tapDetails) {
-        print("target: $target");
-        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+        log("target: $target");
+        log("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target) {
-        print('onClickOverlay: $target');
+        log('onClickOverlay: $target');
       },
       onSkip: () {
-        print("skip");
+        log("skip");
         return true;
       },
     );

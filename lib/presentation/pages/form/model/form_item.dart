@@ -5,6 +5,7 @@ class FormItem {
   String label;
   bool error;
   bool required;
+  bool disabled;
   dynamic value;
   List<Map<String, dynamic>> content;
 
@@ -15,6 +16,7 @@ class FormItem {
     this.label = '',
     this.error = false,
     this.required = false,
+    this.disabled = false,
     this.value,
     List<Map<String, dynamic>>? content,
   }): content = content ?? [];

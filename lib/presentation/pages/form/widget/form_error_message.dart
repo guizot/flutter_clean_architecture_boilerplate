@@ -3,7 +3,8 @@ import '../model/form_item.dart';
 
 class FormErrorMessage extends StatefulWidget {
   final FormItem item;
-  const FormErrorMessage({super.key, required this.item});
+  final String? message;
+  const FormErrorMessage({super.key, required this.item, this.message});
 
   @override
   State<FormErrorMessage> createState() => _FormErrorMessageState();
@@ -21,7 +22,7 @@ class _FormErrorMessageState extends State<FormErrorMessage> {
             children: [
               const SizedBox(height: 4.0),
               Text(
-                  "${widget.item.label} can not be empty",
+                  widget.message != null && widget.message != "" ? widget.message! : "${widget.item.label} can not be empty",
                   textAlign: TextAlign.start,
                   style: const TextStyle(
                     color: Colors.red,

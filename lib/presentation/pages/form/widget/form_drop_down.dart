@@ -3,6 +3,7 @@ import 'package:flutter_clean_architecture/presentation/core/extension/color_ext
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_error_message.dart';
+import '../service/form_validation.dart';
 import 'form_label.dart';
 import 'form_unknown.dart';
 
@@ -17,6 +18,8 @@ class FormDropDown extends StatefulWidget {
 
 class _FormDropDownState extends State<FormDropDown> {
 
+  final TextEditingController controller = TextEditingController();
+
   @override
   void initState() {
     getValue();
@@ -28,12 +31,15 @@ class _FormDropDownState extends State<FormDropDown> {
     if(widget.item.value is String && (widget.item.value != null && widget.item.value != "")) {
       bool containValue = widget.item.content.any((item) => item['value'] == widget.item.value);
       if(containValue) {
+        controller.text = widget.item.value;
         return widget.item.value;
       } else {
+        controller.text = "";
         widget.item.value = "";
         return "";
       }
     } else {
+      controller.text = "";
       widget.item.value = "";
       return "";
     }
@@ -43,6 +49,16 @@ class _FormDropDownState extends State<FormDropDown> {
     setState(() {
       widget.item.value = value;
       widget.item.error = false;
+      controller.text = value;
+    });
+    setController();
+  }
+
+  void clearValue() {
+    setState(() {
+      widget.item.value = "";
+      widget.item.error = false;
+      controller.clear();
     });
     setController();
   }
@@ -64,57 +80,77 @@ class _FormDropDownState extends State<FormDropDown> {
               border: Border.all(color: widget.item.error ? Colors.red : Colors.grey),
               color: Theme.of(context).hintColor.toMaterialColor().shade50,
             ),
-            child: DropdownMenu<String>(
-              initialSelection: getValue(),
-              expandedInsets: const EdgeInsets.all(0.0),
-              hintText: "Select here...",
-              requestFocusOnTap: false,
-              enableFilter: false,
-              enableSearch: false,
-              menuStyle: MenuStyle(
-                surfaceTintColor: MaterialStatePropertyAll(
-                    Theme.of(context).colorScheme.background
-                ),
-                padding: const MaterialStatePropertyAll(
-                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0)
-                ),
-                shape: const MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(16.0)
+            child: Row(
+              children: [
+                Flexible(
+                  child: DropdownMenu<String>(
+                    controller: controller,
+                    initialSelection: getValue(),
+                    expandedInsets: const EdgeInsets.all(0.0),
+                    hintText: "Select here...",
+                    requestFocusOnTap: false,
+                    enableFilter: false,
+                    enableSearch: false,
+                    menuStyle: MenuStyle(
+                      surfaceTintColor: MaterialStatePropertyAll(
+                          Theme.of(context).colorScheme.background
+                      ),
+                      padding: const MaterialStatePropertyAll(
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0)
+                      ),
+                      shape: const MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(16.0)
+                              ),
+                              side: BorderSide(color: Colors.grey)
+                          )
+                      ),
+                      // elevation: const MaterialStatePropertyAll(0)
+                    ),
+                    inputDecorationTheme: InputDecorationTheme(
+                      isDense: true,
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.all(16.0),
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).hintColor.toMaterialColor().shade100
+                      ),
+                    ),
+                    onSelected: (String? value) {
+                      setValue(value ?? "");
+                    },
+                    enabled: !widget.item.disabled,
+                    dropdownMenuEntries: widget.item.content.map<DropdownMenuEntry<String>>((dynamic content) {
+                      return DropdownMenuEntry<String>(
+                        value: content['value'],
+                        label: content['label'],
+                        style: const ButtonStyle(
+                          textStyle: MaterialStatePropertyAll(
+                              TextStyle(
+                                  fontSize: 16.0
+                              )
+                          ),
+                          padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0)
+                          ),
                         ),
-                        side: BorderSide(color: Colors.grey)
-                    )
-                ),
-              ),
-              inputDecorationTheme: InputDecorationTheme(
-                isDense: true,
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.all(16.0),
-                hintStyle: TextStyle(
-                    color: Theme.of(context).hintColor.toMaterialColor().shade100
-                ),
-              ),
-              onSelected: (String? value) {
-                setValue(value ?? "");
-              },
-              dropdownMenuEntries: widget.item.content.map<DropdownMenuEntry<String>>((dynamic content) {
-                return DropdownMenuEntry<String>(
-                    value: content['value'],
-                    label: content['label'],
-                    style: const ButtonStyle(
-                      textStyle: MaterialStatePropertyAll(
-                        TextStyle(
-                          fontSize: 16.0
-                        )
-                      ),
-                      padding: MaterialStatePropertyAll(
-                        EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0)
-                      ),
+                      );
+                    }).toList(),
                   ),
-                );
-              }).toList(),
-            ),
+                ),
+                (
+                  !FormValidation().checkFormItem(widget.item) && !widget.item.disabled
+                    ? GestureDetector(
+                        onTap: clearValue,
+                        child: const Padding(
+                            padding: EdgeInsets.only(right: 16.0),
+                            child: Icon(Icons.close_rounded)
+                        ),
+                      )
+                    : Container()
+                )
+              ],
+            )
           ),
           FormErrorMessage(item: widget.item),
           const SizedBox(height: 8.0),
