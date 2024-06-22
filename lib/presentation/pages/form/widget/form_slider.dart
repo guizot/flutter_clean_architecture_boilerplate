@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_unknown.dart';
+import '../model/form_content.dart';
 import '../service/form_controller.dart';
 import 'form_error_message.dart';
 import 'form_label.dart';
@@ -69,8 +70,8 @@ class _FormSliderState extends State<FormSlider> {
   }
 
   dynamic getContentValue(String key) {
-    Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
-    return foundItem['value'];
+    FormContent? foundItem = widget.item.content.firstWhere((item) => item.label == key);
+    return foundItem.value;
   }
 
   void setController() {

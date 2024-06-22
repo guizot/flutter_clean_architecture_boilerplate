@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/model/form_content.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 
 import '../service/form_controller.dart';
@@ -42,8 +43,8 @@ class _FormSwitchState extends State<FormSwitch> {
   }
 
   dynamic getContentValue(String key) {
-    Map<String, dynamic>? foundItem = widget.item.content.firstWhere((item) => item['label'] == key);
-    return foundItem['value'];
+    FormContent? foundItem = widget.item.content.firstWhere((item) => item.label == key);
+    return foundItem.value;
   }
 
   void setController() {

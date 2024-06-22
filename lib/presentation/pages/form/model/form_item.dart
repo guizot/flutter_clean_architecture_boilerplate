@@ -1,3 +1,5 @@
+import 'package:flutter_clean_architecture/presentation/pages/form/model/form_content.dart';
+
 class FormItem {
   String id;
   String type;
@@ -7,7 +9,7 @@ class FormItem {
   bool required;
   bool disabled;
   dynamic value;
-  List<Map<String, dynamic>> content;
+  List<FormContent> content;
 
   FormItem({
     this.id = '',
@@ -18,7 +20,7 @@ class FormItem {
     this.required = false,
     this.disabled = false,
     this.value,
-    List<Map<String, dynamic>>? content,
+    List<FormContent>? content,
   }): content = content ?? [];
 
   Map<String, dynamic> toJson() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/list_extension.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/model/form_content.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 
 import '../service/form_controller.dart';
@@ -29,9 +30,9 @@ class _FormCheckBoxState extends State<FormCheckBox> {
   void getValue() {
     if(widget.item.value is List && widget.item.value.isNotEmpty) {
       for (var item in widget.item.content) {
-        if (widget.item.value.contains(item['label'])) {
+        if (widget.item.value.contains(item.label)) {
           setState(() {
-            item['value'] = true;
+            item.value = true;
           });
         }
       }
@@ -40,12 +41,12 @@ class _FormCheckBoxState extends State<FormCheckBox> {
     }
   }
 
-  void setValue(Map<String,dynamic> item, bool? value) {
+  void setValue(FormContent item, bool? value) {
     setState(() {
-      item['value'] = value;
+      item.value = value;
       List<String> list = widget.item.content
-          .where((item) => item['value'] == true)
-          .map((item) => item['label'] as String)
+          .where((item) => item.value == true)
+          .map((item) => item.label)
           .toList();
       widget.item.value = list.isNotEmpty ? list : "No Data";
       widget.item.error = false;
@@ -55,8 +56,8 @@ class _FormCheckBoxState extends State<FormCheckBox> {
 
   void clearValue() {
     setState(() {
-      for(Map<String, dynamic> item in widget.item.content) {
-        item['value'] = false;
+      for(FormContent item in widget.item.content) {
+        item.value = false;
       }
       widget.item.value = "No Data";
       widget.item.error = false;
@@ -94,8 +95,8 @@ class _FormCheckBoxState extends State<FormCheckBox> {
                           ),
                         ),
                         child: CheckboxListTile(
-                          title: Text(item['label']),
-                          value: item['value'],
+                          title: Text(item.label),
+                          value: item.value,
                           controlAffinity: ListTileControlAffinity.leading,
                           onChanged: widget.item.disabled ? null : (value) {
                             setValue(item, value);

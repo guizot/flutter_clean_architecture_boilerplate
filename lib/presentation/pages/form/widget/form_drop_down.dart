@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/model/form_content.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_error_message.dart';
@@ -29,7 +30,7 @@ class _FormDropDownState extends State<FormDropDown> {
 
   String getValue() {
     if(widget.item.value is String && (widget.item.value != null && widget.item.value != "")) {
-      bool containValue = widget.item.content.any((item) => item['value'] == widget.item.value);
+      bool containValue = widget.item.content.any((item) => item.value == widget.item.value);
       if(containValue) {
         controller.text = widget.item.value;
         return widget.item.value;
@@ -120,10 +121,10 @@ class _FormDropDownState extends State<FormDropDown> {
                       setValue(value ?? "");
                     },
                     enabled: !widget.item.disabled,
-                    dropdownMenuEntries: widget.item.content.map<DropdownMenuEntry<String>>((dynamic content) {
+                    dropdownMenuEntries: widget.item.content.map<DropdownMenuEntry<String>>((FormContent content) {
                       return DropdownMenuEntry<String>(
-                        value: content['value'],
-                        label: content['label'],
+                        value: content.value,
+                        label: content.label,
                         style: const ButtonStyle(
                           textStyle: MaterialStatePropertyAll(
                               TextStyle(

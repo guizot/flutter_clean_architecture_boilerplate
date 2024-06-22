@@ -1,11 +1,13 @@
+import 'package:flutter_clean_architecture/presentation/pages/form/model/form_content.dart';
+
 import '../model/form_item.dart';
 
 class FormValidation {
 
-  dynamic getContentValue(String key, List<Map<String, dynamic>> content) {
+  dynamic getContentValue(String key, List<FormContent> content) {
     if(content.isNotEmpty) {
-      Map<String, dynamic>? foundItem = content.firstWhere((item) => item['label'] == key);
-      return foundItem['value'];
+      FormContent? foundItem = content.firstWhere((item) => item.label == key);
+      return foundItem.value;
     } else {
       return '';
     }

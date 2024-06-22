@@ -76,8 +76,8 @@ class _FormRadioState extends State<FormRadio> {
                           ),
                         ),
                         child: RadioListTile<String>(
-                          title: Text(item['label']!),
-                          value: item['value']!,
+                          title: Text(item.label),
+                          value: item.value,
                           groupValue: widget.item.value,
                           onChanged: widget.item.disabled ? null : (value) => setValue(value.toString()),
                         ),

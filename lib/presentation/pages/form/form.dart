@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/model/form_content.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_designer.dart';
@@ -68,18 +69,9 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
         required: true,
         disabled: false,
         content: [
-          {
-            'value': 'Monday',
-            'label': 'Monday',
-          },
-          {
-            'value': 'Tuesday',
-            'label': 'Tuesday',
-          },
-          {
-            'value': 'Wednesday',
-            'label': 'Wednesday',
-          }
+          FormContent(value: 'Monday', label: 'Monday'),
+          FormContent(value: 'Tuesday', label: 'Tuesday'),
+          FormContent(value: 'Wednesday', label: 'Wednesday')
         ]
     ),
     FormItem(
@@ -92,14 +84,8 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
         required: true,
         disabled: false,
         content: [
-          {
-            'value': 'Agree',
-            'label': 'positive',
-          },
-          {
-            'value': 'Not Agree',
-            'label': 'negative',
-          },
+          FormContent(value: 'Agree', label: 'positive'),
+          FormContent(value: 'Not Agree', label: 'negative')
         ]
     ),
     FormItem(
@@ -112,18 +98,9 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
         required: true,
         disabled: false,
         content: [
-          {
-            'value': 20.0,
-            'label': 'min',
-          },
-          {
-            'value': 50.0,
-            'label': 'max',
-          },
-          {
-            'value': null,
-            'label': 'division',
-          },
+          FormContent(value: 20.0, label: 'min'),
+          FormContent(value: 50.0, label: 'max'),
+          FormContent(value: null, label: 'division'),
         ]
     ),
     FormItem(
@@ -136,11 +113,8 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
         required: true,
         disabled: false,
         content: [
-          // {
-          //   /// 'password', 'email', 'number'
-          //   'value': 'email',
-          //   'label': 'type',
-          // },
+          /// 'password', 'email', 'number'
+          FormContent(value: 'email', label: 'type'),
         ]
     ),
     FormItem(
@@ -153,22 +127,10 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
         required: true,
         disabled: false,
         content: [
-          {
-            'value': false,
-            'label': 'Germany',
-          },
-          {
-            'value': false,
-            'label': 'Switzerland',
-          },
-          {
-            'value': false,
-            'label': 'France',
-          },
-          {
-            'value': false,
-            'label': 'Australia',
-          }
+          FormContent(value: false, label: 'Germany'),
+          FormContent(value: false, label: 'Switzerland'),
+          FormContent(value: false, label: 'France'),
+          FormContent(value: false, label: 'Australia'),
         ]
     ),
     FormItem(
@@ -181,38 +143,14 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
         required: true,
         disabled: false,
         content: [
-          {
-            'value': 'Washington',
-            'label': 'Washington',
-          },
-          {
-            'value': 'London',
-            'label': 'London',
-          },
-          {
-            'value': 'Berlin',
-            'label': 'Berlin',
-          },
-          {
-            'value': 'Tokyo',
-            'label': 'Tokyo',
-          },
-          {
-            'value': 'Jakarta',
-            'label': 'Jakarta',
-          },
-          {
-            'value': 'Melbourne',
-            'label': 'Melbourne',
-          },
-          {
-            'value': 'Sydney',
-            'label': 'Sydney',
-          },
-          {
-            'value': 'Seoul',
-            'label': 'Seoul',
-          }
+          FormContent(value: 'Washington', label: 'Washington'),
+          FormContent(value: 'London', label: 'London'),
+          FormContent(value: 'Berlin', label: 'Berlin'),
+          FormContent(value: 'Tokyo', label: 'Tokyo'),
+          FormContent(value: 'Jakarta', label: 'Jakarta'),
+          FormContent(value: 'Melbourne', label: 'Melbourne'),
+          FormContent(value: 'Sydney', label: 'Sydney'),
+          FormContent(value: 'Seoul', label: 'Seoul'),
         ]
     ),
   ];
@@ -243,9 +181,11 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
                     handleForm: formHandle,
                   ),
                 ),
-                FormButton(onPressed: () {
-                  formController.callback();
-                })
+                FormButton(
+                  onPressed: () {
+                    formController.callback();
+                  }
+                )
               ],
             )
           )
