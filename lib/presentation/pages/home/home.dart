@@ -7,7 +7,6 @@ import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
-import '../../core/widget/dialog/custom_alert_dialog.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
