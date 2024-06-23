@@ -7,6 +7,7 @@ import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
 import '../../core/constant/routes_values.dart';
+import '../../core/widget/dialog/custom_alert_dialog.dart';
 
 class HomeWrapperProvider extends StatelessWidget {
   const HomeWrapperProvider({super.key});
@@ -115,10 +116,26 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: IconButton(
-                    icon: const Icon(Icons.settings, size: 30.0,),
+                    icon: const Icon(Icons.settings, size: 30.0),
                     tooltip: 'Setting',
                     onPressed: () {
                       Navigator.pushNamed(context, RoutesValues.setting);
+                      // showDialog(
+                      //   context: context,
+                      //   barrierDismissible: false,
+                      //   builder: (BuildContext context) {
+                      //     return CustomAlertDialog(
+                      //       title: "Delete Confirmation",
+                      //       content: "Your decision to delete this item is significant as it cannot be undone. Once deleted, all associated data will be permanently erased from the system. To proceed with this irreversible action, please provide your confirmation by clicking 'Yes, Delete.' If you're uncertain, you may opt to 'Cancel' to retain the item.",
+                      //       onConfirm: () {
+                      //         Navigator.of(context).pop();
+                      //       },
+                      //       onCancel: () {
+                      //         Navigator.of(context).pop();
+                      //       },
+                      //     );
+                      //   },
+                      // );
                     },
                   ),
                 )
