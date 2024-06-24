@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CustomAlertDialog extends StatelessWidget {
+class ConfirmationDialog extends StatelessWidget {
   final String title;
-  final String content;
-  final VoidCallback onConfirm;
-  final VoidCallback onCancel;
+  final String subtitle;
+  final String positiveText;
+  final String negativeText;
+  final VoidCallback? positiveCallback;
+  final VoidCallback? negativeCallback;
 
-  const CustomAlertDialog({super.key,
+  const ConfirmationDialog({super.key,
     required this.title,
-    required this.content,
-    required this.onConfirm,
-    required this.onCancel,
+    this.subtitle = "",
+    this.positiveText = "Confirm",
+    this.negativeText = "Cancel",
+    this.positiveCallback,
+    this.negativeCallback,
   });
 
   @override
@@ -44,24 +48,23 @@ class CustomAlertDialog extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(
+                  subtitle != "" ? const SizedBox(
                     height: 12.0,
-                  ),
-                  Text(
-                    content,
+                  ) : Container(),
+                  subtitle != "" ? Text(
+                    subtitle,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 13.0,
                     ),
-                  ),
-
+                  ) : Container(),
                 ],
               )
             ),
 
             /// BUTTONS
-            Container(
-              height: 50,
+            (negativeCallback != null || positiveCallback != null) ? Container(
+              height: 60,
               decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(width: 1, color: Colors.grey)
@@ -71,19 +74,19 @@ class CustomAlertDialog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Expanded(
+                  negativeCallback != null ? Expanded(
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
-                        onTap: onCancel,
+                        onTap: negativeCallback,
                         child: Container (
                           height: double.infinity,
                           alignment: Alignment.center,
                           color: Colors.transparent,
-                          child: const Text(
-                            'Cancel',
+                          child: Text(
+                            negativeText,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14.0
                             ),
@@ -91,25 +94,25 @@ class CustomAlertDialog extends StatelessWidget {
                         ),
                       )
                     )
-                  ),
-                  const VerticalDivider(
+                  ) : Container(),
+                  (negativeCallback != null && positiveCallback != null) ? const VerticalDivider(
                       thickness: 1,
                       width: 0,
                       color: Colors.grey
-                  ),
-                  Expanded(
+                  ) : Container(),
+                  positiveCallback != null ? Expanded(
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
-                        onTap: onConfirm,
+                        onTap: positiveCallback,
                         child: Container (
                             height: double.infinity,
                             alignment: Alignment.center,
                             color: Colors.transparent,
-                            child: const Text(
-                              'Yes, Delete',
+                            child: Text(
+                              positiveText,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.0
                               ),
@@ -117,10 +120,10 @@ class CustomAlertDialog extends StatelessWidget {
                         ),
                       )
                     )
-                  ),
+                  ) : Container(),
                 ],
               ),
-            ),
+            ) : Container(),
 
           ],
         )

@@ -11,7 +11,13 @@ import 'form_unknown.dart';
 class FormTextField extends StatefulWidget {
   final FormItem item;
   final FormController? controller;
-  const FormTextField({super.key, required this.item, this.controller});
+  final bool withSpacer;
+  const FormTextField({
+    super.key,
+    required this.item,
+    this.controller,
+    this.withSpacer = true
+  });
 
   @override
   State<FormTextField> createState() => _FormTextFieldState();
@@ -151,7 +157,7 @@ class _FormTextFieldState extends State<FormTextField> {
             ),
           ),
           FormErrorMessage(item: widget.item, message: emailValidationText),
-          const SizedBox(height: 8.0),
+          SizedBox(height: widget.withSpacer ? 8.0 : 0.0),
         ],
       );
     } catch (e) {

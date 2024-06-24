@@ -9,6 +9,7 @@ import 'package:flutter_clean_architecture/presentation/pages/image/image.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
 import 'package:flutter_clean_architecture/presentation/pages/webview/webview.dart';
 import '../../pages/coachmark/coachmark.dart';
+import '../../pages/dialog/dialog.dart';
 import '../../pages/picker/picker.dart';
 import '../../pages/screen/screen.dart';
 import '../../pages/staggered/staggered.dart';
@@ -56,6 +57,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const StaggeredWrapperProvider());
       case RoutesValues.form:
         return MaterialPageRoute(builder: (_) => const FormWrapperProvider());
+      case RoutesValues.dialog:
+        return MaterialPageRoute(builder: (_) => const DialogWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

@@ -13,6 +13,7 @@ import '../model/form_item.dart';
 import '../widget/form_time_picker.dart';
 import '../widget/form_unknown.dart';
 import 'form_validation.dart';
+import 'form_values.dart';
 
 class FormDesigner extends StatefulWidget {
   final List<FormItem> items;
@@ -49,30 +50,22 @@ class FormDesignerState extends State<FormDesigner> {
 
   Widget getItem(FormItem item) {
     switch (item.type) {
-      case '01':
-        /// e.g. value: "2024-06-15"
-        return FormDatePicker(item: item);
-      case '02':
-        /// e.g. value: "13:15"
-        return FormTimePicker(item: item);
-      case '03':
-        /// e.g. value: "Monday"
-        return FormRadio(item: item);
-      case '04':
-        /// e.g. value: true
-        return FormSwitch(item: item);
-      case '05':
-        /// e.g. value: 5
-        return FormSlider(item: item);
-      case '06':
-        /// e.g. value: "Indonesia"
-        return FormTextField(item: item);
-      case '07':
-        /// e.g. value: ['Germany', 'Switzerland']
-        return FormCheckBox(item: item);
-      case '08':
-        /// e.g. value: "London"
-        return FormDropDown(item: item);
+      case FormValues.datePicker:
+        return FormDatePicker(item: item); /// e.g. value: "2024-06-15"
+      case FormValues.timePicker:
+        return FormTimePicker(item: item); /// e.g. value: "13:15"
+      case FormValues.radio:
+        return FormRadio(item: item); /// e.g. value: "Monday"
+      case FormValues.switcher:
+        return FormSwitch(item: item); /// e.g. value: true
+      case FormValues.slider:
+        return FormSlider(item: item); /// e.g. value: 5
+      case FormValues.textField:
+        return FormTextField(item: item); /// e.g. value: "Indonesia"
+      case FormValues.checkBox:
+        return FormCheckBox(item: item); /// e.g. value: ['Germany', 'Switzerland']
+      case FormValues.dropDown:
+        return FormDropDown(item: item); /// e.g. value: "London"
       default:
         return const FormUnknown(
             label: "Unknown Type",

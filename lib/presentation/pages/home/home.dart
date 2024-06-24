@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
-import 'package:flutter_clean_architecture/presentation/core/widget/home/item_home.dart';
+import 'package:flutter_clean_architecture/presentation/core/widget/common_list_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
+import '../../core/model/common_list_model.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -30,77 +31,84 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  List<Map<String, dynamic>> lists = [
-    {
-      "title": "Github List",
-      "subtitle": "list of favorite github users using dio, retrofit & hive",
-      "tap": (context) {
+  List<CommonListModel> lists = [
+    CommonListModel(
+      title: "Github List",
+      subtitle: "list of favorite github users using dio, retrofit & hive",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.githubList);
       }
-    },
-    {
-      "title": "TMDB List",
-      "subtitle": "list of trending movies using dio, retrofit & sqlite",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "TMDB List",
+      subtitle: "list of trending movies using dio, retrofit & sqlite",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.tmdbList);
       }
-    },
-    {
-      "title": "Expanded Panel List",
-      "subtitle": "list dynamic expanded panel",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "Expanded Panel List",
+      subtitle: "list dynamic expanded panel",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.expanded);
       }
-    },
-    {
-      "title": "Picker File",
-      "subtitle": "picker image and file implementation",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "Picker File",
+      subtitle: "picker image and file implementation",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.picker);
       }
-    },
-    {
-      "title": "Form Designer",
-      "subtitle": "dynamic form creation example",
-      "tap": (context) {
+    ),
+    CommonListModel(
+        title: "Dialog Designer",
+        subtitle: "alert dialog, bottom sheet, toast and other dialog implementation",
+        tap: (context) {
+          Navigator.pushNamed(context, RoutesValues.dialog);
+        }
+    ),
+    CommonListModel(
+      title: "Form Designer",
+      subtitle: "dynamic form creation example",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.form);
       }
-    },
-    {
-      "title": "Web View",
-      "subtitle": "the example of web view",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "Web View",
+      subtitle: "the example of web view",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.webView, arguments: "https://www.google.com/");
       }
-    },
-    {
-      "title": "Staggered List View",
-      "subtitle": "the example of staggered list and others",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "Staggered List View",
+      subtitle: "the example of staggered list and others",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.staggered);
       }
-    },
-    {
-      "title": "Coach Mark",
-      "subtitle": "the example of coach mark tutorial",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "Coach Mark",
+      subtitle: "the example of coach mark tutorial",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.coachMark);
       }
-    },
-    {
-      "title": "Screen Size",
-      "subtitle": "responsive ui screen size implementation",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "Screen Size",
+      subtitle: "responsive ui screen size implementation",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.screen);
       }
-    },
-    {
-      "title": "Image Extension",
-      "subtitle": "image manipulation implementation",
-      "tap": (context) {
+    ),
+    CommonListModel(
+      title: "Image Extension",
+      subtitle: "image manipulation implementation",
+      tap: (context) {
         Navigator.pushNamed(context, RoutesValues.image);
       }
-    },
+    ),
   ];
 
   @override
@@ -119,22 +127,6 @@ class _HomePageState extends State<HomePage> {
                     tooltip: 'Setting',
                     onPressed: () {
                       Navigator.pushNamed(context, RoutesValues.setting);
-                      // showDialog(
-                      //   context: context,
-                      //   barrierDismissible: false,
-                      //   builder: (BuildContext context) {
-                      //     return CustomAlertDialog(
-                      //       title: "Delete Confirmation",
-                      //       content: "Your decision to delete this item is significant as it cannot be undone. Once deleted, all associated data will be permanently erased from the system. To proceed with this irreversible action, please provide your confirmation by clicking 'Yes, Delete.' If you're uncertain, you may opt to 'Cancel' to retain the item.",
-                      //       onConfirm: () {
-                      //         Navigator.of(context).pop();
-                      //       },
-                      //       onCancel: () {
-                      //         Navigator.of(context).pop();
-                      //       },
-                      //     );
-                      //   },
-                      // );
                     },
                   ),
                 )
@@ -151,10 +143,10 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(16), // Adjust border radius as needed
                     border: Border.all(color: Colors.grey), // Add border color
                   ),
-                  child: ItemHome(
-                    title: lists[index]["title"],
-                    subtitle: lists[index]["subtitle"],
-                    onTap: lists[index]["tap"],
+                  child: CommonListItem(
+                    title: lists[index].title,
+                    subtitle: lists[index].subtitle,
+                    onTap: lists[index].tap,
                   )
                 );
               },

@@ -1,4 +1,5 @@
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_content.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/service/form_values.dart';
 
 import '../model/form_item.dart';
 
@@ -19,8 +20,8 @@ class FormValidation {
       item.value == "" ||
       item.value == "No Data" ||
       item.value == false ||
-      (item.type == '05' && item.value == getContentValue('min', item.content)) ||
-      (item.type == '06' && (getContentValue('type', item.content)).toString() == 'email' && checkIsEmail(item.value) != null) ||
+      (item.type == FormValues.slider && item.value == getContentValue('min', item.content)) ||
+      (item.type == FormValues.textField && (getContentValue('type', item.content)).toString() == 'email' && checkIsEmail(item.value) != null) ||
       (item.value is List && item.value.isEmpty);
   }
 

@@ -6,6 +6,7 @@ import 'package:flutter_clean_architecture/presentation/pages/form/model/form_co
 import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_designer.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/service/form_values.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import '../../core/mixins/logger_mixin.dart';
 import '../../core/services/theme_service.dart';
@@ -39,7 +40,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
   final List<FormItem> formList = [
     FormItem(
         id: "A0001",
-        type: '01',
+        type: FormValues.datePicker,
         typeName: "Date Picker",
         label: "When will you go to Switzerland?",
         value: "",
@@ -50,7 +51,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
     ),
     FormItem(
         id: "A0002",
-        type: '02',
+        type: FormValues.timePicker,
         typeName: "Time Picker",
         label: "What time did you sleep?",
         value: "",
@@ -61,7 +62,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
     ),
     FormItem(
         id: "A0003",
-        type: '03',
+        type: FormValues.radio,
         typeName: "Radio Picker",
         label: "What day will you stay?",
         value: "",
@@ -76,7 +77,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
     ),
     FormItem(
         id: "A0004",
-        type: '04',
+        type: FormValues.switcher,
         typeName: "Switch Picker",
         label: "Do you agree to the terms?",
         value: false,
@@ -90,7 +91,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
     ),
     FormItem(
         id: "A0005",
-        type: '05',
+        type: FormValues.slider,
         typeName: "Slider Picker",
         label: "How much you satisfy?",
         value: 10.0,
@@ -105,7 +106,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
     ),
     FormItem(
         id: "A0006",
-        type: '06',
+        type: FormValues.textField,
         typeName: "Text Field",
         label: "Where do you stay?",
         value: "",
@@ -119,7 +120,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
     ),
     FormItem(
         id: "A0007",
-        type: '07',
+        type: FormValues.checkBox,
         typeName: "Check Box Picker",
         label: "Which country will you visit?",
         value: [],
@@ -135,7 +136,7 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
     ),
     FormItem(
         id: "A0008",
-        type: '08',
+        type: FormValues.dropDown,
         typeName: "Drop Down Picker",
         label: "Which city will you visit?",
         value: null,

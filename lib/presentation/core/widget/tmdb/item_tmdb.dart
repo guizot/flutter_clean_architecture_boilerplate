@@ -11,7 +11,6 @@ class ItemTMDB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => onTap(),
       title: Text(
         title,
         overflow: TextOverflow.ellipsis,
@@ -29,6 +28,7 @@ class ItemTMDB extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(url),
       ),
+      onTap: () => onTap(),
     );
   }
 }

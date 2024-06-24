@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 class FormButton extends StatefulWidget {
   final VoidCallback onPressed;
+  final Color? color;
+  final String label;
 
-  const FormButton({super.key, required this.onPressed});
+  const FormButton({
+    super.key,
+    required this.onPressed,
+    this.color,
+    this.label = "Submit"
+  });
 
   @override
   State<FormButton> createState() => _FormButtonState();
@@ -28,14 +35,14 @@ class _FormButtonState extends State<FormButton> {
         ),
         minimumSize: const WidgetStatePropertyAll(Size(double.infinity, 60)),
         backgroundColor: WidgetStatePropertyAll(
-            Theme.of(context).colorScheme.inversePrimary
+            widget.color ?? Theme.of(context).colorScheme.inversePrimary
         ),
       ),
       child: Text(
-        "Submit",
+        widget.label,
         style: TextStyle(
           color: Theme.of(context).colorScheme.inverseSurface,
-          fontWeight: FontWeight.normal,
+          fontWeight: FontWeight.bold,
           fontSize: 16,
         ),
       ),

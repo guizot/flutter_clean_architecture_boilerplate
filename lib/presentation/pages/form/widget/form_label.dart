@@ -13,7 +13,7 @@ class _FormLabelState extends State<FormLabel> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return widget.item.label != "" ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
@@ -40,7 +40,7 @@ class _FormLabelState extends State<FormLabel> {
         ),
         const SizedBox(height: 8),
       ],
-    );
+    ) : Container();
   }
 
 }

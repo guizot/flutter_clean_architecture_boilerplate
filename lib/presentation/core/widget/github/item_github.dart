@@ -13,6 +13,8 @@ class ItemGithub extends StatelessWidget {
     return ListTile(
       title: Text(
         title,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
         style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.primary.toMaterialColor().shade700
