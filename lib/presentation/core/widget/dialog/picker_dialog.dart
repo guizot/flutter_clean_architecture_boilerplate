@@ -1,41 +1,49 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/presentation/pages/form/model/form_item.dart';
-import 'package:flutter_clean_architecture/presentation/pages/form/service/form_controller.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
-import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_text_field.dart';
-import '../../../pages/form/service/form_values.dart';
+import 'package:intl/intl.dart';
 
-class SubmissionDialog extends StatefulWidget {
+class PickerDialog extends StatefulWidget {
   final String title;
-  final String labelCallback;
-  final Function(String) addCallback;
+  final DateTime date;
+  final Function(String) onChange;
   final bool isBottom;
 
-  const SubmissionDialog({super.key,
+  const PickerDialog({super.key,
     required this.title,
-    this.labelCallback = "Add",
-    required this.addCallback,
+    required this.date,
+    required this.onChange,
     this.isBottom = false
   });
 
   @override
-  State<SubmissionDialog> createState() => _SubmissionDialogState();
+  State<PickerDialog> createState() => _PickerDialogState();
 }
 
-class _SubmissionDialogState  extends State<SubmissionDialog> {
+class _PickerDialogState extends State<PickerDialog> {
 
-  final FormController controller = FormController();
+  DateTime date = DateTime.now();
+
+  @override
+  void initState() {
+    setState(() {
+      date = widget.date;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return !widget.isBottom ? Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Colors.grey)
-      ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      child: buildChild(context),
-    ) : buildChild(context);
+    return widget.isBottom
+        ? buildChild(context)
+        : Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: const BorderSide(color: Colors.grey)
+            ),
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            child: buildChild(context),
+          );
   }
 
   Widget buildChild(BuildContext context) {
@@ -96,17 +104,39 @@ class _SubmissionDialogState  extends State<SubmissionDialog> {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  FormTextField(
-                    item: FormItem(type: FormValues.textField),
-                    controller: controller,
-                    withSpacer: false,
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: Container(
+                        height: 215,
+                        color: Theme.of(context).colorScheme.surface,
+                        child: CupertinoDatePicker(
+                          initialDateTime: DateTime.now(),
+                          mode: CupertinoDatePickerMode.date,
+                          onDateTimeChanged: (DateTime newDate) {
+                            setState(() {
+                              date = newDate;
+                            });
+                          },
+                        )
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
                   ),
                   FormButton(
-                    label: widget.labelCallback,
+                    label: "Set Date",
                     onPressed: () {
-                      widget.addCallback(controller.item.value.toString());
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                      widget.onChange(formattedDate);
                       Navigator.of(context).pop();
-                    },
+                    }
                   )
                 ],
               )
@@ -115,4 +145,5 @@ class _SubmissionDialogState  extends State<SubmissionDialog> {
       )
     );
   }
+
 }

@@ -7,6 +7,7 @@ class ConfirmationDialog extends StatelessWidget {
   final String negativeText;
   final VoidCallback? positiveCallback;
   final VoidCallback? negativeCallback;
+  final bool isBottom;
 
   const ConfirmationDialog({super.key,
     required this.title,
@@ -15,21 +16,22 @@ class ConfirmationDialog extends StatelessWidget {
     this.negativeText = "Cancel",
     this.positiveCallback,
     this.negativeCallback,
+    this.isBottom = false
   });
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return !isBottom ? Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: const BorderSide(color: Colors.grey)
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
-      child: _buildChild(context),
-    );
+      child: buildChild(context),
+    ) : buildChild(context);
   }
 
-  Widget _buildChild(BuildContext context) {
+  Widget buildChild(BuildContext context) {
     return IntrinsicHeight(
       child: IntrinsicWidth(
         child: Column(

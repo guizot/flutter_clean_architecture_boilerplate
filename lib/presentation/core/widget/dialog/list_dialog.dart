@@ -5,10 +5,14 @@ import 'package:flutter_clean_architecture/presentation/pages/form/service/form_
 class ListDialog extends StatefulWidget {
   final String title;
   final List<CommonListModel> lists;
+  final Function(CommonListModel, int) onChange;
+  final bool isBottom;
 
   const ListDialog({super.key,
     required this.title,
     required this.lists,
+    required this.onChange,
+    this.isBottom = false
   });
 
   @override
@@ -21,17 +25,17 @@ class _ListDialogState  extends State<ListDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return !widget.isBottom ? Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: const BorderSide(color: Colors.grey)
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
-      child: _buildChild(context),
-    );
+      child: buildChild(context),
+    ) : buildChild(context);
   }
 
-  Widget _buildChild(BuildContext context) {
+  Widget buildChild(BuildContext context) {
     return IntrinsicHeight(
       child: Column(
         children: <Widget>[
@@ -100,7 +104,8 @@ class _ListDialogState  extends State<ListDialog> {
                       child: Container(
                         height: 215,
                         color: Theme.of(context).colorScheme.surface,
-                        child: ListView.builder(
+                        child: widget.lists.isNotEmpty
+                            ? ListView.builder(
                           shrinkWrap: true,
                           itemCount: widget.lists.length,
                           itemBuilder: (context, index) {
@@ -114,13 +119,47 @@ class _ListDialogState  extends State<ListDialog> {
                                   ), // Add border color
                                 ),
                                 child: ListTile(
-                                  title: Text("${widget.lists[index].title} $index"),
+                                  title: Text("${widget.lists[index].title} ${widget.lists[index].id}"),
                                   subtitle: Text(widget.lists[index].subtitle),
-                                  trailing: const Icon(Icons.delete_outline_rounded),
+                                  trailing: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          setState(() {
+                                            widget.onChange(widget.lists[index], index);
+                                            widget.lists.remove(widget.lists[index]);
+                                          });
+                                        },
+                                        child: Container (
+                                            padding: const EdgeInsets.all(6.0),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 1.5
+                                              ),
+                                            ),
+                                            child: const Icon(
+                                              Icons.delete_outline_outlined,
+                                              size: 20.0,
+                                              color: Colors.grey,
+                                            )
+                                        ),
+                                      )
+                                  )
                                 )
                             );
                           },
                         )
+                            : const Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.not_interested_outlined, size: 36.0),
+                                  SizedBox(height: 8.0),
+                                  Text("No Data"),
+                                ],
+                              )
                       ),
                     ),
                   ),
