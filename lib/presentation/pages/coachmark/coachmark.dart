@@ -63,7 +63,7 @@ class _CoachMarkPageState extends State<CoachMarkPage> with LoggerMixin {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () => {
+    Future.delayed(const Duration(milliseconds: 250), () => {
       createTutorial(),
       showTutorial()
     });
@@ -567,8 +567,7 @@ class _CoachMarkPageState extends State<CoachMarkPage> with LoggerMixin {
                     icon: destination.icon,
                     selectedIcon: destination.selectedIcon,
                   );
-                },
-                ),
+                }),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
                   child: Divider(),

@@ -8,6 +8,7 @@ import 'package:flutter_clean_architecture/presentation/pages/form/service/form_
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_designer.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_values.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
+import '../../core/handler/dialog_handler.dart';
 import '../../core/mixins/logger_mixin.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -158,8 +159,14 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
 
   final FormController formController = FormController();
 
-  void formHandle(List<FormAnswer> answers) {
-    log(jsonEncode(answers.map((answer) => answer.toJson()).toList()));
+  void formHandle(BuildContext context, List<FormAnswer> answers) {
+    DialogHandler.showToast(
+      context: context,
+      title: "Submitted!",
+      subtitle: jsonEncode(answers.map((answer) => answer.toJson()).toList()),
+      canRemove: false,
+      subtitleMaxLines: null
+    );
   }
 
   @override
@@ -171,23 +178,27 @@ class _FormPageState extends State<FormPage> with LoggerMixin {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text(widget.title),
           ),
-          body: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: FormDesigner(
-                    items: formList,
-                    controller: formController,
-                    handleForm: formHandle,
-                  ),
-                ),
-                FormButton(
-                  onPressed: () {
-                    formController.callback();
-                  }
+          body: Builder(
+            builder: (context) => Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: FormDesigner(
+                        items: formList,
+                        controller: formController,
+                        handleForm: (List<FormAnswer> answers) {
+                          formHandle(context, answers);
+                        },
+                      ),
+                    ),
+                    FormButton(
+                        onPressed: () {
+                          formController.callback();
+                        }
+                    )
+                  ],
                 )
-              ],
             )
           )
         );
