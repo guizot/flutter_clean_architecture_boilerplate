@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/list_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/services/screen_size_service.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -81,11 +82,24 @@ class _ExpandedPageState extends State<ExpandedPage> {
     },
   ];
 
+  List<String> pageList = [
+    "https://lelogama.go-jek.com/post_featured_image/Blog_Sambungin.jpg",
+    "https://lelogama.go-jek.com/post_featured_image/header_blog_transaksi-goride-gocar-100_goclub_xp.jpg",
+    "https://lelogama.go-jek.com/post_featured_image/gopromo-ads-solutions-en-banner.jpg",
+    "https://lelogama.go-jek.com/post_featured_image/Tartibjek_Blog_Banner_2.jpg",
+    "https://lelogama.go-jek.com/post_featured_image/header_promo_jago_gopay.jpg",
+    "https://lelogama.go-jek.com/post_featured_image/General-IBSCPP-PayDayMar-2022.jpg",
+    "https://lelogama.go-jek.com/post_featured_image/header_blog_promo_game_and_entertainment.jpg",
+    "https://lelogama.go-jek.com/post_featured_image/Blog_Discover.png"
+  ];
+
   String currentPanelName = "";
 
   List<Map<String, dynamic>> currentPanel = [];
 
   final TextEditingController menuController = TextEditingController();
+
+  final PageController pageController = PageController(viewportFraction: 1);
 
   @override
   void initState() {
@@ -110,6 +124,7 @@ class _ExpandedPageState extends State<ExpandedPage> {
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     var ss = sl<ScreenSizeService>()..init(context);
@@ -120,139 +135,201 @@ class _ExpandedPageState extends State<ExpandedPage> {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text(widget.title),
           ),
-          body: Container(
+          body: ListView(
+            clipBehavior: Clip.none,
             padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              clipBehavior: Clip.none,
-              children: [
-                const Text(
-                  "Select Panel",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
+            children: [
+
+              /// PAGE PANEL
+              const Text(
+                "Page Panel",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                  height: 200,
+                  child: PageView.builder(
+                    controller: pageController,
+                    itemCount: pageList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 16.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1.0,
+                                color: Colors.grey
+                            ),
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(16.0)
+                            )
+                        ),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.network(
+                              pageList[index],
+                              fit: BoxFit.cover, // Adjust the fit property
+                            )
+                        )
+                      );
+                    },
+                  )
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: SmoothPageIndicator(
+                  controller: pageController,
+                  count: pageList.length,
+                  onDotClicked: (index) {
+                    pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.linear
+                    );
+                  },
+                  effect: ColorTransitionEffect(
+                    activeDotColor: Theme.of(context).colorScheme.inversePrimary,
+                    dotColor: Colors.grey,
+                    dotHeight: 10,
+                    dotWidth: 10,
                   ),
                 ),
-                const SizedBox(height: 8),
-                PopupMenuButton<String>(
-                  popUpAnimationStyle: AnimationStyle.noAnimation,
-                  offset: const Offset(0, 65),
-                  constraints: BoxConstraints(
-                    minWidth: ss.screenSize.width - 32,
+              ),
+              const SizedBox(height: 16.0),
+
+              /// SELECT PANEL
+              const Text(
+                "Select Panel",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18
+                ),
+              ),
+              const SizedBox(height: 8),
+              PopupMenuButton<String>(
+                popUpAnimationStyle: AnimationStyle.noAnimation,
+                offset: const Offset(0, 65),
+                constraints: BoxConstraints(
+                  minWidth: ss.screenSize.width - 32,
+                ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(16.0)
                   ),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(16.0)
-                    ),
-                    side: BorderSide(color: Colors.grey)
-                  ),
-                  surfaceTintColor: Theme.of(context).colorScheme.surface,
-                  onSelected: onChangePanel,
-                  itemBuilder: (BuildContext context) => [
-                    PopupMenuItem<String>(
-                      value: termsString,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: ListTile(
-                            title: const Text(
-                              termsString,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal
-                              ),
-                            ),
-                            trailing: currentPanelName == termsString ? Icon(
-                              Icons.check_circle,
-                              color: Theme.of(context).colorScheme.inversePrimary,
-                            ) : null
-                        ),
-                      )
-                    ),
-                    const PopupMenuDivider(),
-                    PopupMenuItem<String>(
-                      value: agreementString,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: ListTile(
-                            title: const Text(
-                              agreementString,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal
-                              ),
-                            ),
-                            trailing: currentPanelName == agreementString ? Icon(
-                              Icons.check_circle,
-                              color: Theme.of(context).colorScheme.inversePrimary,
-                            ) : null
-                        ),
-                      )
-                    )
-                  ],
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
+                  side: BorderSide(color: Colors.grey)
+                ),
+                surfaceTintColor: Theme.of(context).colorScheme.surface,
+                onSelected: onChangePanel,
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem<String>(
+                    value: termsString,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ListTile(
-                          title: Text(currentPanelName),
-                          trailing: const Icon(Icons.arrow_forward_outlined)
+                          title: const Text(
+                            termsString,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal
+                            ),
+                          ),
+                          trailing: currentPanelName == termsString ? Icon(
+                            Icons.check_circle,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ) : null
                       ),
-                    ),
+                    )
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                Text(
-                  currentPanelName,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
+                  const PopupMenuDivider(),
+                  PopupMenuItem<String>(
+                    value: agreementString,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListTile(
+                          title: const Text(
+                            agreementString,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal
+                            ),
+                          ),
+                          trailing: currentPanelName == agreementString ? Icon(
+                            Icons.check_circle,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ) : null
+                      ),
+                    )
+                  )
+                ],
+                child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: Colors.grey),
                   ),
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16.0),
-                      child: ExpansionPanelList(
-                          dividerColor: Colors.grey,
-                          elevation: 0,
-                          expandedHeaderPadding: EdgeInsets.zero,
-                          expansionCallback: (int index, bool isExpanded) {
-                            setState(() {
-                              currentPanel[index]['isExpanded'] = isExpanded;
-                            });
-                          },
-                          materialGapSize: 0,
-                          children: currentPanel.mapIndexed((index, item) {
-                            return ExpansionPanel(
-                              canTapOnHeader: true,
-                              headerBuilder: (BuildContext context, bool isExpanded) {
-                                return ListTile(
-                                  title: Text(item['title']),
-                                );
-                              },
-                              body: ListTile(
-                                subtitle: Html(
-                                  data: item['content'],
-                                ),
-                                tileColor: Theme.of(context).hoverColor,
-                              ),
-                              isExpanded: item['isExpanded'],
-                            );
-                          }).toList()
-                      )
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: ListTile(
+                        title: Text(currentPanelName),
+                        trailing: const Icon(Icons.arrow_forward_outlined)
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16.0),
-              ],
-            )
+              ),
+              const SizedBox(height: 16.0),
+
+              /// TERMS PANEL
+              Text(
+                currentPanelName,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: ExpansionPanelList(
+                        dividerColor: Colors.grey,
+                        elevation: 0,
+                        expandedHeaderPadding: EdgeInsets.zero,
+                        expansionCallback: (int index, bool isExpanded) {
+                          setState(() {
+                            currentPanel[index]['isExpanded'] = isExpanded;
+                          });
+                        },
+                        materialGapSize: 0,
+                        children: currentPanel.mapIndexed((index, item) {
+                          return ExpansionPanel(
+                            canTapOnHeader: true,
+                            headerBuilder: (BuildContext context, bool isExpanded) {
+                              return ListTile(
+                                title: Text(item['title']),
+                              );
+                            },
+                            body: ListTile(
+                              subtitle: Html(
+                                data: item['content'],
+                              ),
+                              tileColor: Theme.of(context).hoverColor,
+                            ),
+                            isExpanded: item['isExpanded'],
+                          );
+                        }).toList()
+                    )
+                ),
+              ),
+              const SizedBox(height: 16.0),
+
+            ],
           )
         );
       }
@@ -260,4 +337,3 @@ class _ExpandedPageState extends State<ExpandedPage> {
   }
 
 }
-

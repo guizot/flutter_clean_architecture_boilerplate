@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture/presentation/core/enums/toast_enum.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 import 'package:flutter_clean_architecture/presentation/core/model/common_list_model.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
@@ -328,12 +329,24 @@ class _DialogPageState extends State<DialogPage> {
 
       /// TOAST
       CommonListModel(
-          title: "Toast - Customized Toast",
-          subtitle: "example of customized toast",
+          title: "Toast - Customized Top",
+          subtitle: "example of customized toast top",
           tap: (BuildContext context) {
             DialogHandler.showToast(
               context: context,
               title: "Congratulation!",
+              subtitle: "Lorem ipsum dolor sit amet, consectetur adicing elit. Etiam pretium volutpat mi eget finibus sem commodo at Donec porta ipsum ut accumsan congue ligula mi convallis mauris, tincidunt vehicula neque risus vel lacus. Nulla orci turpis, tempor ac dictum et, scelerisque ut tellus. Fusce dignissim turpis sed arcu tempus fringilla.",
+            );
+          }
+      ),
+      CommonListModel(
+          title: "Toast - Customized Bottom",
+          subtitle: "example of customized toast bottom",
+          tap: (BuildContext context) {
+            DialogHandler.showToast(
+              context: context,
+              title: "Congratulation!",
+              from: ToastEnum.bottom,
               subtitle: "Lorem ipsum dolor sit amet, consectetur adicing elit. Etiam pretium volutpat mi eget finibus sem commodo at Donec porta ipsum ut accumsan congue ligula mi convallis mauris, tincidunt vehicula neque risus vel lacus. Nulla orci turpis, tempor ac dictum et, scelerisque ut tellus. Fusce dignissim turpis sed arcu tempus fringilla.",
             );
           }

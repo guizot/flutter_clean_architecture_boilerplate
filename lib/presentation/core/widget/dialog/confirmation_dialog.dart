@@ -45,7 +45,7 @@ class ConfirmationDialog extends StatelessWidget {
                 left: 24.0,
                 right: 24.0,
                 top: 24.0,
-                bottom: 16.0
+                bottom: 24.0
               ),
               child: Column(
                 children: [
@@ -77,7 +77,7 @@ class ConfirmationDialog extends StatelessWidget {
                     padding: const EdgeInsets.only(
                       left: 16.0,
                       right: 16.0,
-                      bottom: 16.0
+                      bottom: 24.0
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,6 +87,7 @@ class ConfirmationDialog extends StatelessWidget {
                                 child: FormButton(
                                   label: negativeText,
                                   color: Theme.of(context).colorScheme.surfaceBright,
+                                  fontSize: 14.0,
                                   onPressed: negativeCallback ?? () {},
                                 )
                               )
@@ -98,6 +99,7 @@ class ConfirmationDialog extends StatelessWidget {
                             ? Expanded(
                                 child: FormButton(
                                 label: positiveText,
+                                fontSize: 14.0,
                                 onPressed: positiveCallback ?? () {},
                               )
                               )

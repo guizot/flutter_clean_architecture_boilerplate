@@ -98,7 +98,7 @@ class DialogHandler {
               var ss = sl<ScreenSizeService>()..init(context);
               return Positioned(
                   top: isTop ? (offsetHeight + 16) : null,
-                  bottom: isBottom ? 16 : null,
+                  bottom: isBottom ? 24 : null,
                   width: ss.screenSize.width,
                   child: Material(
                       color: Colors.transparent,

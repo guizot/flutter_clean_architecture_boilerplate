@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class FormButton extends StatefulWidget {
   final VoidCallback onPressed;
   final Color? color;
+  final double? fontSize;
   final String label;
 
   const FormButton({
     super.key,
     required this.onPressed,
     this.color,
+    this.fontSize = 16.0,
     this.label = "Submit"
   });
 
@@ -43,7 +45,7 @@ class _FormButtonState extends State<FormButton> {
         style: TextStyle(
           color: Theme.of(context).colorScheme.inverseSurface,
           fontWeight: FontWeight.bold,
-          fontSize: 16,
+          fontSize: widget.fontSize,
         ),
       ),
     );
