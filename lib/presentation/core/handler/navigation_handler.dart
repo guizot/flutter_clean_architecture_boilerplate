@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/enums/navigation_enum.dart';
 
-class NavigationService {
+class NavigationHandler {
 
   void navigateTo({
     required BuildContext context,
