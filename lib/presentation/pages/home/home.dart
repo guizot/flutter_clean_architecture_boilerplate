@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/core/services/navigation_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/widget/common_list_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
 import '../../core/model/common_list_model.dart';
@@ -36,7 +37,10 @@ class _HomePageState extends State<HomePage> {
       title: "Github List",
       subtitle: "list of favorite github users using dio, retrofit & hive",
       tap: (context) {
-        Navigator.pushNamed(context, RoutesValues.githubList);
+        NavigationService().navigateTo(
+          context: context,
+          route: RoutesValues.githubList
+        );
       }
     ),
     CommonListModel(
@@ -124,7 +128,6 @@ class _HomePageState extends State<HomePage> {
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(widget.title),
               actions: [
                 Padding(

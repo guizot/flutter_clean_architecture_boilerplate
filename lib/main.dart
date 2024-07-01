@@ -1,8 +1,7 @@
-import 'dart:async';
-import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/injector.dart' as di;
 import 'package:flutter_clean_architecture/presentation/core/routes/routes.dart';
+import 'package:flutter_clean_architecture/presentation/core/services/deep_link_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
@@ -34,35 +33,12 @@ class MainApp extends StatefulWidget {
 }
 
 class MainAppState extends State<MainApp> {
-
-  final _navigatorKey = GlobalKey<NavigatorState>();
-  late AppLinks _appLinks;
-  StreamSubscription<Uri>? _linkSubscription;
+  final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
     super.initState();
-    initDeepLinks();
-  }
-
-  @override
-  void dispose() {
-    _linkSubscription?.cancel();
-    super.dispose();
-  }
-
-  Future<void> initDeepLinks() async {
-    _appLinks = AppLinks();
-    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
-      if (uri.pathSegments.contains('product')) {
-        String? id = uri.queryParameters['id'];
-        if (id != null) {
-          _navigatorKey.currentState?.pushNamed(uri.path, arguments: id);
-        }
-      } else {
-        _navigatorKey.currentState?.pushNamed(uri.path);
-      }
-    });
+    DeepLinkService(navigatorKey: navigatorKey);
   }
 
   @override
@@ -80,8 +56,8 @@ class MainAppState extends State<MainApp> {
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return MaterialApp(
             title: 'Flutter Demo',
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
-            navigatorKey: _navigatorKey,
             onGenerateRoute: Routes.generate,
             theme: themeService.currentThemeData(ThemeServiceValues.light),
             darkTheme: themeService.currentThemeData(ThemeServiceValues.dark),

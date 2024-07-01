@@ -362,7 +362,6 @@ class _DialogPageState extends State<DialogPage> {
       builder: (context, ThemeService themeService, LanguageService languageService, child) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text(widget.title),
           ),
           body: ListView.builder(

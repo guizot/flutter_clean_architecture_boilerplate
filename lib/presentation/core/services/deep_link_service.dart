@@ -1,48 +1,29 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:app_links/app_links.dart';
 import 'dart:async';
-import '../constant/routes_values.dart';
 
 class DeepLinkService {
-  late AppLinks _appLinks;
-  late StreamSubscription<Uri> _linkSubscription;
-  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
-  void init() {
+  final GlobalKey<NavigatorState> navigatorKey;
+  late AppLinks _appLinks;
+  StreamSubscription<Uri>? _linkSubscription;
+
+  DeepLinkService({required this.navigatorKey}) {
     _appLinks = AppLinks();
-    log("TEST: _appLinks");
-    _linkSubscription = _appLinks.uriLinkStream.listen((Uri? uri) {
-      log("URI: $uri");
-      if (uri != null) {
-        _handleDeepLink(uri);
+    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+      debugPrint("URI: $uri");
+      if (uri.pathSegments.contains('product')) {
+        String? id = uri.queryParameters['id'];
+        if (id != null) {
+          navigatorKey.currentState?.pushNamed(uri.path, arguments: id);
+        }
+      } else {
+        navigatorKey.currentState?.pushNamed(uri.path);
       }
     });
-    log("TEST: _linkSubscription");
-    _initDeepLink();
-  }
-
-  Future<void> _initDeepLink() async {
-    final uri = await _appLinks.getInitialLink();
-    if (uri != null) {
-      _handleDeepLink(uri);
-    }
-    log("TEST: _initDeepLink");
-  }
-
-  void _handleDeepLink(Uri uri) {
-    if (uri.pathSegments.contains('product')) {
-      String? id = uri.queryParameters['id'];
-      if (id != null) {
-        routeObserver.navigator?.pushNamed(RoutesValues.githubDetail, arguments: id);
-      }
-    }
-    log("TEST: _handleDeepLink");
   }
 
   void dispose() {
-    _linkSubscription.cancel();
-    log("TEST: _linkSubscription.cancel");
+    _linkSubscription?.cancel();
   }
 }

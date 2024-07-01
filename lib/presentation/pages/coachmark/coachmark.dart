@@ -467,7 +467,6 @@ class _CoachMarkPageState extends State<CoachMarkPage> with LoggerMixin {
           return Scaffold(
             key: scaffoldKey,
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(widget.title),
               actions: [
                 Padding(

@@ -104,7 +104,10 @@ class ThemeService extends ChangeNotifier {
       chipTheme: ChipThemeData(
         selectedColor: colorTheme.toMaterialColor().shade500
       ),
-      fontFamily: fontFamily
+      fontFamily: fontFamily,
+      appBarTheme: AppBarTheme(
+        backgroundColor: colorTheme.toMaterialColor().shade500
+      )
     );
   }
 

@@ -120,7 +120,6 @@ class _TMDBFavoritePageState extends State<TMDBFavoritePage> {
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(widget.title)
             ),
             body: BlocBuilder<TMDBCubit, TMDBCubitState>(

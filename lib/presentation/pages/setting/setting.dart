@@ -92,7 +92,6 @@ class _SettingPageState extends State<SettingPage> {
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
               appBar: AppBar(
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 title: Text(widget.title),
                 actions: const [],
               ),

@@ -120,7 +120,6 @@ class _GithubFavoritePageState extends State<GithubFavoritePage> {
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(widget.title)
             ),
             body: BlocBuilder<GithubCubit, GithubCubitState>(

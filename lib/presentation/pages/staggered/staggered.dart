@@ -64,7 +64,6 @@ class _StaggeredPageState extends State<StaggeredPage> with ShareMixin, TickerPr
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(widget.title),
               bottom: TabBar(
                 isScrollable: true,
