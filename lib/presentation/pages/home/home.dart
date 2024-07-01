@@ -109,6 +109,13 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushNamed(context, RoutesValues.image);
       }
     ),
+    CommonListModel(
+        title: "Product Detail",
+        subtitle: "example of deep linking",
+        tap: (context) {
+          Navigator.pushNamed(context, RoutesValues.product, arguments: "123456");
+        }
+    ),
   ];
 
   @override

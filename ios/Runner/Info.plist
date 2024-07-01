@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSAppTransportSecurity</key>
+	<key>NSAppTransportSecurity</key>
 	<string>We need access to play videos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to microphone to record videos</string>
@@ -55,5 +55,16 @@
 	<true/>
 	<key>UIStatusBarHidden</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>https</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>www.example.com</string>
+		</dict>
+	</array>
 </dict>
 </plist>

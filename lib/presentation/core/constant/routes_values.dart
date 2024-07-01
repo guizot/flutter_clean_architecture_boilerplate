@@ -18,5 +18,6 @@ class RoutesValues {
   static const String staggered = '/staggered';
   static const String form = '/form';
   static const String dialog = '/dialog';
+  static const String product = '/product';
 
 }

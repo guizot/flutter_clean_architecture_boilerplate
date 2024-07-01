@@ -6,6 +6,7 @@ import 'package:flutter_clean_architecture/presentation/pages/github/github_favo
 import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/image/image.dart';
+import 'package:flutter_clean_architecture/presentation/pages/product/product.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
 import 'package:flutter_clean_architecture/presentation/pages/webview/webview.dart';
 import '../../pages/coachmark/coachmark.dart';
@@ -59,6 +60,9 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const FormWrapperProvider());
       case RoutesValues.dialog:
         return MaterialPageRoute(builder: (_) => const DialogWrapperProvider());
+      case RoutesValues.product:
+        var id = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => ProductWrapperProvider(id: id));
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(
