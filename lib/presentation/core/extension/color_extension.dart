@@ -19,4 +19,14 @@ extension ColorExtension on Color {
     return MaterialColor(value, colorShades);
   }
 
+  Color toShade(double factor) {
+    assert(factor >= -1.0 && factor <= 1.0, 'Factor must be between -1.0 and 1.0');
+    if (factor == 0.0) return this;
+    final hsl = HSLColor.fromColor(this);
+    final hslModified = factor < 0
+        ? hsl.withLightness((1.0 + factor) * hsl.lightness)
+        : hsl.withLightness(hsl.lightness + (1.0 - hsl.lightness) * factor);
+    return hslModified.toColor();
+  }
+
 }

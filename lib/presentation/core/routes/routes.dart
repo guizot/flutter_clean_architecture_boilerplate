@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_architecture/presentation/pages/activity_stack/activity_stack.dart';
 import 'package:flutter_clean_architecture/presentation/pages/expanded/expanded.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/form.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/github_detail.dart';
@@ -63,6 +64,18 @@ class Routes {
       case RoutesValues.product:
         var id = settings.arguments as String;
         return MaterialPageRoute(builder: (_) => ProductWrapperProvider(id: id));
+      case RoutesValues.activityStack:
+        return MaterialPageRoute(settings: settings, builder: (_) => const ActivityStackWrapperProvider());
+      case RoutesValues.stackA:
+        return MaterialPageRoute(settings: settings, builder: (_) => const ActivityStackA());
+      case RoutesValues.stackB:
+        return MaterialPageRoute(settings: settings, builder: (_) => const ActivityStackB());
+      case RoutesValues.stackC:
+        return MaterialPageRoute(settings: settings, builder: (_) => const ActivityStackC());
+      case RoutesValues.stackD:
+        return MaterialPageRoute(settings: settings, builder: (_) => const ActivityStackD());
+      case RoutesValues.stackE:
+        return MaterialPageRoute(settings: settings, builder: (_) => const ActivityStackE());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

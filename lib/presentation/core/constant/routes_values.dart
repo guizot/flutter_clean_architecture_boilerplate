@@ -19,5 +19,11 @@ class RoutesValues {
   static const String form = '/form';
   static const String dialog = '/dialog';
   static const String product = '/product';
+  static const String activityStack = '/activity-stack';
+  static const String stackA = '/stackA';
+  static const String stackB = '/stackB';
+  static const String stackC = '/stackC';
+  static const String stackD = '/stackD';
+  static const String stackE = '/stackE';
 
 }

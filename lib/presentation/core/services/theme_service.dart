@@ -106,7 +106,9 @@ class ThemeService extends ChangeNotifier {
       ),
       fontFamily: fontFamily,
       appBarTheme: AppBarTheme(
-        backgroundColor: colorTheme.toMaterialColor().shade500
+        color: brightnessTheme == Brightness.dark
+            ? ColorScheme.fromSeed(seedColor: colorTheme).primary
+            : ColorScheme.fromSeed(seedColor: colorTheme).inversePrimary
       )
     );
   }

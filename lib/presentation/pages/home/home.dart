@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       title: "Github List",
       subtitle: "list of favorite github users using dio, retrofit & hive",
       tap: (context) {
-        NavigationHandler().navigateTo(
+        NavigationHandler().navigate(
           context: context,
           route: RoutesValues.githubList
         );
@@ -112,6 +112,16 @@ class _HomePageState extends State<HomePage> {
       tap: (context) {
         Navigator.pushNamed(context, RoutesValues.image);
       }
+    ),
+    CommonListModel(
+        title: "Activity Stack",
+        subtitle: "example of activity stack",
+        tap: (context) {
+          NavigationHandler().navigate(
+              context: context,
+              route: RoutesValues.activityStack
+          );
+        }
     ),
     CommonListModel(
         title: "Product Detail",
