@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/injector.dart' as di;
 import 'package:flutter_clean_architecture/presentation/core/routes/routes.dart';
-import 'package:flutter_clean_architecture/presentation/core/services/deep_link_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
