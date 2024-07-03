@@ -4,6 +4,7 @@ import 'package:flutter_clean_architecture/presentation/core/constant/routes_val
 import 'package:flutter_clean_architecture/presentation/core/enums/navigation_enum.dart';
 import 'package:flutter_clean_architecture/presentation/core/handler/navigation_handler.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
+import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
 import '../../../injector.dart';
@@ -38,30 +39,35 @@ class _ActivityStackPageState extends State<ActivityStackPage> {
           appBar: AppBar(
             title: Text(widget.title),
           ),
-          body: Center(
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: () => NavigationHandler().pop(context: context),
-                  child: const Text('Pop'),
+                FormButton(
+                    onPressed: () => NavigationHandler().pop(context: context),
+                    label: 'Pop'
                 ),
-                ElevatedButton(
-                  onPressed: () => NavigationHandler().navigate(context: context, route: RoutesValues.stackA),
-                  child: const Text('Navigate Push Screen A'),
+                const SizedBox(height: 16.0),
+                FormButton(
+                    onPressed: () => NavigationHandler().navigate(context: context, route: RoutesValues.stackA),
+                    label: 'Navigate Push Screen A'
                 ),
-                ElevatedButton(
-                  onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateReplace, route: RoutesValues.stackA),
-                  child: const Text('Replace Current Stack With Screen A'),
+                const SizedBox(height: 16.0),
+                FormButton(
+                    onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateReplace, route: RoutesValues.stackA),
+                    label: 'Replace Current Stack With Screen A'
                 ),
-                ElevatedButton(
-                  onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateRemove, route: RoutesValues.stackA),
-                  child: const Text('Remove All Stack and Navigate A'),
+                const SizedBox(height: 16.0),
+                FormButton(
+                    onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateRemove, route: RoutesValues.stackA),
+                    label: 'Remove All Stack and Navigate A'
                 ),
-                ElevatedButton(
-                  onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.popPush, route: RoutesValues.stackA),
-                  child: const Text('Pop Current Stack and Navigate A'),
-                )
+                const SizedBox(height: 16.0),
+                FormButton(
+                    onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.popPush, route: RoutesValues.stackA),
+                    label: 'Pop Current Stack and Navigate A'
+                ),
               ],
             ),
           ),
