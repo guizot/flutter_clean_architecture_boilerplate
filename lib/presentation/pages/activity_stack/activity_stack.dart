@@ -84,29 +84,34 @@ class ActivityStackA extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Screen A')),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context),
-              child: const Text('Pop'),
+              label: 'Pop'
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, route: RoutesValues.stackB),
-              child: const Text('Navigate Push Screen B'),
+              label: 'Navigate Push Screen B'
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateReplace, route: RoutesValues.stackB),
-              child: const Text('Replace Current Stack With Screen B'),
+              label: 'Replace Current Stack With Screen B'
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateRemove, route: RoutesValues.stackB),
-              child: const Text('Remove All Stack and Navigate B'),
+              label: 'Remove All Stack and Navigate B'
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.popPush, route: RoutesValues.stackB),
-              child: const Text('Pop Current Stack and Navigate B'),
+              label: 'Pop Current Stack and Navigate B'
             )
           ],
         ),
@@ -121,29 +126,34 @@ class ActivityStackB extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Screen B')),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context),
-              child: const Text('Pop'),
+              label: 'Pop',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, route: RoutesValues.stackC),
-              child: const Text('Navigate Push Screen C'),
+              label: 'Navigate Push Screen C',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateReplace, route: RoutesValues.stackC),
-              child: const Text('Replace Current Stack With Screen C'),
+              label: 'Replace Current Stack With Screen C',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateRemove, route: RoutesValues.stackC),
-              child: const Text('Remove All Stack and Navigate C'),
+              label: 'Remove All Stack and Navigate C',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.popPush, route: RoutesValues.stackC),
-              child: const Text('Pop Current Stack and Navigate C'),
+              label: 'Pop Current Stack and Navigate C',
             )
           ],
         ),
@@ -158,29 +168,34 @@ class ActivityStackC extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Screen C')),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context),
-              child: const Text('Pop'),
+              label: 'Pop',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, route: RoutesValues.stackD),
-              child: const Text('Navigate Push Screen D'),
+              label: 'Navigate Push Screen D',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateReplace, route: RoutesValues.stackD),
-              child: const Text('Replace Current Stack With Screen D'),
+              label: 'Replace Current Stack With Screen D',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateRemove, route: RoutesValues.stackD),
-              child: const Text('Remove All Stack and Navigate D'),
+              label: 'Remove All Stack and Navigate D',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.popPush, route: RoutesValues.stackD),
-              child: const Text('Pop Current Stack and Navigate D'),
+              label: 'Pop Current Stack and Navigate D',
             )
           ],
         ),
@@ -195,29 +210,34 @@ class ActivityStackD extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Screen D')),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context),
-              child: const Text('Pop'),
+              label: 'Pop',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, route: RoutesValues.stackE),
-              child: const Text('Navigate Push Screen E'),
+              label: 'Navigate Push Screen E',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateReplace, route: RoutesValues.stackE),
-              child: const Text('Replace Current Stack With Screen E'),
+              label: 'Replace Current Stack With Screen E',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.navigateRemove, route: RoutesValues.stackE),
-              child: const Text('Remove All Stack and Navigate E'),
+              label: 'Remove All Stack and Navigate E',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().navigate(context: context, navigation: NavigateEnum.popPush, route: RoutesValues.stackE),
-              child: const Text('Pop Current Stack and Navigate E'),
+              label: 'Pop Current Stack and Navigate E',
             )
           ],
         ),
@@ -232,29 +252,34 @@ class ActivityStackE extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Screen E')),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context),
-              child: const Text('Pop'),
+              label: 'Pop',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context, navigation: PopEnum.popUntil, route: RoutesValues.stackA),
-              child: const Text('Pop Until Stack find Screen A'),
+              label: 'Pop Until Stack find Screen A',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context, navigation: PopEnum.popUntil, route: RoutesValues.stackB),
-              child: const Text('Pop Until Stack find Screen B'),
+              label: 'Pop Until Stack find Screen B',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context, navigation: PopEnum.popUntil, route: RoutesValues.stackC),
-              child: const Text('Pop Until Stack find Screen C'),
+              label: 'Pop Until Stack find Screen C',
             ),
-            ElevatedButton(
+            const SizedBox(height: 16.0),
+            FormButton(
               onPressed: () => NavigationHandler().pop(context: context, navigation: PopEnum.popUntil, route: RoutesValues.stackD),
-              child: const Text('Pop Until Stack find Screen D'),
+              label: 'Pop Until Stack find Screen D',
             )
           ],
         ),

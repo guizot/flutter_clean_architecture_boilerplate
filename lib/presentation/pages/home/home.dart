@@ -107,13 +107,6 @@ class _HomePageState extends State<HomePage> {
       }
     ),
     CommonListModel(
-      title: "Image Extension",
-      subtitle: "image manipulation implementation",
-      tap: (context) {
-        Navigator.pushNamed(context, RoutesValues.image);
-      }
-    ),
-    CommonListModel(
         title: "Activity Stack",
         subtitle: "example of activity stack",
         tap: (context) {
@@ -122,6 +115,13 @@ class _HomePageState extends State<HomePage> {
               route: RoutesValues.activityStack
           );
         }
+    ),
+    CommonListModel(
+      title: "Image Extension",
+      subtitle: "image manipulation implementation",
+      tap: (context) {
+        Navigator.pushNamed(context, RoutesValues.image);
+      }
     ),
     CommonListModel(
         title: "Product Detail",
