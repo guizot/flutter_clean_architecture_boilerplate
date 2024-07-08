@@ -69,35 +69,53 @@ class _NotesListPageState extends State<NotesListPage> {
         ],
       );
     }
+    else if(state is NotesStateEmpty) {
+      return const Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.not_interested_outlined, size: 36.0),
+            SizedBox(height: 8.0),
+            Text("No Data"),
+          ],
+        )
+      );
+    }
     else if(state is NotesStateLoaded) {
-      return ListView.builder(
-        shrinkWrap: true,
-        itemCount: lists.length,
-        itemBuilder: (context, index) {
-          return Slidable(
-              key: ValueKey(index),
-              closeOnScroll: true,
-              endActionPane: ActionPane(
-                motion: const ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: (context) async {
-                      await BlocProvider.of<NotesCubit>(context).deleteNote(lists[index].id);
-                      getNotes();
-                    },
-                    backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                    icon: Icons.delete,
-                    label: 'Delete',
+      return RefreshIndicator(
+          onRefresh: () async {
+            getNotes();
+          },
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: lists.length,
+            itemBuilder: (context, index) {
+              return Slidable(
+                  key: ValueKey(index),
+                  closeOnScroll: true,
+                  endActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) async {
+                          await BlocProvider.of<NotesCubit>(context).deleteNote(lists[index].id);
+                          getNotes();
+                        },
+                        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: ItemGithub(
-                title: lists[index].title,
-                subtitle: lists[index].subtitle,
-                onTap: lists[index].tap,
-              )
-          );
-        },
+                  child: ItemGithub(
+                    title: lists[index].title,
+                    subtitle: lists[index].subtitle,
+                    onTap: lists[index].tap,
+                  )
+              );
+            },
+          )
       );
     }
     return Container();
