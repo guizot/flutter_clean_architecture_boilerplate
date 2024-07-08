@@ -5,6 +5,8 @@ import 'package:flutter_clean_architecture/presentation/core/services/deep_link_
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'data/data_source/local/hive_data_source.dart';
 import 'injector.dart';
@@ -19,6 +21,11 @@ void main() async {
 
   /// INIT HIVE LOCAL DATABASE
   await HiveDataSource.init();
+
+  /// INIT FIREBASE
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   /// RUN APP
   runApp(const MainApp());

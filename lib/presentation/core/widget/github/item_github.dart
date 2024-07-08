@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/presentation/core/extension/color_extension.dart';
 
 class ItemGithub extends StatelessWidget {
-  const ItemGithub({super.key, required this.title, required this.subtitle, required this.url, required this.onTap});
+  const ItemGithub({super.key, required this.title, required this.subtitle, this.url = "", required this.onTap});
   final String title;
   final String subtitle;
   final String url;
@@ -26,7 +26,7 @@ class ItemGithub extends StatelessWidget {
         maxLines: 2,
       ),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(url),
+        backgroundImage: url != "" ? NetworkImage(url) : null,
       ),
       onTap: () => onTap(),
     );

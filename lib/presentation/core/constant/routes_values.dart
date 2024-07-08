@@ -25,5 +25,6 @@ class RoutesValues {
   static const String stackC = '/stackC';
   static const String stackD = '/stackD';
   static const String stackE = '/stackE';
+  static const String notes = '/notes';
 
 }

@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_architecture/data/data_source/local/hive_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/local/sqlite_data_source.dart';
+import 'package:flutter_clean_architecture/data/data_source/remote/firestore_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/remote/tmdb_data_source.dart';
 import 'package:flutter_clean_architecture/data/data_source/shared/shared_preferences_data_source.dart';
+import 'package:flutter_clean_architecture/data/repositories/firestore_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/repositories/github_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/repositories/home_repo_impl.dart';
 import 'package:flutter_clean_architecture/data/core/interceptor/tmdb_interceptor.dart';
+import 'package:flutter_clean_architecture/domain/repositories/firestore_repo.dart';
 import 'package:flutter_clean_architecture/domain/repositories/github_repo.dart';
 import 'package:flutter_clean_architecture/domain/repositories/home_repo.dart';
 import 'package:flutter_clean_architecture/domain/repositories/tmdb_repo.dart';
@@ -16,12 +20,14 @@ import 'package:flutter_clean_architecture/presentation/core/services/screen_siz
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/pages/github/cubit/github_cubit.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
+import 'package:flutter_clean_architecture/presentation/pages/notes/cubit/notes_cubit.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/cubit/setting_cubit.dart';
 import 'package:flutter_clean_architecture/presentation/pages/tmdb/cubit/tmdb_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'data/data_source/remote/github_data_source.dart';
 import 'data/repositories/tmdb_repo_impl.dart';
 import 'data/core/interceptor/github_interceptor.dart';
+import 'domain/usecases/firestore_usecases.dart';
 import 'domain/usecases/github_usecases.dart';
 
 final sl = GetIt.I;
@@ -64,6 +70,11 @@ Future<void> init() async {
       sharedPreferenceDataSource: sl()
     ),
   );
+  sl.registerFactory(
+    () => NotesCubit(
+      fireStoreUseCases: sl()
+    ),
+  );
 
   /// DOMAIN LAYER
   sl.registerLazySingleton(
@@ -79,6 +90,11 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => TMDBUseCases(
       tmdbRepo: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => FireStoreUseCases(
+      fireStoreRepo: sl(),
     ),
   );
 
@@ -102,6 +118,11 @@ Future<void> init() async {
       sqliteDataSource: sl()
     ),
   );
+  sl.registerLazySingleton<FireStoreRepo>(
+    () => FireStoreRepoImpl(
+      fireStoreDataSource: sl()
+    ),
+  );
 
   /// DATA SOURCES
   sl.registerLazySingleton<GithubDataSource>(
@@ -116,6 +137,11 @@ Future<void> init() async {
       final dio = Dio();
       dio.interceptors.add(TMDBInterceptor());
       return TMDBDataSource(dio);
+    },
+  );
+  sl.registerLazySingleton<FireStoreDataSource>(
+    () {
+      return FireStoreDataSource(FirebaseFirestore.instance);
     },
   );
 

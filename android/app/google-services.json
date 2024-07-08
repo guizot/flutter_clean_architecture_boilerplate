@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "76615585221",
+    "project_id": "fluttercleanarchitecture-244ac",
+    "storage_bucket": "fluttercleanarchitecture-244ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76615585221:android:ec174cf6bad6cca7534fac",
+        "android_client_info": {
+          "package_name": "com.flutter.cleanarch.flutter_clean_architecture"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXYnCx6Z5LlLT3km0jbmJJdYG_9lemeMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

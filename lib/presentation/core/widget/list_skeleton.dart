@@ -2,85 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ListSkeleton extends StatelessWidget {
-  const ListSkeleton({super.key});
+
+  const ListSkeleton({
+    super.key,
+    this.items = 10
+  });
+  final int items;
 
   @override
   Widget build(BuildContext context) {
-    return const Skeletonizer(
+    return Skeletonizer(
         enabled: true,
         child: Column(
-          children: [
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-            ListTile(
-              title: Text('Title Text Long Text Needed'),
-              subtitle: Text('Subtitle Text Long Text Needed'),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage('Image Url'),
-              ),
-            ),
-          ],
+          children: List.generate(items, (index) {
+            return const ListTile(
+              title:  Text('Title Text Long Text Needed'),
+              subtitle:  Text('Subtitle Text Long Text Needed'),
+              leading: CircleAvatar(),
+            );
+          })
         )
     );
   }

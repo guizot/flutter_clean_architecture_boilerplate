@@ -26,7 +26,7 @@ class ItemTMDB extends StatelessWidget {
         maxLines: 2,
       ),
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(url),
+        backgroundImage: url != "" ? NetworkImage(url) : null,
       ),
       onTap: () => onTap(),
     );

@@ -51,6 +51,16 @@ class _HomePageState extends State<HomePage> {
       }
     ),
     CommonListModel(
+        title: "Notes App",
+        subtitle: "example of firabase database firestore",
+        tap: (context) {
+          NavigationHandler().navigate(
+              context: context,
+              route: RoutesValues.notes
+          );
+        }
+    ),
+    CommonListModel(
       title: "Expanded Panel List",
       subtitle: "list dynamic expanded panel",
       tap: (context) {
