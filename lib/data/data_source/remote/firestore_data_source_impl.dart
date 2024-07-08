@@ -8,11 +8,32 @@ class FireStoreDataSourceImpl implements FireStoreDataSource {
   FireStoreDataSourceImpl(this._fireStore);
 
   @override
+  Future<List<Note>> getNotes() async {
+    try {
+      final querySnapshot = await _fireStore.collection('notes').get();
+      return querySnapshot.docs
+          .map((doc) => Note.fromJson(doc.data(), doc.reference.id))
+          .toList();
+    } catch (e) {
+      throw Exception('Error getting notes: $e');
+    }
+  }
+
+  @override
   Future<void> createNote(Note note) async {
     try {
-      await _fireStore.collection('notes').doc(note.id as String?).set(note.toJson());
+      await _fireStore.collection('notes').doc().set(note.toJson());
     } catch (e) {
       throw Exception('Error creating note: $e');
+    }
+  }
+
+  @override
+  Future<void> updateNote(Note note) async {
+    try {
+      await _fireStore.collection('notes').doc(note.id.toString()).update(note.toJson());
+    } catch (e) {
+      throw Exception('Error updating note: $e');
     }
   }
 
@@ -22,27 +43,6 @@ class FireStoreDataSourceImpl implements FireStoreDataSource {
       await _fireStore.collection('notes').doc(noteId).delete();
     } catch (e) {
       throw Exception('Error deleting note: $e');
-    }
-  }
-
-  @override
-  Future<List<Note>> getNotes() async {
-    try {
-      final querySnapshot = await _fireStore.collection('notes').get();
-      return querySnapshot.docs
-          .map((doc) => Note.fromJson(doc.data()))
-          .toList();
-    } catch (e) {
-      throw Exception('Error getting notes: $e');
-    }
-  }
-
-  @override
-  Future<void> updateNote(Note note) async {
-    try {
-      await _fireStore.collection('notes').doc(note.id as String?).update(note.toJson());
-    } catch (e) {
-      throw Exception('Error updating note: $e');
     }
   }
 }

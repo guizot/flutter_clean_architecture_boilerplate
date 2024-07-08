@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
 import 'package:flutter_clean_architecture/presentation/pages/notes/cubit/notes_state.dart';
 import 'package:flutter_clean_architecture/presentation/pages/notes/notes_item_dialog.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../data/models/note.dart';
 import '../../core/handler/dialog_handler.dart';
 import '../../core/model/common_list_model.dart';
@@ -43,18 +44,17 @@ class _NotesListPageState extends State<NotesListPage> {
     getNotes();
   }
 
-  Future getNotes() async{
+  Future getNotes() async {
     lists.clear();
     List<Note> notes = await BlocProvider.of<NotesCubit>(context).getNotes();
     for(Note item in notes) {
       setState(() {
         lists.add(
             CommonListModel(
+              id: item.id.toString(),
               title: item.title.toString(),
               subtitle: item.description.toString(),
-              tap: () {
-                showDetailNote(isNew: false, note: item);
-              }
+              tap: () => showDetailNote(isNew: false, note: item)
             )
         );
       });
@@ -74,10 +74,28 @@ class _NotesListPageState extends State<NotesListPage> {
         shrinkWrap: true,
         itemCount: lists.length,
         itemBuilder: (context, index) {
-          return ItemGithub(
-            title: lists[index].title,
-            subtitle: lists[index].subtitle,
-            onTap: lists[index].tap,
+          return Slidable(
+              key: ValueKey(index),
+              closeOnScroll: true,
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) async {
+                      await BlocProvider.of<NotesCubit>(context).deleteNote(lists[index].id);
+                      getNotes();
+                    },
+                    backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
+              ),
+              child: ItemGithub(
+                title: lists[index].title,
+                subtitle: lists[index].subtitle,
+                onTap: lists[index].tap,
+              )
           );
         },
       );
@@ -92,9 +110,25 @@ class _NotesListPageState extends State<NotesListPage> {
             title: isNew ? "Add Note" : "Update Note",
             noteTitle: isNew ? null : note?.title,
             noteDesc: isNew ? null : note?.description,
-            addCallback: (String title, String description) {
-              debugPrint("title: $title");
-              debugPrint("description: $description");
+            addCallback: (String title, String description) async {
+              if(isNew) {
+                await BlocProvider.of<NotesCubit>(context).createNote(
+                  Note(
+                      id: "",
+                      title: title,
+                      description: description
+                  )
+                );
+              } else {
+                await BlocProvider.of<NotesCubit>(context).updateNote(
+                    Note(
+                        id: note?.id,
+                        title: title,
+                        description: description
+                    )
+                );
+              }
+              getNotes();
             }
         )
     );

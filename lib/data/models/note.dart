@@ -1,5 +1,5 @@
 class Note {
-  int? id;
+  String? id;
   String? title;
   String? description;
 
@@ -9,8 +9,8 @@ class Note {
     this.description,
   });
 
-  Note.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  Note.fromJson(Map<String, dynamic> json, String refId) {
+    id = refId;
     title = json['title'];
     description = json['description'];
   }
