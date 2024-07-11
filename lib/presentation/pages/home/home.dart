@@ -4,6 +4,8 @@ import 'package:flutter_clean_architecture/presentation/core/services/language_s
 import 'package:flutter_clean_architecture/presentation/core/handler/navigation_handler.dart';
 import 'package:flutter_clean_architecture/presentation/core/widget/common_list_item.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/cubit/home_cubit.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '../../core/services/notification_service.dart';
 import '../../core/model/common_list_model.dart';
 import '../../core/services/theme_service.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +32,21 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+int id = 0;
+
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    NotificationService().init(context);
+  }
+
+  @override
+  void dispose() {
+    NotificationService().dispose();
+    super.dispose();
+  }
 
   List<CommonListModel> lists = [
     CommonListModel(
@@ -136,8 +152,18 @@ class _HomePageState extends State<HomePage> {
     CommonListModel(
         title: "Product Detail",
         subtitle: "example of deep linking",
-        tap: (context) {
-          Navigator.pushNamed(context, RoutesValues.product, arguments: "123456");
+        tap: (context) async {
+          // Navigator.pushNamed(context, RoutesValues.product, arguments: "123456");
+          const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+              'your channel id',
+              'your channel name',
+              channelDescription: 'your channel description',
+              importance: Importance.max,
+              priority: Priority.high,
+              ticker: 'ticker'
+          );
+          const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+          await flutterLocalNotificationsPlugin.show(id++, 'plain title', 'plain body', notificationDetails, payload: 'item x');
         }
     ),
   ];
