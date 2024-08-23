@@ -62,6 +62,7 @@ class _StaggeredPageState extends State<StaggeredPage> with ShareMixin, TickerPr
   Widget build(BuildContext context) {
     return Consumer2<ThemeService, LanguageService> (
         builder: (context, ThemeService themeService, LanguageService languageService, child) {
+
           return Scaffold(
             appBar: AppBar(
               title: Text(widget.title),
