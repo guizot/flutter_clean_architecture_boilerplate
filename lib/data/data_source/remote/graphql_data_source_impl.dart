@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/data/models/note.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../../models/note_response.dart';
