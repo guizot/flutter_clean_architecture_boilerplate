@@ -12,6 +12,7 @@ import 'package:flutter_clean_architecture/presentation/pages/setting/setting.da
 import 'package:flutter_clean_architecture/presentation/pages/webview/webview.dart';
 import '../../pages/coachmark/coachmark.dart';
 import '../../pages/dialog/dialog.dart';
+import '../../pages/graphql/graphql_notes_list.dart';
 import '../../pages/notes/notes_list.dart';
 import '../../pages/picker/picker.dart';
 import '../../pages/screen/screen.dart';
@@ -79,6 +80,8 @@ class Routes {
         return MaterialPageRoute(settings: settings, builder: (_) => const ActivityStackE());
       case RoutesValues.notes:
         return MaterialPageRoute(builder: (_) => const NotesListWrapperProvider());
+      case RoutesValues.notesGraphQL:
+        return MaterialPageRoute(builder: (_) => const GraphQLNotesListWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

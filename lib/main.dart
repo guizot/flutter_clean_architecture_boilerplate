@@ -6,6 +6,7 @@ import 'package:flutter_clean_architecture/presentation/core/services/language_s
 import 'package:flutter_clean_architecture/presentation/core/services/theme_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/constant/theme_service_values.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'data/data_source/local/hive_data_source.dart';
@@ -16,11 +17,12 @@ void main() async {
   /// ENSURE INITIALIZED
   WidgetsFlutterBinding.ensureInitialized();
 
+  /// INIT HIVE LOCAL DATABASE
+  await initHiveForFlutter();
+  await HiveDataSource.init();
+
   /// INIT DEPENDENCY INJECTION
   await di.init();
-
-  /// INIT HIVE LOCAL DATABASE
-  await HiveDataSource.init();
 
   /// INIT FIREBASE
   await Firebase.initializeApp(

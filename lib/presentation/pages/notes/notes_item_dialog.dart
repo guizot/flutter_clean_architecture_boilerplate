@@ -3,7 +3,6 @@ import 'package:flutter_clean_architecture/presentation/pages/form/model/form_it
 import 'package:flutter_clean_architecture/presentation/pages/form/service/form_validation.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_button.dart';
 import 'package:flutter_clean_architecture/presentation/pages/form/widget/form_text_field.dart';
-
 import '../form/service/form_values.dart';
 
 class NotesItemDialog extends StatefulWidget {

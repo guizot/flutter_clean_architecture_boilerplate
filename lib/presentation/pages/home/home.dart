@@ -67,12 +67,22 @@ class _HomePageState extends State<HomePage> {
       }
     ),
     CommonListModel(
-        title: "Notes App",
+        title: "Firebase Notes App",
         subtitle: "example of firabase database firestore",
         tap: (context) {
           NavigationHandler().navigate(
               context: context,
               route: RoutesValues.notes
+          );
+        }
+    ),
+    CommonListModel(
+        title: "GraphQL Notes App",
+        subtitle: "example of GraphQL CRUD",
+        tap: (context) {
+          NavigationHandler().navigate(
+              context: context,
+              route: RoutesValues.notesGraphQL
           );
         }
     ),
