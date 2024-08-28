@@ -7,6 +7,7 @@ import 'package:flutter_clean_architecture/presentation/pages/github/github_favo
 import 'package:flutter_clean_architecture/presentation/pages/github/github_list.dart';
 import 'package:flutter_clean_architecture/presentation/pages/home/home.dart';
 import 'package:flutter_clean_architecture/presentation/pages/image/image.dart';
+import 'package:flutter_clean_architecture/presentation/pages/notification/notification.dart';
 import 'package:flutter_clean_architecture/presentation/pages/product/product.dart';
 import 'package:flutter_clean_architecture/presentation/pages/setting/setting.dart';
 import 'package:flutter_clean_architecture/presentation/pages/webview/webview.dart';
@@ -82,6 +83,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const NotesListWrapperProvider());
       case RoutesValues.notesGraphQL:
         return MaterialPageRoute(builder: (_) => const GraphQLNotesListWrapperProvider());
+      case RoutesValues.notification:
+        return MaterialPageRoute(builder: (_) => const NotificationWrapperProvider());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

@@ -27,5 +27,6 @@ class RoutesValues {
   static const String stackE = '/stackE';
   static const String notes = '/notes';
   static const String notesGraphQL = '/notes-graphql';
+  static const String notification = '/notification';
 
 }
