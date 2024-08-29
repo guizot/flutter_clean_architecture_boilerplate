@@ -33,4 +33,8 @@ class GraphQLNotesCubit extends Cubit<GraphQLNotesCubitState> {
     return graphQLUseCases.updateNote(note);
   }
 
+  Future<void> refreshToken() {
+    return graphQLUseCases.refreshToken();
+  }
+
 }

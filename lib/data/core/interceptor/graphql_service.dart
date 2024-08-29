@@ -18,14 +18,14 @@ class GraphQLService {
     );
 
     final AuthLink authLink = AuthLink(
-      getToken: () async => 'Bearer ${ConstValues.graphQLToken}',
+      getToken: () async {
+        final token = await sharedPreferenceDataSource.getString(ConstValues.graphQLTokenKey);
+        return 'Bearer $token';
+      },
     );
-
     final Link link = authLink.concat(httpLink);
-
     return GraphQLClient(
       link: link,
-      // The default store is the InMemoryStore, which does NOT persist to disk
       cache: GraphQLCache(store: HiveStore()),
     );
 

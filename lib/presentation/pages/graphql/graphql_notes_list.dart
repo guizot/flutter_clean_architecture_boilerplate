@@ -161,6 +161,16 @@ class _GraphQLNotesListPageState extends State<GraphQLNotesListPage> {
               appBar: AppBar(
                 title: Text(widget.title),
                 actions: [
+                  IconButton(
+                    icon: const Icon(
+                        Icons.refresh,
+                        size: 28
+                    ),
+                    tooltip: 'Refresh Token',
+                    onPressed: () async {
+                      await BlocProvider.of<GraphQLNotesCubit>(context).refreshToken();
+                    },
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: IconButton(
@@ -173,7 +183,7 @@ class _GraphQLNotesListPageState extends State<GraphQLNotesListPage> {
                         showDetailNote(isNew: true);
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
               body: BlocBuilder<GraphQLNotesCubit, GraphQLNotesCubitState>(

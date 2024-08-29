@@ -13,8 +13,7 @@ class ConstValues {
 
   /// GRAPHQL REMOTE SOURCE
   static const String graphQLBaseUrl = 'http://10.0.2.2:1337/graphql';
-  static const String graphQLToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI0NjgwMDcxLCJleHAiOjE3MjcyNzIwNzF9.H4w4pk3d6yvMv80bI_qc1Nv6CpcXb_Jfw5IMPGy92Lo';
-
+  static const String graphQLTokenKey = 'graph_ql_token_key';
 
   /// HIVE LOCAL SOURCE
   static const String userGithubBox = "userGithubBox";

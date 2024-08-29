@@ -25,4 +25,9 @@ class GraphQLUseCases {
     return graphQLRepo.updateNote(note);
   }
 
+  Future<void> refreshToken() async {
+    String token = await graphQLRepo.getToken();
+    await graphQLRepo.setToken(token);
+  }
+
 }

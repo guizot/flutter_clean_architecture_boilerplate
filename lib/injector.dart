@@ -141,7 +141,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<GraphQLRepo>(
     () => GraphQLRepoImpl(
-      graphQLDataSource: sl()
+      graphQLDataSource: sl(),
+      sharedPreferenceDataSource: sl()
     ),
   );
 

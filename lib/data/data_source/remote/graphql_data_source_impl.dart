@@ -33,7 +33,7 @@ class GraphQLDataSourceImpl implements GraphQLDataSource {
         )
     );
     if (querySnapshot.hasException) {
-      throw Exception('Error getting notes: ${querySnapshot.exception.toString()}');
+      throw Exception('Error getNotes: ${querySnapshot.exception.toString()}');
     }
     if (querySnapshot.data != null) {
       final notesResponse = NotesResponse.fromJson(querySnapshot.data!['notes']);
@@ -67,7 +67,7 @@ class GraphQLDataSourceImpl implements GraphQLDataSource {
         )
     );
     if (querySnapshot.hasException) {
-      throw Exception('Error create note: ${querySnapshot.exception.toString()}');
+      throw Exception('Error createNote: ${querySnapshot.exception.toString()}');
     }
   }
 
@@ -96,7 +96,7 @@ class GraphQLDataSourceImpl implements GraphQLDataSource {
         )
     );
     if (querySnapshot.hasException) {
-      throw Exception('Error update note: ${querySnapshot.exception.toString()}');
+      throw Exception('Error updateNote: ${querySnapshot.exception.toString()}');
     }
   }
 
@@ -125,7 +125,36 @@ class GraphQLDataSourceImpl implements GraphQLDataSource {
       )
     );
     if (querySnapshot.hasException) {
-      throw Exception('Error delete note: ${querySnapshot.exception.toString()}');
+      throw Exception('Error deleteNote: ${querySnapshot.exception.toString()}');
     }
   }
+
+  @override
+  Future<String> getToken() async {
+    final querySnapshot = await _client.mutate(
+        MutationOptions(
+          document: gql(
+            '''
+            mutation Login {
+                login(input: { password: "Password123", identifier: "john@email.com" }) {
+                    jwt
+                }
+            }
+            '''
+          ),
+        )
+    );
+    if (querySnapshot.hasException) {
+      throw Exception('Error getToken: ${querySnapshot.exception.toString()}');
+    }
+    if (querySnapshot.data != null) {
+      try {
+        return querySnapshot.data?['login']?['jwt'];
+      } catch(e) {
+        return "";
+      }
+    }
+    return "";
+  }
+
 }
