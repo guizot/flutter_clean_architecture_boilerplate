@@ -17,8 +17,13 @@ samples, guidance on mobile development, and a full API reference.
 
 Please run these command:
 
+flutter pub get
+
 Build Runner:
 flutter pub run build_runner build --delete-conflicting-outputs
 
 Build Splash Screen:
 dart run flutter_native_splash:create
+
+App Icon:
+flutter pub run flutter_launcher_icons
