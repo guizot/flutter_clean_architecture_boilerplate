@@ -5,7 +5,7 @@ import 'notification_service.dart';
 
 class PushNotificationService {
 
-  // int id = 0;
+  int id = 0;
 
   late final FirebaseMessaging msg;
   PushNotificationService() {
@@ -24,18 +24,17 @@ class PushNotificationService {
       FirebaseMessaging.onMessage.listen((RemoteMessage event) async {
         debugPrint("event.notification?.title : ${event.notification?.title}");
         debugPrint("event.notification?.body : ${event.notification?.body}");
-        // debugPrint("event.notification?.android?.channelId : ${event.notification?.android?.channelId}");
-        // debugPrint("event.notification?.android?.tag : ${event.notification?.android?.tag}");
-        // const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-        //     'your channel id',
-        //     'your channel name',
-        //     channelDescription: 'your channel description',
-        //     importance: Importance.max,
-        //     priority: Priority.high,
-        //     ticker: 'ticker'
-        // );
-        // const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
-        // await flutterLocalNotificationsPlugin.show(id++, event.notification?.title, event.notification?.body, notificationDetails, payload: 'item x');
+        const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+          'your channel id',
+          'your channel name',
+          channelDescription: 'your channel description',
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker',
+          icon: '@mipmap/launcher_icon',
+        );
+        const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+        await flutterLocalNotificationsPlugin.show(id++, event.notification?.title, event.notification?.body, notificationDetails, payload: 'item x');
       });
       msg.getToken().then((value) => debugPrint("token : $value"));
 
