@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/injector.dart' as di;
+import 'package:flutter_clean_architecture/presentation/core/services/push_notification_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/routes/routes.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/deep_link_service.dart';
 import 'package:flutter_clean_architecture/presentation/core/services/language_service.dart';
@@ -28,6 +29,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  PushNotificationService().init();
 
   /// RUN APP
   runApp(const MainApp());
