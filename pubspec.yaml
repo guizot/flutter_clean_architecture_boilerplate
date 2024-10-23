@@ -67,7 +67,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
 
   # Splash Screen
-  flutter_native_splash: ^2.4.0
+  flutter_native_splash: ^2.4.2
 
   # Intl
   intl: ^0.19.0
@@ -143,7 +143,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo_icon.png"
+  image_path: "assets/images/logo_icon_black.png"
 
 flutter:
   uses-material-design: true
@@ -151,6 +151,9 @@ flutter:
   assets:
     - assets/images/logo_white.png
     - assets/images/logo_black.png
+    - assets/images/logo_icon.png
+    - assets/images/logo_icon_white.png
+    - assets/images/logo_icon_black.png
 
   fonts:
    - family: Poppins
