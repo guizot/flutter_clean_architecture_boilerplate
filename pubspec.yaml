@@ -132,6 +132,9 @@ dependencies:
   # Device Info
   device_info_plus: ^10.1.0
 
+  # Load SVG
+  flutter_svg: ^2.0.14
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -154,6 +157,21 @@ flutter:
     - assets/images/logo_icon.png
     - assets/images/logo_icon_white.png
     - assets/images/logo_icon_black.png
+    - assets/icons/hris/logo.png
+    - assets/icons/hris/logo_only.png
+    - assets/icons/hris/dashboard.svg
+    - assets/icons/hris/attendance.svg
+    - assets/icons/hris/correction.svg
+    - assets/icons/hris/leave.svg
+    - assets/icons/hris/overtime.svg
+    - assets/icons/hris/claim.svg
+    - assets/icons/hris/business_trip.svg
+    - assets/icons/hris/organization.svg
+    - assets/icons/hris/announcement.svg
+    - assets/icons/hris/terms_policy.svg
+    - assets/icons/hris/employees.svg
+    - assets/icons/hris/terms_policy.svg
+    - assets/icons/hris/subscriptions.svg
 
   fonts:
    - family: Poppins

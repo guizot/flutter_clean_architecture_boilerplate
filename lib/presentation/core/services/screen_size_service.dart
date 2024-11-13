@@ -37,8 +37,9 @@ class ScreenSizeService {
   }
 
   /// SIDEBAR
-  bool get sidebarShowHide => screenSize.width >= 800;
-  double get sidebarWidth => screenSize.width * (20/100);
+  bool get sidebarShowHide => screenSize.width >= 700;
+  double get sidebarWidth => screenSize.width * (15/100);
+  bool get sidebarTitleShowHide => screenSize.width >= 1100;
 
   /// GRID VIEW
   int get gridCrossAxisCount {
